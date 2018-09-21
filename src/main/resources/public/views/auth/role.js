@@ -45,11 +45,6 @@ var columnsConfig = [
 
 // 页面初始化块
 $(function() {
-    $('input').iCheck({
-        checkboxClass : 'icheckbox_square-blue',
-        radioClass : 'iradio_square-blue',
-        increaseArea : '20%'
-    });
     initDataTable();
     // initMenuTree(null);
     // initUrlTable(null);
@@ -66,14 +61,13 @@ function initDataTable() {
         url : "/role/getList",
         success : function(data) {
             if (data.success == true) {
-                $("#data_table").DataTable($.extend(true, {}, T_SINGLE, {
+                $("#data_table").DataTable({
                     data : data.roleList,
                     columns : columnsConfig,
                     rowReorder : true,
                     rowReorder : { selector : 'td:nth-child(1)'
                     }
-                }));
-
+                });
             }
         }
     });

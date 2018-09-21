@@ -1,5 +1,18 @@
 // 产品自定义公共js
 
+//页面初始化块
+$(function() {
+    $('input').iCheck({
+        checkboxClass : 'icheckbox_square-blue',
+        radioClass : 'iradio_square-blue',
+        increaseArea : '20%'
+    });
+    // 所有模态框可拖拽移动
+    $('.modal-dialog').draggable();
+});
+
+
+
 /**
  * 表单弹出组件,layer组件实现
  * 
@@ -43,7 +56,10 @@ function showConfirm(msg, callback, data) {
     layer.confirm(msg, {
         title : "确认信息",
         offset : '30px',
-        btn : [ '确定', '取消' ]
+        btn : [
+                '确定',
+                '取消'
+        ]
     }, function() {
         callback(data);
     }, function() {
@@ -60,9 +76,18 @@ function showRoleSelect(callback) {
         type : 2,
         title : "选择角色",
         offset : '10px',
-        area : [ '450px', '620px' ],
-        content : [ "views_platform/security/user_role.jsp", "no" ],
-        btn : [ '确定', '取消' ],
+        area : [
+                '450px',
+                '620px'
+        ],
+        content : [
+                "views_platform/security/user_role.jsp",
+                "no"
+        ],
+        btn : [
+                '确定',
+                '取消'
+        ],
         yes : function(index, layero) {
             var body = layer.getChildFrame('body', index);
             var objArr = body.find('#obj_arr').val();
@@ -133,8 +158,12 @@ $.ajax = function(opt) {
                 layer.confirm(eMessage, {
                     title : "致命错误",
                     offset : '30px',
-                    area : [ '300px', '200px' ],
-                    btn : [ '确定' ]
+                    area : [
+                            '300px',
+                            '200px'
+                    ],
+                    btn : [ '确定'
+                    ]
                 }, function() {
                     top.location.href = '/login.html';
                 });
@@ -143,8 +172,12 @@ $.ajax = function(opt) {
                 layer.confirm(eMessage, {
                     title : "未知错误",
                     offset : '30px',
-                    area : [ '300px', '200px' ],
-                    btn : [ '确定' ]
+                    area : [
+                            '300px',
+                            '200px'
+                    ],
+                    btn : [ '确定'
+                    ]
                 });
                 return;
             }
@@ -168,7 +201,8 @@ $.fn.formToJsonString = function() {
     $.each(a, function() {
         if (o[this.name] !== undefined) {
             if (!o[this.name].push) {
-                o[this.name] = [ o[this.name] ];
+                o[this.name] = [ o[this.name]
+                ];
             }
             o[this.name].push(this.value || '');
         } else {
@@ -189,42 +223,46 @@ $.fn.formToJsonString = function() {
 /**
  * datatable组件的本地化语言设置常量
  */
-var TABLE_LANGUAGE = {
-    language : {
-        sProcessing : "处理中...",
-        sLengthMenu : "显示 _MENU_ 项结果",
-        sZeroRecords : "没有匹配结果",
-        sInfo : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
-        sInfoEmpty : "显示第 0 至 0 项结果，共 0 项",
-        sInfoFiltered : "(由 _MAX_ 项结果过滤)",
-        sInfoPostFix : "",
-        sSearch : "搜索:",
-        sUrl : "",
-        sEmptyTable : "无 数 据",
-        sLoadingRecords : "载入中...",
-        sInfoThousands : ",",
-        oPaginate : {
-            sFirst : "首页",
-            sPrevious : "上页",
-            sNext : "下页",
-            sLast : "末页"
-        },
-        "oAria" : {
-            "sSortAscending" : ": 以升序排列此列",
-            "sSortDescending" : ": 以降序排列此列"
-        },
-        select : {
-            rows : "%d 行 被选中"
-        }
+var TABLE_LANGUAGE = { language : {
+    sProcessing : "处理中...",
+    sLengthMenu : "显示 _MENU_ 项结果",
+    sZeroRecords : "没有匹配结果",
+    sInfo : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+    sInfoEmpty : "显示第 0 至 0 项结果，共 0 项",
+    sInfoFiltered : "(由 _MAX_ 项结果过滤)",
+    sInfoPostFix : "",
+    sSearch : "搜索:",
+    sUrl : "",
+    sEmptyTable : "无 数 据",
+    sLoadingRecords : "载入中...",
+    sInfoThousands : ",",
+    oPaginate : {
+        sFirst : "首页",
+        sPrevious : "上页",
+        sNext : "下页",
+        sLast : "末页"
+    },
+    "oAria" : {
+        "sSortAscending" : ": 以升序排列此列",
+        "sSortDescending" : ": 以降序排列此列"
+    },
+    select : { rows : "%d 行 被选中"
     }
+}
 };
 
 /**
- * 表格控件默认配置信息常量, 单选
+ * 表格控件全局配置
  */
-var T_SINGLE = $.extend(true, {}, TABLE_LANGUAGE, {
+$.extend($.fn.dataTable.defaults, TABLE_LANGUAGE, {
     // 表格排序
     ordering : true,
+    // 显示每页数量的选项
+    bLengthChange : false,
+    // 分页按钮
+    pagingType : "simple_numbers",
+    // 页脚信息
+    info : false,
     // 表格可被销毁重建
     destroy : true,
     // 自动调整列宽
@@ -233,17 +271,11 @@ var T_SINGLE = $.extend(true, {}, TABLE_LANGUAGE, {
     order : [],
     // 原生搜索
     searching : false,
+    // 是否显示分页信息
     paging : true,
-    select : {
-        style : 'single'
+    // 行选择器：单选
+    select : { style : 'single'
     }
-});
-
-/**
- * 表格控件默认配置信息常量, 多选
- */
-var T_MULTI = $.extend(true, {}, TABLE_LANGUAGE, {
-    select : true
 });
 
 
@@ -283,7 +315,8 @@ function getTreeJson(arrayData, pidVal, pid, id, text) {
             var userdata = [ {
                 "name" : "sortNum",
                 "content" : arrayData[i].sortNum
-            } ];
+            }
+            ];
             var obj = {
                 "id" : eval("arrayData[i]." + id),
                 "text" : eval("arrayData[i]." + text),

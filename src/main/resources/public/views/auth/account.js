@@ -37,15 +37,12 @@ var columnsConfig = [
         }
 ];
 
+
 // 页面初始化块
 $(function() {
-    $('input').iCheck({
-        checkboxClass : 'icheckbox_square-blue',
-        radioClass : 'iradio_square-blue',
-        increaseArea : '20%'
-    });
     initDataTable();
 });
+
 
 // 加载表格数据
 function initDataTable() {
@@ -53,10 +50,10 @@ function initDataTable() {
         url : "/account/getAccountList",
         success : function(data) {
             if (data.success == true) {
-                $("#data_table").DataTable($.extend(true, {}, T_SINGLE, {
+                $("#data_table").DataTable({
                     data : data.accountList,
                     columns : columnsConfig
-                }));
+                });
             }
         }
     });

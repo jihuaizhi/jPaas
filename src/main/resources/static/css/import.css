@@ -22,6 +22,9 @@
 /*  弹出层组件css 提示框 确认框 页面弹出窗口 */
 @import url("/plugins/layer-v3.0.3/skin/default/layer.css");
 
+/* jquery ui */
+@import url("/plugins/jquery-ui/jquery-ui.min.css");
+
 /**************************************  表单页面需要引入的公共CSS文件 **************************************/
 
 /*  弹出层组件css 提示框 确认框 页面弹出窗口 */
@@ -64,6 +67,7 @@
 
 /* <!-- DataTables --> */
 @import url("/plugins/datatables.net-bs/css/dataTables.bootstrap.min.css");
+
 @import url("/plugins/datatables.net-select/css/select.bootstrap.min.css");
 
 /*  表格控件css  */

@@ -50,9 +50,10 @@ document.write("<script src='/plugins/pace/pace.min.js'></script>");
 // <!-- DataTables -->
 document.write("<script src='/plugins/datatables.net/js/jquery.dataTables.min.js'></script>");
 document.write("<script src='/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js'></script>");
-//<!-- 表格 选择组件JS -->
+// <!-- 表格 选择组件JS -->
 document.write("<script src='/plugins/datatables.net-select/js/dataTables.select.min.js'></script>");
 
+document.write("<script src='/plugins/jquery-ui/jquery-ui.min.js'></script>");
 
 // *****************************************加载产品自定义公共js**************************************************
 document.write("<script src='/js/global.js'></script>");

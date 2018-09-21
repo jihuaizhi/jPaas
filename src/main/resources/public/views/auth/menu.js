@@ -1,54 +1,67 @@
 //菜单树
 var menutTree;
 
-
 var menuIsOpen = false;
-
 
 // 数据表格列数据映射
 var columnsConfig = [
-    { data : 'uuid' },
-    { data : 'sortNum' },
-    { data : null,
-    render : function(data, type, row, meta) {
-        //显示流水号
-        return meta.row + 1;
-    } },
-    { data : 'menuName' },
-    { data : 'menuLink' },
-    { data : 'menuIcon' },
-    { data : 'dataState',
-    render : function(data, type, row, meta) {
-        if (data == "1") {
-            return "启用";
-        } else if (data == "0") {
-            return "停用";
-        } else {
-            return "";
+        { data : 'uuid'
+        },
+        { data : 'sortNum'
+        },
+        {
+            data : null,
+            render : function(data, type, row, meta) {
+                // 显示流水号
+                return meta.row + 1;
+            }
+        },
+        { data : 'menuName'
+        },
+        { data : 'menuLink'
+        },
+        { data : 'menuIcon'
+        },
+        {
+            data : 'dataState',
+            render : function(data, type, row, meta) {
+                if (data == "1") {
+                    return "启用";
+                } else if (data == "0") {
+                    return "停用";
+                } else {
+                    return "";
+                }
+            }
         }
-    } } ];
+];
 
 
-var columnDefsConfig = [
-    { "targets" : [ 0, 1 ],
-    "visible" : false } ];
+var columnDefsConfig = [ {
+    "targets" : [
+            0,
+            1
+    ],
+    "visible" : false
+}
+];
 
 
 // 页面初始化块
 $(function() {
     // 加载树形控件的数据
-//    initMenuTree();
-//    // 初始化表格显示
-//    $("#data_table").DataTable($.extend(true, {}, TABLE_OPTION_1,
-//        { "columnDefs" : columnDefsConfig }));
+    // initMenuTree();
+    // // 初始化表格显示
+    // $("#data_table").DataTable($.extend(true, {}, TABLE_OPTION_1,
+    // { "columnDefs" : columnDefsConfig }));
 });
 
 
-//加载树形控件数据
+// 加载树形控件数据
 function initMenuTree() {
     layer.load(2);
-    $.ajax(
-        { url : "menu/querylist",
+    $.ajax({
+        url : "menu/querylist",
         success : function(data) {
             var objList = data.objList;
             var jsonObj = getTreeJsonObj(objList, "", "parentId", "uuid", "menuName");
@@ -71,12 +84,13 @@ function initMenuTree() {
         },
         complete : function(XMLHttpRequest) {
             layer.closeAll('loading');
-        } });
+        }
+    });
 
 }
 
 
-//加载表格数据
+// 加载表格数据
 function loadMenuTable() {
     var para = {};
     para.uuid = menutTree.getSelectedItemId();
@@ -85,26 +99,22 @@ function loadMenuTable() {
         return false;
     }
     layer.load(2);
-    $.ajax(
-        { url : "menu/querylistbyid",
+    $.ajax({
+        url : "menu/querylistbyid",
         data : JSON.stringify(para),
         success : function(data) {
             if (data.success == true) {
-                $("#data_table").DataTable($.extend(true, {}, TABLE_OPTION_1,
-                    { data : data.objList,
+                $("#data_table").DataTable({
+                    data : data.objList,
                     columns : columnsConfig,
-                    columnDefs : columnDefsConfig }));
-            } else if (data.errorList.length > 0) {
-                layer.error(getErrString(data.errorList));
+                });
             }
-        },
-        complete : function(XMLHttpRequest, textStatus) {
-            layer.closeAll('loading');
-        } });
+        }
+    });
 }
 
 
-//展开收起按钮点击事件
+// 展开收起按钮点击事件
 $("#btn_open").click(function() {
     if (menuIsOpen) {
         menutTree.closeAllItems("");
@@ -119,6 +129,9 @@ $("#btn_open").click(function() {
 
 // 新增按钮点击事件
 $("#btn_insert").click(function() {
+
+    $('#data_modal').modal('show');
+
     if (menutTree.getSelectedItemId() == null || menutTree.getSelectedItemId() == "") {
         showConfirm("未选择新增菜单的父级菜单,是否要新增顶级菜单项?", addMenu, null);
     } else {
@@ -127,7 +140,7 @@ $("#btn_insert").click(function() {
 })
 
 
-//新增菜单
+// 新增菜单
 function addMenu(pid) {
     var para = {};
     para.parentId = pid;
@@ -139,12 +152,12 @@ function addMenu(pid) {
     $("input[name=dataState]:eq(0)").iCheck('check');
     // 设置控件获得焦点
     $("#menuName").focus();
-    //显示表单
+    // 显示表单
     showForm("新增菜单项", $('#data_form'));
 }
 
 
-//菜单项双击事件,触发修改按钮操作
+// 菜单项双击事件,触发修改按钮操作
 function onTreeDblClick(id) {
     $('#btn_update').trigger("click");
 }
@@ -158,8 +171,8 @@ $("#btn_update").click(function() {
         layer.warning("请选择要修改的菜单！");
         return;
     }
-    $.ajax(
-        { url : "menu/querybyid",
+    $.ajax({
+        url : "menu/querybyid",
         data : JSON.stringify(para),
         success : function(data) {
             if (data.success == true) {
@@ -174,7 +187,8 @@ $("#btn_update").click(function() {
             } else if (data.errorList.length > 0) {
                 layer.error(getErrString(data.errorList));
             }
-        } });
+        }
+    });
 })
 
 
@@ -197,8 +211,8 @@ $("#btn_save").click(function() {
         return;
     }
 
-    $.ajax(
-        { url : "menu/save",
+    $.ajax({
+        url : "menu/save",
         data : $("#data_form").formToJsonString(),
         success : function(data) {
             if (data.success == true) {
@@ -211,7 +225,8 @@ $("#btn_save").click(function() {
         },
         complete : function(XMLHttpRequest, textStatus) {
             window.parent.loadMenu();
-        } });
+        }
+    });
 })
 
 
@@ -225,12 +240,12 @@ $("#btn_delete").click(function() {
 })
 
 
-//删除菜单
+// 删除菜单
 function deleteMenu(id) {
     var para = {};
     para.uuid = id;
-    $.ajax(
-        { url : "menu/delete",
+    $.ajax({
+        url : "menu/delete",
         data : JSON.stringify(para),
         success : function(data) {
             if (data.success == true) {
@@ -243,29 +258,30 @@ function deleteMenu(id) {
         },
         complete : function(XMLHttpRequest, textStatus) {
             layer.closeAll('loading');
-        } });
+        }
+    });
 }
 
-//启用表格拖拽
+// 启用表格拖拽
 $("#btn_sort").click(function() {
     layer.warning("努力开发中...");
 })
 
 
-//树形控件拖拽事件
+// 树形控件拖拽事件
 function dndTree(sId, tId, id, sObject, tObject) {
     var uuidList = menutTree.getAllSubItems("").split(",");
     var para = {};
     para.uuid = sId;
     para.parentId = tId;
     para.idList = uuidList;
-    $.ajax(
-        { url : "menu/savesort",
+    $.ajax({
+        url : "menu/savesort",
         data : JSON.stringify(para),
         success : function(data) {
             if (data.success == true) {
                 initMenuTree();
-                //                parent.location.reload();
+                // parent.location.reload();
                 layer.info("保存成功,重新登录后生效！");
             } else if (data.errorList.length > 0) {
                 layer.error(getErrString(data.errorList));
@@ -273,7 +289,8 @@ function dndTree(sId, tId, id, sObject, tObject) {
         },
         complete : function(XMLHttpRequest, textStatus) {
             window.parent.loadMenu();
-        } });
+        }
+    });
 }
 
 
@@ -289,7 +306,7 @@ function onTreeSelect(id) {
 }
 
 
-//关闭表单窗口
+// 关闭表单窗口
 $("button[name='btn_close_form']").click(function() {
     layer.closeAll('page');
 })
