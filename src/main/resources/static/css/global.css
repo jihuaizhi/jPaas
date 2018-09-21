@@ -1,0 +1,29 @@
+/*  产品自定义样式  */
+@CHARSET "UTF-8";
+
+/* 设置全局字体系列 */
+body * {
+  font-family: Helvetica, Tahoma, Arial, "Microsoft YaHei", "微软雅黑", STXihei, "华文细黑", Heiti, "黑体",
+    SimSun, "宋体", sans-serif;
+}
+
+/* 修改iframe内部页面的左侧内缩 */
+.content-wrapper {
+  margin-left: 0px;
+}
+
+/*必填字段标记样式*/
+.control-label.required:after {
+  content: "*"; color: red; margin-left: 5px;
+}
+
+/* 设置页面标题样式  */
+.content-header h1 {
+  color: #990033; font-weight: 400;
+}
+
+/* 设置表单/列表BOX标题样式 */
+.box-header h3 {
+  color: #990033; font-weight: 400; font-size: 20px; padding-top: 4px; padding-left: 10px;
+  padding-bottom: 4px;
+}

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Tell the browser to be responsive to screen width -->
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+<!-- 引入公共css文件 -->
+<link rel="stylesheet" type="text/css" href="/css/import.css">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+        <script src="/plugins/compatibility/html5shiv.min.js"></script>
+        <script src="/plugins/compatibility/respond.min.js"></script>
+  <![endif]-->
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+  <div class="wrapper">
+    <div class="content-wrapper">
+      <section class="content-header">
+        <h1>角色管理</h1>
+      </section>
+
+      <section class="content">
+        <div class="box box-solid box-default">
+          <div class="box-header with-border">
+            <h3 class="box-title">角色列表</h3>
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                title="Collapse">
+                <i class="fa fa-minus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="box-body">
+            <table id="data_table" class="display table table-striped table-bordered table-hover table-checkable">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="box-footer pull-center">
+            <button id="btn_insert" type="button" class="btn btn-default btn-sm">新增</button>
+            <button id="btn_update" type="button" class="btn btn-default btn-sm">修改</button>
+            <button id="btn_delete" type="button" class="btn btn-default btn-sm">删除</button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- 新增修改表单 start-->
+  <form id="data_form">
+    <input id="uuid" name="uuid" type="hidden" value="">
+    <div class="modal fade" id="data_modal" data-backdrop="false">
+      <div class="modal-dialog modal-lg" style="width: 90%;">
+        <div class="modal-content">
+          <div class="modal-header bg-gray">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">表单标题</h4>
+          </div>
+          <div class="modal-body">
+            <div class="box box-solid box-default col-md-10">
+              <div class="box-body">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label class="control-label required">角色编码</label>
+                        <input id="roleCode" name="roleCode" type="text" maxlength="20" class="form-control"
+                          placeholder="角色的编码">
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label class="control-label required">角色名称</label>
+                        <input id="roleName" name="roleName" type="text" maxlength="20" class="form-control"
+                          placeholder="角色的中文显示名称">
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label class="control-label required">角色状态</label>
+                        <div class="radio">
+                          <input name="dataState" value="1" type="radio">
+                          <label class="radio-inline"> 启用 </label>
+                          <input name="dataState" value="0" type="radio">
+                          <label class="radio-inline"> 停用 </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label class="control-label">角色描述</label>
+                        <textarea id="roleDescription" name="roleDescription" maxlength="200" class="form-control"
+                          rows="3" placeholder="角色职责的详细说明"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="nav-tabs-custom">
+                      <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab_1" data-toggle="tab">菜单授权</a></li>
+                        <li><a href="#tab_2" data-toggle="tab">URL授权</a></li>
+                        <li><a href="#tab_3" data-toggle="tab">操作授权</a></li>
+                      </ul>
+                      <div class="tab-content">
+                        <div class="tab-pane active" id="tab_1">
+                          <div id="data_tree_1" style="height: 100%;"></div>
+                        </div>
+                        <div class="tab-pane" id="tab_2">
+                          <table id="data_table"
+                            class="display table table-striped table-bordered table-hover table-checkable">
+                            <thead>
+                              <tr>
+                                <th>ID</th>
+                                <th class="text-center"><input type="checkbox" id="checkAll"
+                                    class="select-checkbox"></th>
+                                <th>权限标识</th>
+                                <th>权限名称</th>
+                              </tr>
+                            </thead>
+                            <tbody></tbody>
+                          </table>
+                        </div>
+                        <div class="tab-pane" id="tab_3">
+                          <div id="data_tree_3" style="height: 200px;">开发中...</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+            <button type="button" id="btn_save" class="btn btn-info">保存</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <!-- 新增修改表单 end-->
+
+  <!-- 引入公共js文件 -->
+  <script src="/js/import.js"></script>
+  <script src="role.js"></script>
+</body>
+</html>

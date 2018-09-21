@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>jPaas 系统登录</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Tell the browser to be responsive to screen width -->
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+<link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+
+<!-- Bootstrap 3.3.7 -->
+<link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.min.css">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="/plugins/icon/font-awesome/css/font-awesome.min.css">
+<!-- Ionicons -->
+<link rel="stylesheet" href="/plugins/icon/Ionicons/css/ionicons.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="/plugins/AdminLTE/css/AdminLTE.min.css">
+<!-- iCheck -->
+<link rel="stylesheet" href="/plugins/iCheck/square/blue.css">
+<!-- /* 谷歌字体 */ -->
+<link rel="stylesheet" href=""/plugins/icon/font-google/font.css">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="/plugins/compatibility/html5shiv.min.js"></script>
+    <script src="/plugins/compatibility/respond.min.js"></script>
+  <![endif]-->
+
+</head>
+<body class="hold-transition login-page">
+  <div class="login-box">
+    <div class="login-logo">
+      <b>JP</b>aas
+    </div>
+    <!-- /.login-logo -->
+    <div class="login-box-body">
+      <p class="login-box-msg">请登录系统</p>
+
+      <form action="login" method="get">
+        <div class="form-group has-feedback">
+          <input type="email" class="form-control" placeholder="请输入帐号">
+          <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        </div>
+        <div class="form-group has-feedback">
+          <input type="password" class="form-control" placeholder="请输入密码">
+          <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        </div>
+        <div class="row">
+          <div class="col-xs-8">
+            <div class="checkbox icheck">
+              <label> <input type="checkbox"> 记住我
+              </label>
+            </div>
+          </div>
+          <!-- /.col -->
+          <div class="col-xs-4">
+            <button type="submit" class="btn btn-primary btn-block btn-flat">登录</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+
+      <!-- /.social-auth-links -->
+
+      <a href="#">忘记密码</a>
+      <br>
+      <a href="/views/auth/register.html" class="text-center">注册帐号</a>
+
+    </div>
+    <!-- /.login-box-body -->
+  </div>
+  <!-- /.login-box -->
+
+  <!-- jQuery 3 -->
+  <script src='/plugins/jquery/dist/jquery.min.js'></script>
+  <!-- Bootstrap 3.3.7 -->
+  <script src='/plugins/bootstrap/js/bootstrap.min.js'></script>
+  <!-- iCheck -->
+  <script src='/plugins/iCheck/icheck.min.js'></script>
+
+  <!-- 引入页面js文件 -->
+  <script src="login.js"></script>
+
+</body>
+</html>

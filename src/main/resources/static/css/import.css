@@ -1,0 +1,76 @@
+@CHARSET "UTF-8";
+
+/**************************************  全部页面需要引入的公共CSS文件 **************************************/
+/* Bootstrap 3.3.7 */
+@import url("/plugins/bootstrap/css/bootstrap.min.css");
+
+/* Theme style 主题 */
+@import url("/plugins/AdminLTE/css/AdminLTE.min.css");
+/* AdminLTE Skins. 皮肤 */
+@import url("/plugins/AdminLTE/css/skins/_all-skins.min.css");
+
+/* Font Awesome 图标 */
+@import url("/plugins/icon/font-awesome/css/font-awesome.min.css");
+/* Ionicons 图标 */
+@import url("/plugins/icon/Ionicons/css/ionicons.min.css");
+/* simple-line-icons 图标 */
+@import url("/plugins/icon/simple-line-icons/simple-line-icons.min.css");
+
+/* 谷歌字体  */
+@import url("/plugins/icon/font-google/font.css");
+
+/*  弹出层组件css 提示框 确认框 页面弹出窗口 */
+@import url("/plugins/layer-v3.0.3/skin/default/layer.css");
+
+/**************************************  表单页面需要引入的公共CSS文件 **************************************/
+
+/*  弹出层组件css 提示框 确认框 页面弹出窗口 */
+@import url("/plugins/layer-v3.0.3/skin/default/layer.css");
+
+/*  日期控件css  */
+@import url("/plugins/dhtmlxCalendar_v51_std/codebase/dhtmlxcalendar.css");
+/* Date Picker */
+@import url("/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css");
+/* Daterange picker */
+@import url("/plugins/bootstrap-daterangepicker/daterangepicker.css");
+
+/* <!-- Bootstrap Color Picker --> */
+@import url("/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css");
+/* <!-- Bootstrap time Picker --> */
+@import url("/plugins/timepicker/bootstrap-timepicker.min.css");
+
+/*  dhtmlx Tree 树形控件css  */
+/* @import url("/plugins/dhtmlxTree_v51_std/codebase/dhtmlxtree.css"); */
+
+/*  多选下拉框控件css  */
+@import url("/plugins/select2/css/select2.min.css");
+/*  icheck控件css  */
+@import url("/plugins/iCheck/all.css");
+
+@import url("/plugins/iCheck/square/purple.css");
+
+/*   <!-- bootstrap slider --> */
+@import url("/plugins/bootstrap-slider/slider.css");
+
+/* bootstrap wysihtml5 - text editor 富文本编辑器 */
+@import url("/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css");
+/*  富文本编辑器 ckeditor */
+@import url("/plugins/ckeditor/skins/moono/editor.css?t=G14E");
+
+/* <!-- Pace style --> */
+@import url("/plugins/pace/pace.min.css");
+
+/**************************************  列表页面需要引入的公共CSS文件 **************************************/
+
+/* <!-- DataTables --> */
+@import url("/plugins/datatables.net-bs/css/dataTables.bootstrap.min.css");
+@import url("/plugins/datatables.net-select/css/select.bootstrap.min.css");
+
+/*  表格控件css  */
+/* @import url("/plugins/DataTables-1.10.15/media/css/jquery.dataTables.min.css"); */
+/* @import url("/plugins/DataTables-1.10.15/media/css/dataTables.bootstrap.min.css"); */
+/* @import url("/plugins/DataTables-1.10.15/extensions/Select/css/select.bootstrap.min.css"); */
+/* @import url("/plugins/DataTables-1.10.15/extensions/RowReorder/css/rowReorder.bootstrap.min.css"); */
+
+/**************************************  产品自定义css **************************************/
+@import url("/css/global.css");
