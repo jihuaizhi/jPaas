@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.jhz.jPaas.entity.TestEntity;
+import com.jhz.jPaas.entity.TemplatetEntity;
 
 /**
  * 测试用数据库操作类
@@ -16,13 +16,13 @@ import com.jhz.jPaas.entity.TestEntity;
  * @since 2018-09-12
  */
 @Repository
-public interface TestRepository extends JpaRepository<TestEntity, String> {
+public interface TemplateRepository extends JpaRepository<TemplatetEntity, String> {
 
-	TestEntity findByUserName(String userName) throws Exception;
+	TemplatetEntity findByUserName(String userName) throws Exception;
 
-	TestEntity findByUserNameOrUuid(String username, String uuid) throws Exception;
+	TemplatetEntity findByUserNameOrUuid(String username, String uuid) throws Exception;
 
-	TestEntity findByUserNameOrUuidLike(String username, String uuid) throws Exception;
+	TemplatetEntity findByUserNameOrUuidLike(String username, String uuid) throws Exception;
 
 	@Query(value = "select account_name from t_user u where u.user_name like '%小明的姓名1%'", nativeQuery = true)
 	List<Map<String, Object>> findByUserNameLike(String userName) throws Exception;

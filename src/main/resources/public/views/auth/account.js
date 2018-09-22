@@ -166,6 +166,7 @@ function deleteUser(uuid) {
     });
 }
 
+
 // 修改按钮点击事件
 $("#btn_update").click(function() {
     var table = $("#data_table").DataTable();

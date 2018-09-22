@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jhz.jPaas.common.base.BaseService;
-import com.jhz.jPaas.entity.TestEntity;
-import com.jhz.jPaas.repository.TestRepository;
+import com.jhz.jPaas.entity.TemplatetEntity;
+import com.jhz.jPaas.repository.TemplateRepository;
 
 /**
  * 测试用service
@@ -19,7 +19,7 @@ import com.jhz.jPaas.repository.TestRepository;
  */
 @Service
 @Transactional
-public class TestService extends BaseService {
+public class TemplateService extends BaseService {
 
 	// @Transactional(readOnly = true) // 配置事务 查询使用只读
 	// public boolean Login() throws Exception {
@@ -37,15 +37,15 @@ public class TestService extends BaseService {
 	 * 注入Repository
 	 */
 	@Autowired
-	private TestRepository repository;
+	private TemplateRepository repository;
 
 	/**
 	 * 查询列表
 	 * 
 	 * @return entityList
 	 */
-	public List<TestEntity> getList() throws Exception {
-		List<TestEntity> entityList = repository.findAll();
+	public List<TemplatetEntity> getList() throws Exception {
+		List<TemplatetEntity> entityList = repository.findAll();
 		return entityList;
 
 	}
@@ -55,7 +55,7 @@ public class TestService extends BaseService {
 	 * 
 	 * @param entity
 	 */
-	public void save(TestEntity entity) throws Exception {
+	public void save(TemplatetEntity entity) throws Exception {
 		repository.save(entity);
 	}
 
@@ -73,8 +73,8 @@ public class TestService extends BaseService {
 	 * 
 	 * @param uuid
 	 */
-	public TestEntity getById(String uuid) throws Exception {
-		Optional<TestEntity> entity = repository.findById(uuid);
+	public TemplatetEntity getById(String uuid) throws Exception {
+		Optional<TemplatetEntity> entity = repository.findById(uuid);
 		return entity.get();
 	}
 

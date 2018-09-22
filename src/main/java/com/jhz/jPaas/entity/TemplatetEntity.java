@@ -19,7 +19,7 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity(name = "test_entity")
 @GenericGenerator(name = "jpa-uuid", strategy = "uuid")
-public class TestEntity implements Serializable {
+public class TemplatetEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

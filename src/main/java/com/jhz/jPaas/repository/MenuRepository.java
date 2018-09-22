@@ -1,6 +1,9 @@
 package com.jhz.jPaas.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.jhz.jPaas.entity.MenuEntity;
@@ -13,5 +16,11 @@ import com.jhz.jPaas.entity.MenuEntity;
  */
 @Repository
 public interface MenuRepository extends JpaRepository<MenuEntity, String> {
+
+	@Query(value = "select * from auth_menu where parent_uuid = ?1", nativeQuery = true)
+	List<MenuEntity> getChirdMenu(String uuid);
+
+	@Query(value = "select IFNULL(max(sort_num),0)  from auth_menu", nativeQuery = true)
+	Integer getMaxSortNum();
 
 }

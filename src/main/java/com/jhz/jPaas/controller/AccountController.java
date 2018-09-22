@@ -115,8 +115,8 @@ public class AccountController extends BaseController {
 	@RequestMapping("/getById")
 	public ReturnModel getById(@RequestBody Map<String, Object> paraMap) throws Exception {
 		String uuid = paraMap.get("uuid").toString();
-		AccountEntity accountEntity = accountService.getById(uuid);
-		returnModel.put("account", accountEntity);
+		AccountEntity entity = accountService.getById(uuid);
+		returnModel.put("obj", entity);
 		return returnModel;
 	}
 

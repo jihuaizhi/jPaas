@@ -15,10 +15,16 @@ import com.jhz.jPaas.common.base.BaseEntity;
 public class MenuEntity extends BaseEntity {
 
 	/**
-	 * 父级菜单uuid，顶级菜单的父级菜单uuid=“”
+	 * 父级菜单uuid，顶级菜单的父级菜单uuid=""
 	 */
 	@Column(length = 36, nullable = false)
 	private String parentUuid;
+
+	/**
+	 * 手工排序号
+	 */
+	@Column(nullable = false)
+	private Integer sortNum;
 
 	/**
 	 * 菜单名称
@@ -68,5 +74,13 @@ public class MenuEntity extends BaseEntity {
 
 	public void setParentUuid(String parentUuid) {
 		this.parentUuid = parentUuid;
+	}
+
+	public Integer getSortNum() {
+		return sortNum;
+	}
+
+	public void setSortNum(Integer sortNum) {
+		this.sortNum = sortNum;
 	}
 }

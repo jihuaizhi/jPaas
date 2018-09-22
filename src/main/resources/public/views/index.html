@@ -55,7 +55,7 @@ body * {
 
     <header class="main-header">
       <!-- Logo -->
-      <a href="login.html" class="logo">
+      <a href="/views/template.html" target='content_iframe' class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini">
           <b>JP</b>
@@ -300,13 +300,13 @@ body * {
         <ul class="sidebar-menu" data-widget="tree">
           <li class="active treeview"><a href="#">
               <i class="fa fa-dashboard"></i>
-              <span>系统管理</span>
+              <span>认证管理</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
             </a>
             <ul class="treeview-menu">
-              <li class="active"><a href="/views/auth/account.html" target='content_iframe'>
+              <li><a href="/views/auth/account.html" target='content_iframe'>
                   <i class="fa fa-circle-o"></i> 帐号管理
                 </a></li>
               <li><a href="/views/auth/menu.html" target='content_iframe'>
@@ -324,8 +324,44 @@ body * {
               </span>
             </a>
             <ul class="treeview-menu">
+              <li><a href="/views/template.html" target="content_iframe">
+                  <i class=" fafa-circle-o"> </i> 空白模板页
+                </a></li>
               <li><a href="/views/system/dict.html" target="content_iframe">
                   <i class=" fafa-circle-o"> </i> 字典管理
+                </a></li>
+              <li><a href="/tmp/layout/fixed.html" target="content_iframe">
+                  <i class=" fafa-circle-o"> </i> Fixed
+                </a></li>
+              <li><a href="/tmp/layout/collapsed-sidebar.html" target="content_iframe">
+                  <i class=" fafa-circle-o"> </i> Collapsed Sidebar
+                </a></li>
+            </ul></li>
+          <li class="treeview"><a href="#">
+              <i class="fa fa-dashboard"></i>
+              <span>Dashboard</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="/tmp/other/Dashboard.html" target='content_iframe'>
+                  <i class="fa fa-circle-o"></i> Dashboard1
+                </a></li>
+              <li><a href="/tmp/other/Dashboard2.html" target='content_iframe'>
+                  <i class="fa fa-circle-o"></i> Dashboard2
+                </a></li>
+            </ul></li>
+          <li class="treeview"><a href="#">
+              <i class="fa fa-files-o"></i>
+              <span>Layout Options</span>
+              <span class="pull-right-container">
+                <span class="label label-primary pull-right">4</span>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="/tmp/layout/top-nav.html" target="content_iframe">
+                  <i class=" fafa-circle-o"> </i> Top Navigation
                 </a></li>
               <li><a href="/tmp/layout/boxed.html" target="content_iframe">
                   <i class=" fafa-circle-o"> </i> Boxed

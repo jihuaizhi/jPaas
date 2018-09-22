@@ -48,98 +48,27 @@
   }
 }
 
-.modal-body {
-  height: 300px; overflow-y: scroll;
+#modal-body-icon {
+  height: 500px; overflow-y: scroll;
 }
 </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
   <div class="wrapper">
     <div class="content-wrapper">
-      <section class="content-header">
-        <h1>帐号管理</h1>
-      </section>
       <section class="content">
-        <div class="box  box-primary">
-          <div class="box-header ">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title">菜单管理</h3>
             <div class="box-tools pull-right">
-              <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                title="Collapse">
-                <i class="fa fa-minus"></i>
-              </button>
+              <button id="btn_insert" type="button" class="btn btn-default btn-sm">新增</button>
+              <button id="btn_update" type="button" class="btn btn-default btn-sm">修改</button>
+              <button id="btn_delete" type="button" class="btn btn-default btn-sm">删除</button>
+              <button id="btn_expandOrCollapse" type="button" class="btn btn-default btn-sm">展开</button>
             </div>
           </div>
           <div class="box-body">
-            <div class="col-md-4">
-              <div class="box  box-primary">
-                <div class="box-header ">
-                  <button id="btn_insert" type="button" class="btn btn-default btn-sm">新增</button>
-                  <button id="btn_update" type="button" class="btn btn-default btn-sm">修改</button>
-                  <button id="btn_delete" type="button" class="btn btn-default btn-sm">删除</button>
-                  <button id="btn_expandOrCollapse" type="button" class="btn btn-default btn-sm">展开</button>
-                </div>
-                <div id="data_tree" style="height: 720px;"></div>
-              </div>
-            </div>
-            <div class="col-md-8">
-              <form id="data_form">
-                <input id="uuid" name="uuid" type="hidden" value="">
-                <input id="parentUuid" name="parentUuid" type="hidden" value="">
-                <div class="box box-primary">
-                  <div class="box-header ">
-                    <button id="btn_editOrCancel" type="button" style="display: none" class="btn btn-default btn-sm">编辑</button>
-                    <button id="btn_save" type="button" disabled class="btn btn-default btn-sm">保存</button>
-                  </div>
-                  <div class="box-body">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <div class="form-group">
-                          <label class="control-label required">菜单名称</label>
-                          <input id="menuName" name="menuName" disabled maxlength="20" type="text" class="form-control"
-                            placeholder="请输入菜单的显示名称">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label class="control-label required">菜单链接</label>
-                        <input id="menuLink" name="menuLink" disabled type="text" maxlength="100" class="form-control"
-                          placeholder="请输入菜单的链接页面">
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label class="control-label required">菜单图标</label>
-                        <div class="input-group">
-                          <li class="input-group-addon" style="width: 40px;"><span id="selected_icon"></span></li>
-                          <input id="menuIcon" name="menuIcon" readonly disabled maxlength="100" type="text"
-                            class="form-control" placeholder="请选择菜单的图标" aria-describedby="selected_icon">
-                          <span class="input-group-btn">
-                            <button id="btn_selectIcon" disabled class="btn btn-default" type="button">...</button>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
-            <div class="col-md-12">
-              <div class="box  box-primary">
-                <table id="data_table" class="display table table-striped table-bordered table-hover table-checkable">
-                  <thead>
-                    <tr>
-                      <th>菜单ID</th>
-                      <th>序号</th>
-                      <th>菜单名称</th>
-                      <th>菜单链接</th>
-                      <th>菜单图标</th>
-                    </tr>
-                  </thead>
-                  <tbody></tbody>
-                </table>
-              </div>
-            </div>
+            <div id="data_tree" style="height: 100%;"></div>
           </div>
         </div>
       </section>
@@ -147,10 +76,11 @@
   </div>
 
   <!-- 表单 start  -->
-  <form id="data_form_icon">
-    <input id="icon_class" name="icon_class" type="hidden" value="">
+  <form id="data_form">
+    <input id="uuid" name="uuid" type="hidden" value="">
+    <input id="parentUuid" name="parentUuid" type="hidden" value="">
     <div class="modal fade" id="data_modal" data-backdrop="false">
-      <div class="modal-dialog modal-lg" style="width: 80%;">
+      <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header bg-gray">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -159,6 +89,63 @@
             <h4 class="modal-title">表单标题</h4>
           </div>
           <div class="modal-body">
+            <div class="box  box-solid box-default">
+              <div class="box-body">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <div class="form-group">
+                      <label class="control-label required">菜单名称</label>
+                      <input id="menuName" name="menuName" maxlength="20" type="text" class="form-control"
+                        placeholder="请输入菜单的显示名称">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="control-label required">菜单链接</label>
+                    <input id="menuLink" name="menuLink" type="text" maxlength="100" class="form-control"
+                      placeholder="请输入菜单的链接页面">
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="control-label required">菜单图标</label>
+                    <div class="input-group">
+                      <li class="input-group-addon" style="width: 40px;"><span id="menu_icon_display"></span></li>
+                      <input id="menuIcon" name="menuIcon" readonly maxlength="20" type="text" class="form-control"
+                        placeholder="请选择菜单的图标">
+                      <span class="input-group-btn">
+                        <button id="btn_open_icon_form" class="btn btn-default" type="button">...</button>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+            <button type="button" id="btn_save" class="btn btn-info">保存</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <!-- 表单 end  -->
+
+  <!-- 表单 start  -->
+  <form id="data_form_icon">
+    <input id="icon_class" name="icon_class" type="hidden" value="">
+    <div class="modal fade" id="data_modal_icon" data-backdrop="false">
+      <div class="modal-dialog modal-lg" style="width: 60%;">
+        <div class="modal-content">
+          <div class="modal-header bg-gray">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">表单标题</h4>
+          </div>
+          <div class="modal-body" id="modal-body-icon">
             <div class="tab-pane active" id="glyphicons">
               <ul class="bs-glyphicons">
                 <li style="cursor: pointer"><span class="glyphicon glyphicon-asterisk"></span></li>
@@ -429,7 +416,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
-            <button type="button" id="btn_select" class="btn btn-info">选择</button>
+            <button type="button" id="btn_select_icon" class="btn btn-info">选择</button>
           </div>
         </div>
       </div>
@@ -443,8 +430,8 @@
   <script src="menu.js"></script>
 
   <script type="text/javascript">
-			
-		</script>
+            
+        </script>
 
 </body>
 </html>

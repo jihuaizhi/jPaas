@@ -1,6 +1,7 @@
 package com.jhz.jPaas.controller;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -37,10 +38,9 @@ public class MenuController extends BaseController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping("/getMenuByParent")
-	public ReturnModel getMenuByParent(@RequestBody Map<String, Object> paraMap) throws Exception {
-		String parentUuid = paraMap.get("parentUuid").toString();
-		returnModel.put("objList", menuService.getMenuByParent());
+	@RequestMapping("/getMenuList")
+	public ReturnModel getMenuList() throws Exception {
+		returnModel.put("objList", menuService.getMenuList());
 		return returnModel;
 	}
 
@@ -67,7 +67,12 @@ public class MenuController extends BaseController {
 	@RequestMapping("/delete")
 	public ReturnModel delete(@RequestBody Map<String, Object> paraMap) throws Exception {
 		String uuid = paraMap.get("uuid").toString();
-		menuService.delete(uuid);
+		List<MenuEntity> list = menuService.getChirdMenu(uuid);
+		if (list.size() > 0) {
+			returnModel.putError("", "本菜单项包含子菜单,请先删除子菜单！");
+		} else {
+			menuService.delete(uuid);
+		}
 		return returnModel;
 	}
 
@@ -80,11 +85,13 @@ public class MenuController extends BaseController {
 	@RequestMapping("/insert")
 	public ReturnModel insert(@RequestBody Map<String, Object> paraMap) throws Exception {
 		MenuEntity entity = new MenuEntity();
+		Integer maxSortNum = menuService.getMaxSortNum();
 		entity.setUuid(UUID.randomUUID().toString());
 		entity.setParentUuid(paraMap.get("parentUuid").toString());
 		entity.setMenuName(paraMap.get("menuName").toString());
 		entity.setMenuLink(paraMap.get("menuLink").toString());
 		entity.setMenuIcon(paraMap.get("menuIcon").toString());
+		entity.setSortNum(maxSortNum + 1);
 		entity.setCreatedBy("1234567890");
 		entity.setCreatedAt(new Date());
 		menuService.save(entity);
@@ -107,6 +114,20 @@ public class MenuController extends BaseController {
 		entity.setUpdatedBy("updaeby");
 		entity.setUpdatedAt(new Date());
 		menuService.save(entity);
+		return returnModel;
+	}
+
+	/**
+	 * 
+	 * @author jihuaizhi
+	 * @param paraMap
+	 * @return
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/saveSort")
+	public ReturnModel saveSort(@RequestBody Map<String, Object> paraMap) throws Exception {
+		menuService.saveSort(paraMap);
 		return returnModel;
 	}
 

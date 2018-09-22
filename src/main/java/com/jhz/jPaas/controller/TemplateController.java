@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jhz.jPaas.common.ReturnModel;
 import com.jhz.jPaas.common.base.BaseController;
-import com.jhz.jPaas.entity.TestEntity;
-import com.jhz.jPaas.repository.TestRepository;
+import com.jhz.jPaas.entity.TemplatetEntity;
+import com.jhz.jPaas.repository.TemplateRepository;
 import com.jhz.jPaas.utils.NeoProperties;
 
 /**
@@ -24,7 +24,7 @@ import com.jhz.jPaas.utils.NeoProperties;
  */
 @Controller
 @RequestMapping("/hello")
-public class TestController extends BaseController {
+public class TemplateController extends BaseController {
 
 	/**
 	 * 注入属性文件读取类
@@ -36,7 +36,7 @@ public class TestController extends BaseController {
 	 * 注入数据库操作类
 	 */
 	@Autowired
-	private TestRepository userRepository;
+	private TemplateRepository userRepository;
 
 	/**
 	 * 跳转首页
@@ -69,7 +69,7 @@ public class TestController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/getUser")
 	public ReturnModel getUser() throws Exception {
-		TestEntity user = new TestEntity();
+		TemplatetEntity user = new TemplatetEntity();
 		user.setUserName("小明");
 		user.setPassword("xxxx");
 		returnModel.put("user", user);
@@ -98,7 +98,7 @@ public class TestController extends BaseController {
 	@RequestMapping("/qqq")
 	public List<?> testBaseQuery() throws Exception {
 		for (int i = 0; i < 10; i++) {
-			TestEntity user = new TestEntity();
+			TemplatetEntity user = new TemplatetEntity();
 			user.setAccountName("小明的账号" + i);
 			user.setUserName("小明的姓名" + i);
 			user.setPassword("xxxx" + i);
