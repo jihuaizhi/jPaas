@@ -37,9 +37,10 @@ public class MenuController extends BaseController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping("/getList")
-	public ReturnModel getList() throws Exception {
-		returnModel.put("menuList", menuService.getList());
+	@RequestMapping("/getMenuByParent")
+	public ReturnModel getMenuByParent(@RequestBody Map<String, Object> paraMap) throws Exception {
+		String parentUuid = paraMap.get("parentUuid").toString();
+		returnModel.put("objList", menuService.getMenuByParent());
 		return returnModel;
 	}
 
@@ -53,7 +54,7 @@ public class MenuController extends BaseController {
 	public ReturnModel getById(@RequestBody Map<String, Object> paraMap) throws Exception {
 		String uuid = paraMap.get("uuid").toString();
 		MenuEntity entity = menuService.getById(uuid);
-		returnModel.put("menu", entity);
+		returnModel.put("obj", entity);
 		return returnModel;
 	}
 
@@ -80,7 +81,8 @@ public class MenuController extends BaseController {
 	public ReturnModel insert(@RequestBody Map<String, Object> paraMap) throws Exception {
 		MenuEntity entity = new MenuEntity();
 		entity.setUuid(UUID.randomUUID().toString());
-		entity.setMenuName(paraMap.get("meuName").toString());
+		entity.setParentUuid(paraMap.get("parentUuid").toString());
+		entity.setMenuName(paraMap.get("menuName").toString());
 		entity.setMenuLink(paraMap.get("menuLink").toString());
 		entity.setMenuIcon(paraMap.get("menuIcon").toString());
 		entity.setCreatedBy("1234567890");
@@ -99,7 +101,7 @@ public class MenuController extends BaseController {
 	public ReturnModel update(@RequestBody Map<String, Object> paraMap) throws Exception {
 		String uuid = paraMap.get("uuid").toString();
 		MenuEntity entity = menuService.getById(uuid);
-		entity.setMenuName(paraMap.get("meuName").toString());
+		entity.setMenuName(paraMap.get("menuName").toString());
 		entity.setMenuLink(paraMap.get("menuLink").toString());
 		entity.setMenuIcon(paraMap.get("menuIcon").toString());
 		entity.setUpdatedBy("updaeby");

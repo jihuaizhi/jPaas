@@ -40,7 +40,7 @@ public class AccountController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/getAccountList")
 	public ReturnModel getAccountList() throws Exception {
-		returnModel.put("accountList", accountService.getAccountList());
+		returnModel.put("objList", accountService.getAccountList());
 		return returnModel;
 	}
 

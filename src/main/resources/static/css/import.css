@@ -43,7 +43,7 @@
 @import url("/plugins/timepicker/bootstrap-timepicker.min.css");
 
 /*  dhtmlx Tree 树形控件css  */
-/* @import url("/plugins/dhtmlxTree_v51_std/codebase/dhtmlxtree.css"); */
+@import url("/plugins/dhtmlxTree_v51_std/codebase/dhtmlxtree.css");
 
 /*  多选下拉框控件css  */
 @import url("/plugins/select2/css/select2.min.css");

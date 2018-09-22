@@ -32,7 +32,7 @@ public class MenuService extends BaseService {
 	 * 
 	 * @return entityList
 	 */
-	public List<MenuEntity> getList() throws Exception {
+	public List<MenuEntity> getMenuByParent() throws Exception {
 		List<MenuEntity> entityList = repository.findAll();
 		return entityList;
 

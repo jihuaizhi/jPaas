@@ -51,7 +51,7 @@ function initDataTable() {
         success : function(data) {
             if (data.success == true) {
                 $("#data_table").DataTable({
-                    data : data.accountList,
+                    data : data.objList,
                     columns : columnsConfig
                 });
             }
@@ -184,11 +184,11 @@ $("#btn_update").click(function() {
             if (data.success == true) {
                 // 初始化表单
                 $("#data_form")[0].reset();
-                $("#uuid").val(data.account.uuid);
-                $("#accountCode").val(data.account.accountCode);
+                $("#uuid").val(data.obj.uuid);
+                $("#accountCode").val(data.obj.accountCode);
                 $("#accountCode").attr("disabled", true);
-                $("#accountName").val(data.account.accountName);
-                $("input:radio[name=dataState][value='" + data.account.dataState + "']").iCheck('check');
+                $("#accountName").val(data.obj.accountName);
+                $("input:radio[name=dataState][value='" + data.obj.dataState + "']").iCheck('check');
                 $('#data_modal .modal-title').text("修改账号");
                 $('#data_modal').modal('show');
 
@@ -242,7 +242,6 @@ $("#btn_save_pwd").click(function() {
         url : "/account/resetPwd",
         data : JSON.stringify(para),
         success : function(data) {
-            console.log(data);
             if (data.success == true) {
                 // 隐藏表单
                 $('#data_modal_pwd').modal('hide');

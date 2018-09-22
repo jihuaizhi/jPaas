@@ -43,6 +43,11 @@ document.write("<script src='/plugins/ckeditor/ckeditor.js'></script>");
 // Bootstrap WYSIHTML5 富文本编辑器
 document.write("<script src='/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js'></script>");
 
+
+/*  dhtmlx Tree 树形控件js  */
+document.write("<script src='/plugins/dhtmlxTree_v51_std/codebase/dhtmlxtree.js'></script>");
+
+
 // <!-- PACE -->
 document.write("<script src='/plugins/pace/pace.min.js'></script>");
 

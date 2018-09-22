@@ -19,15 +19,6 @@ public class RoleEntity extends BaseEntity {
 	 */
 	public static final String SUPER_ADMINISTRATOR = "admin";
 
-	public static final String DATA_STATE_STOP = "0";
-	public static final String DATA_STATE_NORMAL = "1";
-
-	/**
-	 * 数据状态
-	 */
-	@Column(length = 1, nullable = false)
-	protected String dataState = "1";
-
 	/**
 	 * 角色编号
 	 */
@@ -67,14 +58,6 @@ public class RoleEntity extends BaseEntity {
 
 	public void setRoleDescription(String roleDescription) {
 		this.roleDescription = roleDescription;
-	}
-
-	public String getDataState() {
-		return dataState;
-	}
-
-	public void setDataState(String dataState) {
-		this.dataState = dataState;
 	}
 
 }

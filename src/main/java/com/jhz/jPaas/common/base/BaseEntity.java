@@ -19,15 +19,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @MappedSuperclass
 public abstract class BaseEntity implements Serializable {
 
-	protected static final long serialVersionUID = 1L;
-
-	/**
-	 * dataState 通用数据状态设定常量
-	 * 0：删除 1：正常
-	 * 
-	 */
-	public static final String DATA_STATE_DELETE = "0";
-	public static final String DATA_STATE_NORMAL = "1";
+	public static final long serialVersionUID = 1L;
 
 	/**
 	 * 物理主键

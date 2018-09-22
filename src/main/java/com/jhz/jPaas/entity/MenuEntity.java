@@ -15,6 +15,12 @@ import com.jhz.jPaas.common.base.BaseEntity;
 public class MenuEntity extends BaseEntity {
 
 	/**
+	 * 父级菜单uuid，顶级菜单的父级菜单uuid=“”
+	 */
+	@Column(length = 36, nullable = false)
+	private String parentUuid;
+
+	/**
 	 * 菜单名称
 	 */
 	@Column(nullable = false)
@@ -54,5 +60,13 @@ public class MenuEntity extends BaseEntity {
 
 	public void setMenuIcon(String menuIcon) {
 		this.menuIcon = menuIcon;
+	}
+
+	public String getParentUuid() {
+		return parentUuid;
+	}
+
+	public void setParentUuid(String parentUuid) {
+		this.parentUuid = parentUuid;
 	}
 }

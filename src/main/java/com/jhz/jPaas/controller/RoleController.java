@@ -39,7 +39,7 @@ public class RoleController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/getList")
 	public ReturnModel getList() throws Exception {
-		returnModel.put("roleList", roleService.getList());
+		returnModel.put("objList", roleService.getList());
 		return returnModel;
 	}
 
@@ -53,7 +53,7 @@ public class RoleController extends BaseController {
 	public ReturnModel getById(@RequestBody Map<String, Object> paraMap) throws Exception {
 		String uuid = paraMap.get("uuid").toString();
 		RoleEntity entity = roleService.getById(uuid);
-		returnModel.put("role", entity);
+		returnModel.put("obj", entity);
 		return returnModel;
 	}
 
@@ -88,7 +88,6 @@ public class RoleController extends BaseController {
 		entity.setRoleCode(paraMap.get("roleCode").toString());
 		entity.setRoleName(paraMap.get("roleName").toString());
 		entity.setRoleDescription(paraMap.get("roleDescription").toString());
-		entity.setDataState(paraMap.get("dataState").toString());
 		entity.setCreatedBy("1234567890");
 		entity.setCreatedAt(new Date());
 		roleService.save(entity);
@@ -107,7 +106,6 @@ public class RoleController extends BaseController {
 		RoleEntity entity = roleService.getById(uuid);
 		entity.setRoleName(paraMap.get("roleName").toString());
 		entity.setRoleDescription(paraMap.get("roleDescription").toString());
-		entity.setDataState(paraMap.get("dataState").toString());
 		entity.setUpdatedBy("updaeby");
 		entity.setUpdatedAt(new Date());
 		roleService.save(entity);
