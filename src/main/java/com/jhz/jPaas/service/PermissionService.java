@@ -49,7 +49,17 @@ public class PermissionService extends BaseService {
 		Sort sort = new Sort(Sort.Direction.ASC, "permissionCode");
 		List<PermissionEntity> entityList = repository.findAll(sort);
 		return entityList;
+	}
 
+	/**
+	 * 查询可见菜单列表
+	 * 
+	 * @return entityList
+	 */
+	public List<PermissionEntity> getVisibilityList() throws Exception {
+		List<PermissionEntity> entityList = repository
+				.findByDataStateOrderByPermissionCode(PermissionEntity.DATA_STATE_NORMAL);
+		return entityList;
 	}
 
 	/**
@@ -67,6 +77,7 @@ public class PermissionService extends BaseService {
 	 * @param uuid
 	 */
 	public void delete(String uuid) throws Exception {
+		rolePermissionRepository.deleteByPermissionUuid(uuid);
 		repository.deleteById(uuid);
 	}
 
@@ -125,4 +136,5 @@ public class PermissionService extends BaseService {
 		// 删除权限表中无效数据
 		repository.deleteInvalidURL(validCodeList);
 	}
+
 }

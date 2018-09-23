@@ -24,4 +24,6 @@ public interface PermissionRepository extends JpaRepository<PermissionEntity, St
 	@Query(value = "delete from auth_permission where permission_code not in(?1)", nativeQuery = true)
 	void deleteInvalidURL(List<String> validCodeList);
 
+	List<PermissionEntity> findByDataStateOrderByPermissionCode(String dataState);
+
 }

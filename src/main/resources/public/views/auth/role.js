@@ -1,8 +1,10 @@
 //菜单树
 var menutTree;
 
+var checkAllFlag = true;
+
 // 表格列数据映射
-var columnsConfig = [
+var colConfigRole = [
         {
             data : 'uuid',
             visible : false
@@ -33,11 +35,37 @@ var columnsConfig = [
 
 ];
 
+
+// 表格列数据映射
+var colConfigPermission = [
+        {
+            data : 'uuid',
+            visible : false
+        },
+        {
+            data : null,
+            width : "30px",
+            orderable : false,
+            className : 'select-checkbox',
+            render : function(data, type, row, meta) {
+                return "";
+            }
+        },
+        {
+            data : 'permissionCode',
+            title : 'URL路径',
+            width : "120px",
+        },
+        {
+            data : 'permissionName',
+            title : 'URL说明',
+        }
+];
+
+
 // 页面初始化块
 $(function() {
     initDataTable();
-    initMenuTree(null);
-     initUrlTable(null);
 });
 
 
@@ -53,7 +81,7 @@ function initDataTable() {
             if (data.success == true) {
                 $("#data_table").DataTable({
                     data : data.objList,
-                    columns : columnsConfig,
+                    columns : colConfigRole,
                     rowReorder : true,
                     rowReorder : { selector : 'td:nth-child(1)'
                     }
@@ -72,6 +100,7 @@ $("#btn_insert").click(function() {
     $("#roleCode").attr("readonly", false);
     // 初始化菜单树
     initMenuTree("");
+    initUrlTable(null);
     // 显示表单
     $('#data_modal .modal-title').text("新增角色");
     $('#data_modal').modal('show');
@@ -105,8 +134,6 @@ $("#btn_update").click(function() {
                     menuUuid.push(data.menuList[i].menuUuid);
                 }
                 initMenuTree(menuUuid);
-
-
                 $('#data_modal .modal-title').text("修改角色");
                 $('#data_modal').modal('show');
                 //
@@ -185,15 +212,17 @@ function saveRole() {
     }
     $("#checkedMenuUuid").val(menuIds);
 
-    // // 获取所有选中的url授权
-    // var table = $("#data_table").DataTable();
-    // var data = table.rows({ selected : true
-    // }).data();
-    // var urlIds = [];
-    // for (var i = 0; i < data.length; i++) {
-    // urlIds.push(data[i].uuid);
-    // }
-    // $("#permissionIds").val(urlIds);
+    // 获取所有选中的url授权
+    var table = $("#data_table_permission").DataTable();
+    var data = table.rows({ selected : true
+    }).ids();
+    // TODO 获取选中的行的UUID
+    console.log(data);
+    var urlIds = [];
+    for (var i = 0; i < data.length; i++) {
+        urlIds.push(data[i].uuid);
+    }
+    $("#selectedPermissionUuid").val(urlIds);
 
     if ($("#uuid").val() == "") {
         $.ajax({
@@ -258,24 +287,54 @@ function initMenuTree(checkedIds) {
 }
 
 
+/**
+ * @加载URL授权
+ */
+function initUrlTable(selectIds) {
+    $.ajax({
+        url : "/permission/getVisibilityList",
+        success : function(data) {
+            if (data.success == true) {
+                console.log(data.objList);
+                $("#data_table_permission").DataTable({
+                    data : data.objList,
+                    rowId : 'uuid', // 设置主键字段名
+                    columns : colConfigPermission,
+                    select : {
+                        style : 'multi',
+                        selector : 'tr',
+                        items : 'row',
+                    },
+                    ordering : false,
+                    paging : false
+                });
+            }
+        }
+    });
+}
+
+// 表格的全选和反全选事件
+$('#checkAll').on('ifChanged', function(event) {
+    var table = $("#data_table_permission").DataTable();
+    if (checkAllFlag) {
+        table.rows().select();
+    } else {
+        table.rows().deselect();
+    }
+    checkAllFlag = !checkAllFlag;
+})
 
 
 
-
-//
-// // 查看角色下所有的用户
-// $("#btn_user").click(function() {
-// var table = $("#data_table").DataTable();
-// var data = table.row({ selected : true
-// }).data();
-// if (data == null || data == undefined) {
-// layer.warning("请选择角色！");
-// return;
-// }
-// showFrame("角色包含的用户列表", ('views_platform/security/role_user.jsp'));
-// })
-//
-// // 启用表格拖拽
-// $("#btn_sort").click(function() {
-// layer.warning("努力开发中...");
-// })
+// 查看角色下所有的用户
+$("#btn_role_user").click(function() {
+    var table = $("#data_table").DataTable();
+    var data = table.row({ selected : true
+    }).data();
+    if (data == null || data == undefined) {
+        layer.warning("请选择角色！");
+        return;
+    }
+    layer.info("开发中...");
+    // showFrame("角色包含的用户列表", ('views_platform/security/role_user.jsp'));
+})

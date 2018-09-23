@@ -77,7 +77,7 @@ public class MenuService extends BaseService {
 	 * @param uuid
 	 */
 	public List<MenuEntity> getChirdMenu(String uuid) throws Exception {
-		List<MenuEntity> entityList = repository.getChirdMenu(uuid);
+		List<MenuEntity> entityList = repository.findByParentUuid(uuid);
 		return entityList;
 	}
 

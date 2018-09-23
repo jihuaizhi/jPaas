@@ -15,6 +15,11 @@
         <script src="/plugins/compatibility/html5shiv.min.js"></script>
         <script src="/plugins/compatibility/respond.min.js"></script>
   <![endif]-->
+<style>
+.modal-body {
+  height: 600px; overflow-y: scroll;
+}
+</style>
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -28,7 +33,7 @@
               <button id="btn_insert" type="button" class="btn btn-default btn-sm">新增</button>
               <button id="btn_update" type="button" class="btn btn-default btn-sm">修改</button>
               <button id="btn_delete" type="button" class="btn btn-default btn-sm">删除</button>
-              <button id="btn_add_user" type="button" class="btn btn-default btn-sm">添加用户</button>
+              <button id="btn_role_user" type="button" class="btn btn-default btn-sm">查看用户</button>
             </div>
           </div>
           <div class="box-body">
@@ -55,6 +60,7 @@
   <form id="data_form">
     <input id="uuid" name="uuid" type="hidden" value="">
     <input id="checkedMenuUuid" name="checkedMenuUuid" type="hidden" value="">
+    <input id="selectedPermissionUuid" name="selectedPermissionUuid" type="hidden" value="">
     <div class="modal fade" id="data_modal" data-backdrop="false">
       <div class="modal-dialog modal-lg" style="width: 80%;">
         <div class="modal-content">
@@ -72,22 +78,19 @@
                     <div class="col-md-12">
                       <div class="form-group">
                         <label class="control-label required">角色编码</label>
-                        <input id="roleCode" name="roleCode" type="text" maxlength="20" class="form-control"
-                          placeholder="角色的编码">
+                        <input id="roleCode" name="roleCode" type="text" maxlength="20" class="form-control" placeholder="角色的编码">
                       </div>
                     </div>
                     <div class="col-md-12">
                       <div class="form-group">
                         <label class="control-label required">角色名称</label>
-                        <input id="roleName" name="roleName" type="text" maxlength="20" class="form-control"
-                          placeholder="角色的中文显示名称">
+                        <input id="roleName" name="roleName" type="text" maxlength="20" class="form-control" placeholder="角色的中文显示名称">
                       </div>
                     </div>
                     <div class="col-md-12">
                       <div class="form-group">
                         <label class="control-label">角色描述</label>
-                        <textarea id="roleDescription" name="roleDescription" maxlength="200" class="form-control"
-                          rows="5" placeholder="角色职责的详细说明"></textarea>
+                        <textarea id="roleDescription" name="roleDescription" maxlength="200" class="form-control" rows="5" placeholder="角色职责的详细说明"></textarea>
                       </div>
                     </div>
                   </div>
@@ -103,15 +106,13 @@
                           <div id="menu_tree" style="height: 100%;"></div>
                         </div>
                         <div class="tab-pane" id="tab_2">
-                          <table id="data_table"
-                            class="display table table-striped table-bordered table-hover table-checkable">
+                          <table id="data_table_permission" class="display table table-striped table-bordered table-hover table-checkable">
                             <thead>
                               <tr>
-                                <th>ID</th>
-                                <th class="text-center"><input type="checkbox" id="checkAll"
-                                    class="select-checkbox"></th>
-                                <th>权限标识</th>
-                                <th>权限名称</th>
+                                <th></th>
+                                <th class="text-center"><input type="checkbox" id="checkAll" class="select-checkbox"></th>
+                                <th></th>
+                                <th></th>
                               </tr>
                             </thead>
                             <tbody></tbody>

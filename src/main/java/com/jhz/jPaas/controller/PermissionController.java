@@ -47,6 +47,18 @@ public class PermissionController extends BaseController {
 	}
 
 	/**
+	 * 查询非隐藏列表
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/getVisibilityList")
+	public ReturnModel getVisibilityList() throws Exception {
+		returnModel.put("objList", service.getVisibilityList());
+		return returnModel;
+	}
+
+	/**
 	 * 更新
 	 * 
 	 * @return

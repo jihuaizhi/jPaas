@@ -22,4 +22,6 @@ public interface RolePermissionRepository extends JpaRepository<RolePermissionEn
 	@Query(value = "delete rp from auth_permission p,auth_role_permission rp where p.uuid=rp.permission_uuid and p.permission_code not in(?1)", nativeQuery = true)
 	void deleteInvalidURL(List<String> validCodeList);
 
+	void deleteByPermissionUuid(String uuid);
+
 }

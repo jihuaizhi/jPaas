@@ -17,8 +17,7 @@ import com.jhz.jPaas.entity.MenuEntity;
 @Repository
 public interface MenuRepository extends JpaRepository<MenuEntity, String> {
 
-	@Query(value = "select * from auth_menu where parent_uuid = ?1", nativeQuery = true)
-	List<MenuEntity> getChirdMenu(String uuid);
+	List<MenuEntity> findByParentUuid(String uuid);
 
 	@Query(value = "select IFNULL(max(sort_num),0)  from auth_menu", nativeQuery = true)
 	Integer getMaxSortNum();

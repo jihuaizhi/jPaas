@@ -27,7 +27,7 @@
             <div class="box-tools pull-right">
               <button id="btn_scan" type="button" class="btn btn-default btn-sm">扫描</button>
               <button id="btn_update" type="button" class="btn btn-default btn-sm">修改</button>
-              <button id="btn_disable" type="button" class="btn btn-default btn-sm">屏蔽</button>
+              <button id="btn_delete" type="button" class="btn btn-default btn-sm">删除</button>
             </div>
           </div>
           <div class="box-body">
@@ -69,15 +69,13 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label class="control-label required">权限标识</label>
-                    <input id="permissionCode" name="permissionCode" readonly type="text" class="form-control"
-                      placeholder="">
+                    <input id="permissionCode" name="permissionCode" readonly type="text" class="form-control" placeholder="">
                   </div>
                 </div>
                 <div class="col-md-12">
                   <div class="form-group">
-                    <label class="control-label required">权限名称</label>
-                    <input id="permissionName" name="permissionName" type="text" maxlength="100" class="form-control"
-                      placeholder="">
+                    <label class="control-label">权限名称</label>
+                    <input id="permissionName" name="permissionName" type="text" maxlength="100" class="form-control" placeholder="">
                   </div>
                 </div>
                 <div class="col-md-12">
@@ -94,8 +92,7 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label class="control-label">权限描述</label>
-                    <textarea id="permissionDescription" name="permissionDescription" maxlength="500"
-                      class="form-control" rows="3" placeholder=""></textarea>
+                    <textarea id="permissionDescription" name="permissionDescription" maxlength="500" class="form-control" rows="3" placeholder=""></textarea>
                   </div>
                 </div>
               </div>
