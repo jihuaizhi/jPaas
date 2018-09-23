@@ -64,7 +64,7 @@ function addMenu(pid) {
     $("#data_form")[0].reset();
     $("#uuid").val("");
     $("#parentUuid").val(pid);
-    $("#menu_icon_display").attr("classname", "");
+    $("#menu_icon_display").attr("class", "");
     // 激活表单
     $('#data_modal .modal-title').text("新增菜单");
     $('#data_modal').modal('show');

@@ -10,7 +10,7 @@ var columnsConfig = [
         {
             data : null,
             title : '序号',
-            width : "50px",
+            width : "30px",
             render : function(data, type, row, meta) {
                 // 显示流水号
                 return meta.row + 1;
@@ -37,7 +37,7 @@ var columnsConfig = [
 $(function() {
     initDataTable();
     initMenuTree(null);
-    // initUrlTable(null);
+     initUrlTable(null);
 });
 
 
@@ -70,14 +70,16 @@ $("#btn_insert").click(function() {
     // 初始化表单
     $("#data_form")[0].reset();
     $("#roleCode").attr("readonly", false);
+    // 初始化菜单树
+    initMenuTree("");
     // 显示表单
     $('#data_modal .modal-title').text("新增角色");
     $('#data_modal').modal('show');
+
 });
 
 // 修改按钮点击事件
 $("#btn_update").click(function() {
-
     var table = $("#data_table").DataTable();
     var data = table.row({ selected : true
     }).data();
@@ -98,13 +100,15 @@ $("#btn_update").click(function() {
                 $("#roleCode").attr("readonly", true);
                 $("#roleName").val(data.obj.roleName);
                 $("#roleDescription").val(data.obj.roleDescription);
+                var menuUuid = [];
+                for (var i = 0; i < data.menuList.length; i++) {
+                    menuUuid.push(data.menuList[i].menuUuid);
+                }
+                initMenuTree(menuUuid);
+
+
                 $('#data_modal .modal-title').text("修改角色");
                 $('#data_modal').modal('show');
-                // var menuIds = [];
-                // for (var i = 0; i < data.menus.length; i++) {
-                // menuIds.push(data.menus[i].uuid);
-                // }
-                // initMenuTree(menuIds);
                 //
                 // var permissions = [];
                 // for (var i = 0; i < data.permissions.length; i++) {
@@ -179,7 +183,7 @@ function saveRole() {
     } else {
         menuIds = checkedId;
     }
-    $("#menuIds").val(menuIds);
+    $("#checkedMenuUuid").val(menuIds);
 
     // // 获取所有选中的url授权
     // var table = $("#data_table").DataTable();

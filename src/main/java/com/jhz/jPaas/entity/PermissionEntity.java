@@ -9,10 +9,20 @@ import com.jhz.jPaas.common.base.BaseEntity;
  * 权限表Entity
  * 
  * @author jihuaizhi
- * @since 2018-09-12
+ * @since 2018-09-23
  */
 @Entity(name = "auth_permission")
 public class PermissionEntity extends BaseEntity {
+
+	/**
+	 * 隐藏该权限项,避免被设置或者操作
+	 */
+	public static final String DATA_STATE_HIDE = "0";
+
+	/**
+	 * 正常状态,可被分配授权和与角色关联
+	 */
+	public static final String DATA_STATE_NORMAL = "1";
 
 	/**
 	 * permissionType 选项
@@ -25,6 +35,12 @@ public class PermissionEntity extends BaseEntity {
 	public static final String P_TYPE_DATA = "6"; // 数据过滤
 
 	/**
+	 * 数据状态
+	 */
+	@Column(length = 1, nullable = false)
+	protected String dataState = "1";
+
+	/**
 	 * 权限编码 URL地址
 	 */
 	@Column(nullable = false, unique = true)
@@ -33,7 +49,7 @@ public class PermissionEntity extends BaseEntity {
 	/**
 	 * 权限名称 中文简短名称
 	 */
-	@Column(nullable = false, unique = true)
+	@Column
 	private String permissionName;
 
 	/**
@@ -78,5 +94,13 @@ public class PermissionEntity extends BaseEntity {
 
 	public void setPermissionDescription(String permissionDescription) {
 		this.permissionDescription = permissionDescription;
+	}
+
+	public String getDataState() {
+		return dataState;
+	}
+
+	public void setDataState(String dataState) {
+		this.dataState = dataState;
 	}
 }

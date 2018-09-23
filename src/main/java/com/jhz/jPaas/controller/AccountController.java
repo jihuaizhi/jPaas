@@ -74,7 +74,6 @@ public class AccountController extends BaseController {
 	public ReturnModel update(@RequestBody Map<String, Object> paraMap) throws Exception {
 		String uuid = paraMap.get("uuid").toString();
 		AccountEntity accountEntity = accountService.getById(uuid);
-		accountEntity.setUuid(paraMap.get("uuid").toString());
 		accountEntity.setAccountName(paraMap.get("accountName").toString());
 		String password = paraMap.get("password1").toString();
 		// 更新的时候如果没有输入密码，则不更新密码

@@ -7,7 +7,7 @@ var columnsConfig = [
         {
             data : null,
             title : '序号',
-            width : "50px",
+            width : "30px",
             render : function(data, type, row, meta) {
                 // 显示流水号
                 return meta.row + 1;

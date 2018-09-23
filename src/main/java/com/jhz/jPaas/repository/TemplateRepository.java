@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.jhz.jPaas.entity.TemplatetEntity;
 
 /**
- * 测试用数据库操作类
+ * 数据库操作类
  * 
  * @author jihuaizhi
  * @since 2018-09-12

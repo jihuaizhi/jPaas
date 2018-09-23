@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.jhz.jPaas.entity.AccountEntity;
 
 /**
- * 帐号管理数据库操作类
+ * 数据库操作类
  * 
  * @author jihuaizhi
  * @since 2018-09-16

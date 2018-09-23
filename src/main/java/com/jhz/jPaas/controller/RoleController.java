@@ -1,6 +1,7 @@
 package com.jhz.jPaas.controller;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.jhz.jPaas.common.ReturnModel;
 import com.jhz.jPaas.common.base.BaseController;
 import com.jhz.jPaas.entity.RoleEntity;
+import com.jhz.jPaas.entity.RoleMenuEntity;
 import com.jhz.jPaas.service.RoleService;
 
 /**
@@ -54,6 +56,8 @@ public class RoleController extends BaseController {
 		String uuid = paraMap.get("uuid").toString();
 		RoleEntity entity = roleService.getById(uuid);
 		returnModel.put("obj", entity);
+		List<RoleMenuEntity> menuList = roleService.findByRoleUuid(uuid);
+		returnModel.put("menuList", menuList);
 		return returnModel;
 	}
 
@@ -90,7 +94,8 @@ public class RoleController extends BaseController {
 		entity.setRoleDescription(paraMap.get("roleDescription").toString());
 		entity.setCreatedBy("1234567890");
 		entity.setCreatedAt(new Date());
-		roleService.save(entity);
+		String[] menuUuid = paraMap.get("checkedMenuUuid").toString().split(",");
+		roleService.insert(entity, menuUuid);
 		return returnModel;
 	}
 
@@ -108,8 +113,25 @@ public class RoleController extends BaseController {
 		entity.setRoleDescription(paraMap.get("roleDescription").toString());
 		entity.setUpdatedBy("updaeby");
 		entity.setUpdatedAt(new Date());
-		roleService.save(entity);
+		String[] menuUuid = paraMap.get("checkedMenuUuid").toString().split(",");
+		roleService.update(entity, menuUuid);
 		return returnModel;
 	}
+
+//	/**
+//	 * 
+//	 * @author jihuaizhi
+//	 * @param paraMap
+//	 * @return
+//	 * @throws Exception
+//	 */
+//	@RequestMapping(value = "/getPermissionListVisible", name = "查询系统所有有效的URL数据")
+//	public ModelResult getPermissionListVisible() throws Exception {
+//		ModelResult returnModel = new ModelResult();
+//		List<PermissionEntity> list = new ArrayList<>();
+//		list = permissionService.getPermissionListVisible();
+//		returnModel.put("objList", list);
+//		return returnModel;
+//	}
 
 }
