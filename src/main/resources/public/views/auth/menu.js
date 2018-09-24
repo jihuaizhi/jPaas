@@ -2,7 +2,7 @@
 var menutTree;
 
 // 菜单树的展开收起状态控制变量
-var menuIsOpen = false;
+var menuIsOpen = true;
 
 // 页面初始化块
 $(function() {
@@ -30,6 +30,7 @@ function initMenuTree(pid) {
             menutTree.attachEvent("onDblClick", function(uuid) {
                 onTreeDblClick(uuid);
             });
+            menutTree.openAllItems("");
         }
     });
 }
@@ -39,10 +40,10 @@ function initMenuTree(pid) {
 $("#btn_expandOrCollapse").click(function() {
     if (menuIsOpen) {
         menutTree.closeAllItems("");
-        $("#btn_open").text("展开");
+        $("#btn_expandOrCollapse").text("展开");
     } else {
         menutTree.openAllItems("");
-        $("#btn_open").text("折叠");
+        $("#btn_expandOrCollapse").text("折叠");
     }
     menuIsOpen = !menuIsOpen;
 })

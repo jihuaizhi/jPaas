@@ -251,3 +251,11 @@ $("#btn_save_pwd").click(function() {
         }
     });
 })
+
+
+
+
+
+$("#btn_test").click(function() {
+    $('.sidebar-toggle-btn').pushMenu($("#data_modal"));
+})

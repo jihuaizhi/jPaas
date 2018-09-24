@@ -12,7 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jhz.jPaas.common.base.BaseService;
 import com.jhz.jPaas.entity.RoleEntity;
 import com.jhz.jPaas.entity.RoleMenuEntity;
+import com.jhz.jPaas.entity.RolePermissionEntity;
 import com.jhz.jPaas.repository.RoleMenuRepository;
+import com.jhz.jPaas.repository.RolePermissionRepository;
 import com.jhz.jPaas.repository.RoleRepository;
 
 /**
@@ -34,6 +36,9 @@ public class RoleService extends BaseService {
 	@Autowired
 	private RoleMenuRepository roleMenuRepository;
 
+	@Autowired
+	private RolePermissionRepository rolePermissionRepository;
+
 	// @Autowired
 	// private RoleRepository repository;
 
@@ -52,29 +57,10 @@ public class RoleService extends BaseService {
 	 * 新增
 	 * 
 	 * @param entity
+	 * @param permissionUuid
 	 * @param menuUuids
 	 */
-	public void insert(RoleEntity entity, String[] menuUuid) throws Exception {
-		repository.save(entity);
-
-		for (int i = 0; i < menuUuid.length; i++) {
-			RoleMenuEntity roleMenuEntity = new RoleMenuEntity();
-			roleMenuEntity.setUuid(UUID.randomUUID().toString());
-			roleMenuEntity.setRoleUuid(entity.getUuid());
-			roleMenuEntity.setMenuUuid(menuUuid[i]);
-			roleMenuEntity.setCreatedAt(new Date());
-			roleMenuEntity.setCreatedBy("");
-			roleMenuRepository.save(roleMenuEntity);
-		}
-	}
-
-	/**
-	 * 更新
-	 * 
-	 * @param entity
-	 * @param menuUuid
-	 */
-	public void update(RoleEntity entity, String[] menuUuid) throws Exception {
+	public void insert(RoleEntity entity, String[] menuUuid, String[] permissionUuid) throws Exception {
 		repository.save(entity);
 		roleMenuRepository.deleteByRoleUuid(entity.getUuid());
 		for (int i = 0; i < menuUuid.length; i++) {
@@ -86,7 +72,48 @@ public class RoleService extends BaseService {
 			roleMenuEntity.setCreatedBy("");
 			roleMenuRepository.save(roleMenuEntity);
 		}
+		rolePermissionRepository.deleteByRoleUuid(entity.getUuid());
+		for (int i = 0; i < permissionUuid.length; i++) {
+			RolePermissionEntity rolePermisiionEntity = new RolePermissionEntity();
+			rolePermisiionEntity.setUuid(UUID.randomUUID().toString());
+			rolePermisiionEntity.setRoleUuid(entity.getUuid());
+			rolePermisiionEntity.setPermissionUuid(permissionUuid[i]);
+			rolePermisiionEntity.setCreatedAt(new Date());
+			rolePermisiionEntity.setCreatedBy("");
+			rolePermissionRepository.save(rolePermisiionEntity);
+		}
 
+	}
+
+	/**
+	 * 更新
+	 * 
+	 * @param entity
+	 * @param menuUuid
+	 * @param permissionUuid
+	 */
+	public void update(RoleEntity entity, String[] menuUuid, String[] permissionUuid) throws Exception {
+		repository.save(entity);
+		roleMenuRepository.deleteByRoleUuid(entity.getUuid());
+		for (int i = 0; i < menuUuid.length; i++) {
+			RoleMenuEntity roleMenuEntity = new RoleMenuEntity();
+			roleMenuEntity.setUuid(UUID.randomUUID().toString());
+			roleMenuEntity.setRoleUuid(entity.getUuid());
+			roleMenuEntity.setMenuUuid(menuUuid[i]);
+			roleMenuEntity.setCreatedAt(new Date());
+			roleMenuEntity.setCreatedBy("");
+			roleMenuRepository.save(roleMenuEntity);
+		}
+		rolePermissionRepository.deleteByRoleUuid(entity.getUuid());
+		for (int i = 0; i < permissionUuid.length; i++) {
+			RolePermissionEntity rolePermisiionEntity = new RolePermissionEntity();
+			rolePermisiionEntity.setUuid(UUID.randomUUID().toString());
+			rolePermisiionEntity.setRoleUuid(entity.getUuid());
+			rolePermisiionEntity.setPermissionUuid(permissionUuid[i]);
+			rolePermisiionEntity.setCreatedAt(new Date());
+			rolePermisiionEntity.setCreatedBy("");
+			rolePermissionRepository.save(rolePermisiionEntity);
+		}
 	}
 
 	/**
@@ -114,9 +141,21 @@ public class RoleService extends BaseService {
 	 * @param uuid
 	 * @throws Exception
 	 */
-	public List<RoleMenuEntity> findByRoleUuid(String uuid) throws Exception {
-		List<RoleMenuEntity> menuUuid = roleMenuRepository.findByRoleUuid(uuid);
-		return menuUuid;
+	public List<RoleMenuEntity> findMenuByRoleUuid(String uuid) throws Exception {
+		List<RoleMenuEntity> menuList = roleMenuRepository.findByRoleUuid(uuid);
+		return menuList;
+	}
+
+	/**
+	 * 查询某角色的所属URL
+	 * 
+	 * @param uuid
+	 * @return
+	 * @throws Exception
+	 */
+	public List<RolePermissionEntity> findPermissionByRoleUuid(String uuid) throws Exception {
+		List<RolePermissionEntity> permissionList = rolePermissionRepository.findByRoleUuid(uuid);
+		return permissionList;
 	}
 
 }

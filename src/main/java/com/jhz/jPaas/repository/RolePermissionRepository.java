@@ -24,4 +24,8 @@ public interface RolePermissionRepository extends JpaRepository<RolePermissionEn
 
 	void deleteByPermissionUuid(String uuid);
 
+	List<RolePermissionEntity> findByRoleUuid(String uuid);
+
+	void deleteByRoleUuid(String uuid);
+
 }

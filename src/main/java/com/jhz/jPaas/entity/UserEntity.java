@@ -14,8 +14,8 @@ import com.jhz.jPaas.common.base.BaseEntity;
  * @author jihuaizhi
  * @since 2018-09-12
  */
-@Entity(name = "auth_user_info")
-public class UserInfoEntity extends BaseEntity {
+@Entity(name = "auth_user")
+public class UserEntity extends BaseEntity {
 
 	/**
 	 * 用户姓名

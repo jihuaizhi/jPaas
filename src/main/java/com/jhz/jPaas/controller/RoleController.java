@@ -15,6 +15,7 @@ import com.jhz.jPaas.common.ReturnModel;
 import com.jhz.jPaas.common.base.BaseController;
 import com.jhz.jPaas.entity.RoleEntity;
 import com.jhz.jPaas.entity.RoleMenuEntity;
+import com.jhz.jPaas.entity.RolePermissionEntity;
 import com.jhz.jPaas.service.RoleService;
 
 /**
@@ -56,8 +57,10 @@ public class RoleController extends BaseController {
 		String uuid = paraMap.get("uuid").toString();
 		RoleEntity entity = roleService.getById(uuid);
 		returnModel.put("obj", entity);
-		List<RoleMenuEntity> menuList = roleService.findByRoleUuid(uuid);
+		List<RoleMenuEntity> menuList = roleService.findMenuByRoleUuid(uuid);
+		List<RolePermissionEntity> permissionList = roleService.findPermissionByRoleUuid(uuid);
 		returnModel.put("menuList", menuList);
+		returnModel.put("permissionList", permissionList);
 		return returnModel;
 	}
 
@@ -95,7 +98,8 @@ public class RoleController extends BaseController {
 		entity.setCreatedBy("1234567890");
 		entity.setCreatedAt(new Date());
 		String[] menuUuid = paraMap.get("checkedMenuUuid").toString().split(",");
-		roleService.insert(entity, menuUuid);
+		String[] permissionUuid = paraMap.get("selectedPermissionUuid").toString().split(",");
+		roleService.insert(entity, menuUuid, permissionUuid);
 		return returnModel;
 	}
 
@@ -114,24 +118,25 @@ public class RoleController extends BaseController {
 		entity.setUpdatedBy("updaeby");
 		entity.setUpdatedAt(new Date());
 		String[] menuUuid = paraMap.get("checkedMenuUuid").toString().split(",");
-		roleService.update(entity, menuUuid);
+		String[] permissionUuid = paraMap.get("selectedPermissionUuid").toString().split(",");
+		roleService.update(entity, menuUuid, permissionUuid);
 		return returnModel;
 	}
 
-//	/**
-//	 * 
-//	 * @author jihuaizhi
-//	 * @param paraMap
-//	 * @return
-//	 * @throws Exception
-//	 */
-//	@RequestMapping(value = "/getPermissionListVisible", name = "查询系统所有有效的URL数据")
-//	public ModelResult getPermissionListVisible() throws Exception {
-//		ModelResult returnModel = new ModelResult();
-//		List<PermissionEntity> list = new ArrayList<>();
-//		list = permissionService.getPermissionListVisible();
-//		returnModel.put("objList", list);
-//		return returnModel;
-//	}
+	// /**
+	// *
+	// * @author jihuaizhi
+	// * @param paraMap
+	// * @return
+	// * @throws Exception
+	// */
+	// @RequestMapping(value = "/getPermissionListVisible", name = "查询系统所有有效的URL数据")
+	// public ModelResult getPermissionListVisible() throws Exception {
+	// ModelResult returnModel = new ModelResult();
+	// List<PermissionEntity> list = new ArrayList<>();
+	// list = permissionService.getPermissionListVisible();
+	// returnModel.put("objList", list);
+	// return returnModel;
+	// }
 
 }

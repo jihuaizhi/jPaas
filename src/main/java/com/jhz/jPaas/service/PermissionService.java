@@ -122,13 +122,7 @@ public class PermissionService extends BaseService {
 				pEntity.setPermissionType(PermissionEntity.P_TYPE_URL);
 				pEntity.setCreatedAt(new Date());
 				pEntity.setCreatedBy("11111111");
-				repository.saveAndFlush(pEntity);
-			} else {
-				pEntity.setDataState(PermissionEntity.DATA_STATE_NORMAL);
-				pEntity.setPermissionType(PermissionEntity.P_TYPE_URL);
-				pEntity.setUpdatedAt(new Date());
-				pEntity.setUpdatedBy("11111111");
-				repository.saveAndFlush(pEntity);
+				repository.save(pEntity);
 			}
 		}
 		// 删除关联表无效数据

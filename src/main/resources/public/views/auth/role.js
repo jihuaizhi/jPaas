@@ -81,6 +81,7 @@ function initDataTable() {
             if (data.success == true) {
                 $("#data_table").DataTable({
                     data : data.objList,
+                    rowId : 'uuid', // 设置主键字段名
                     columns : colConfigRole,
                     rowReorder : true,
                     rowReorder : { selector : 'td:nth-child(1)'
@@ -99,7 +100,7 @@ $("#btn_insert").click(function() {
     $("#data_form")[0].reset();
     $("#roleCode").attr("readonly", false);
     // 初始化菜单树
-    initMenuTree("");
+    initMenuTree(null);
     initUrlTable(null);
     // 显示表单
     $('#data_modal .modal-title').text("新增角色");
@@ -134,15 +135,13 @@ $("#btn_update").click(function() {
                     menuUuid.push(data.menuList[i].menuUuid);
                 }
                 initMenuTree(menuUuid);
+                var permissions = [];
+                for (var i = 0; i < data.permissionList.length; i++) {
+                    permissions.push(data.permissionList[i].permissionUuid);
+                }
+                initUrlTable(permissions);
                 $('#data_modal .modal-title').text("修改角色");
                 $('#data_modal').modal('show');
-                //
-                // var permissions = [];
-                // for (var i = 0; i < data.permissions.length; i++) {
-                // permissions.push(data.permissions[i].uuid);
-                // }
-                // initUrlTable(permissions);
-
             }
         }
     })
@@ -212,18 +211,11 @@ function saveRole() {
     }
     $("#checkedMenuUuid").val(menuIds);
 
-    // 获取所有选中的url授权
+    // 获取所有选中的url授权uuid
     var table = $("#data_table_permission").DataTable();
     var data = table.rows({ selected : true
     }).ids();
-    // TODO 获取选中的行的UUID
-    console.log(data);
-    var urlIds = [];
-    for (var i = 0; i < data.length; i++) {
-        urlIds.push(data[i].uuid);
-    }
-    $("#selectedPermissionUuid").val(urlIds);
-
+    $("#selectedPermissionUuid").val(data.join(","));
     if ($("#uuid").val() == "") {
         $.ajax({
             url : "/role/insert",
@@ -295,7 +287,6 @@ function initUrlTable(selectIds) {
         url : "/permission/getVisibilityList",
         success : function(data) {
             if (data.success == true) {
-                console.log(data.objList);
                 $("#data_table_permission").DataTable({
                     data : data.objList,
                     rowId : 'uuid', // 设置主键字段名
@@ -308,6 +299,17 @@ function initUrlTable(selectIds) {
                     ordering : false,
                     paging : false
                 });
+            }
+        },
+        complete : function(XMLHttpRequest, textStatus) {
+            // 加载已有角色的时候,勾选曾经保存过的数据
+            if (selectIds != undefined && selectIds != null) {
+                var table = $("#data_table_permission").DataTable();
+                for (var i = 0; i < selectIds.length; i++) {
+                    table.row(function(idx, data, node) {
+                        return data.uuid === selectIds[i] ? true : false;
+                    }).select();
+                }
             }
         }
     });

@@ -34,6 +34,7 @@ public class RoleEntity extends BaseEntity {
 	/**
 	 * 角色描述
 	 */
+	@Column
 	private String roleDescription;
 
 	public String getRoleCode() {
