@@ -82,10 +82,7 @@ function initDataTable() {
                 $("#data_table").DataTable({
                     data : data.objList,
                     rowId : 'uuid', // 设置主键字段名
-                    columns : colConfigRole,
-                    rowReorder : true,
-                    rowReorder : { selector : 'td:nth-child(1)'
-                    }
+                    columns : colConfigRole
                 });
             }
         }
@@ -102,6 +99,8 @@ $("#btn_insert").click(function() {
     // 初始化菜单树
     initMenuTree(null);
     initUrlTable(null);
+    $('a[href="#tab_1"]').trigger("click");
+
     // 显示表单
     $('#data_modal .modal-title').text("新增角色");
     $('#data_modal').modal('show');
@@ -140,6 +139,7 @@ $("#btn_update").click(function() {
                     permissions.push(data.permissionList[i].permissionUuid);
                 }
                 initUrlTable(permissions);
+                $('a[href="#tab_1"]').trigger("click");
                 $('#data_modal .modal-title').text("修改角色");
                 $('#data_modal').modal('show');
             }
@@ -270,8 +270,14 @@ function initMenuTree(checkedIds) {
         complete : function(XMLHttpRequest, textStatus) {
             // 加载已有角色的时候,勾选曾经保存过的数据
             if (checkedIds != undefined && checkedIds != null) {
+                var childlessNodes = menutTree.getAllChildless().split(",");
+                console.log(childlessNodes.length);
                 for (var i = 0; i < checkedIds.length; i++) {
-                    menutTree.setCheck(checkedIds[i], true);
+                    for (var j = 0; j < childlessNodes.length; j++) {
+                        if (checkedIds[i] == childlessNodes[j]) {
+                            menutTree.setCheck(checkedIds[i], true);
+                        }
+                    }
                 }
             }
         }

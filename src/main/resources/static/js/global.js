@@ -5,14 +5,8 @@
  * 页面初始化块
  */
 $(function() {
-    // icheckbox初始化
-    $('input').iCheck({
-        checkboxClass : 'icheckbox_square-blue',
-        radioClass : 'iradio_square-blue',
-        increaseArea : '20%'
-    });
     // 所有模态框可拖拽移动
-//    $('.modal-dialog').draggable();
+    // $('.modal-dialog').draggable();
 });
 
 
@@ -302,7 +296,7 @@ function getTreeJsonObj(arrayData, pidVal, pid, id, text) {
  * 将数组转换为树形结构的JSON字符串,经过getTreeJsonObj方法再处理后提供给tree控件作为显示数据用 
  * 递归算法实现 ，本方法可直接提供给treeview控件作为显示数据使用
  * 
- * @param arrayData 对象数组,至少包含名称为pid,id,text的属性
+ * @param arrayData 对象数组,对象至少包含名称为pid,id,text的属性
  * @param pidVal 父级ID的值
  * @param pid pid属性名
  * @param id id属性名
@@ -315,8 +309,8 @@ function getTreeJson(arrayData, pidVal, pid, id, text) {
         if (eval("arrayData[i]." + pid) == pidVal) {
             // 树节点上的自定义属性
             var userdata = [ {
-                "name" : "parentUuid",
-                "content" : arrayData[i].parentUuid
+                "name" : pid,
+                "content" : eval("arrayData[i]." + pid)
             }
             ];
             var obj = {
@@ -367,6 +361,27 @@ function getTreeObject(divId, jsonObj, isDrop, isCheck, isSmart) {
 
 
 /**
+ * 将对象数组转换为Select2组件显示所需要的数据格式
+ * 
+ * @param arrayData 对象数组,对象至少包含名称为id,text的属性
+ * @param id 唯一标识属性名称
+ * @param text 显示用属性名称
+ * @returns 
+ */
+
+function getSelect2Array(arrayData, id, text) {
+    var result = new Array();
+    for (var i = 0; i < arrayData.length; i++) {
+        var opt = {};
+        opt.id = eval("arrayData[i]." + id);
+        opt.text = eval("arrayData[i]." + text);
+        result.push(opt);
+    }
+    return result;
+}
+
+
+/**
  * 将数组形式保存的错误信息,转换为字符换用于显示提示信息
  * 
  * @param errList
@@ -375,7 +390,7 @@ function getTreeObject(divId, jsonObj, isDrop, isCheck, isSmart) {
 function getErrString(errList) {
     var str = "";
     for (var i = 0; i < errList.length; i++) {
-        str += errList[i].errCode + " : " + errList[i].errMessage + " \n";
+        str += errList[i].errCode + " : " + errList[i].errMessage + " <br>";
     }
     return str;
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.jhz.jPaas.entity.RoleMenuEntity;
 
 /**
- * 菜单对照表操作
+ * 数据库操作类
  * 
  * @author jihuaizhi
  * @since 2018-09-12

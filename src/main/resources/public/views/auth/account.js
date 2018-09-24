@@ -41,7 +41,19 @@ var columnsConfig = [
 // 页面初始化块
 $(function() {
     initDataTable();
+    // 初始化角色选择控件
+    $.ajax({
+        url : "/role/getList",
+        success : function(data) {
+            if (data.success == true) {
+                var seelct2Array = getSelect2Array(data.objList, "uuid", "roleName");
+                $('#roleUuid').select2({ data : seelct2Array
+                });
+            }
+        }
+    });
 });
+
 
 
 // 加载表格数据
@@ -52,6 +64,7 @@ function initDataTable() {
             if (data.success == true) {
                 $("#data_table").DataTable({
                     data : data.objList,
+                    rowId : 'uuid', // 设置主键字段名
                     columns : columnsConfig
                 });
             }
@@ -92,6 +105,9 @@ $("#btn_save").click(function() {
     if ($('#accountName').val() == "") {
         msg += "请输入账号名称!<br>";
     }
+    if ($('#roleUuid').val() == "") {
+        msg += "请选择角色!<br>";
+    }
     if ($("#password1").val() != "") {
         msg += checkPassword($("#password1").val());
     }
@@ -107,7 +123,7 @@ $("#btn_save").click(function() {
     }
     if ($("#uuid").val() == "") {
         if ($("#password1").val() == "") {
-            layer.warning("请输入密码!");
+            layer.warning("新建用户请输入初始密码!");
             return;
         }
         $.ajax({
@@ -252,10 +268,7 @@ $("#btn_save_pwd").click(function() {
     });
 })
 
-
-
-
-
+// TODO 调试用
 $("#btn_test").click(function() {
     $('.sidebar-toggle-btn').pushMenu($("#data_modal"));
 })

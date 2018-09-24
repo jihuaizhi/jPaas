@@ -60,7 +60,7 @@
 /*  富文本编辑器 ckeditor */
 @import url("/plugins/ckeditor/skins/moono/editor.css?t=G14E");
 
-/* <!-- Pace style --> */
+/* <!-- Pace style 进度条--> */
 @import url("/plugins/pace/pace.min.css");
 
 /**************************************  列表页面需要引入的公共CSS文件 **************************************/

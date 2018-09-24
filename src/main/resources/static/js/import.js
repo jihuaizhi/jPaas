@@ -48,7 +48,7 @@ document.write("<script src='/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.a
 document.write("<script src='/plugins/dhtmlxTree_v51_std/codebase/dhtmlxtree.js'></script>");
 
 
-// <!-- PACE -->
+// <!-- PACE 进度条-->
 document.write("<script src='/plugins/pace/pace.min.js'></script>");
 
 // **************************************列表页公共js文件********************************************

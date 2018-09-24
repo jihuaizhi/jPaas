@@ -6,19 +6,13 @@ import javax.persistence.Entity;
 import com.jhz.jPaas.common.base.BaseEntity;
 
 /**
- * 用户角色关联表Entity
+ * 角色账号关联表Entity
  * 
  * @author jihuaizhi
- * @since 2018-09-12
+ * @since 2018-09-24
  */
-@Entity(name = "auth_user_role")
-public class UserRoleEntity extends BaseEntity {
-
-	/**
-	 * 用户uuid
-	 */
-	@Column(nullable = false)
-	private String userUuid;
+@Entity(name = "auth_role_account")
+public class RoleAccountEntity extends BaseEntity {
 
 	/**
 	 * 角色uuid
@@ -26,13 +20,11 @@ public class UserRoleEntity extends BaseEntity {
 	@Column(nullable = false)
 	private String roleUuid;
 
-	public String getUserUuid() {
-		return userUuid;
-	}
-
-	public void setUserUuid(String userUuid) {
-		this.userUuid = userUuid;
-	}
+	/**
+	 * 账号uuid
+	 */
+	@Column(nullable = false)
+	private String accountUuid;
 
 	public String getRoleUuid() {
 		return roleUuid;
@@ -40,6 +32,14 @@ public class UserRoleEntity extends BaseEntity {
 
 	public void setRoleUuid(String roleUuid) {
 		this.roleUuid = roleUuid;
+	}
+
+	public String getAccountUuid() {
+		return accountUuid;
+	}
+
+	public void setAccountUuid(String accountUuid) {
+		this.accountUuid = accountUuid;
 	}
 
 }

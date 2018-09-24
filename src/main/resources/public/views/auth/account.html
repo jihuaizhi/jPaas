@@ -82,6 +82,17 @@
                 </div>
                 <div class="col-md-12">
                   <div class="form-group">
+                    <label class="control-label required">所属角色</label>
+                    <select id="roleUuid" name="roleUuid" class="form-control select2" multiple="multiple" data-placeholder="请选择帐号所属角色"
+                      style="width: 100%;">
+                      <option>Alabama</option>
+                      <option>Alaska</option>
+                      <option>California</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
                     <label class="control-label">密码</label>
                     <input id="password1" name="password1" type="password" maxlength="18" class="form-control" placeholder="格式：只能输入6-18之间的字母、数字、下划线">
                   </div>
@@ -92,6 +103,7 @@
                     <input id="password2" name="password2" type="password" maxlength="18" class="form-control" placeholder="请再次输入密码">
                   </div>
                 </div>
+
                 <div class="col-md-12">
                   <div class="form-group">
                     <label class="control-label">账号状态</label>
@@ -165,6 +177,16 @@
 
   <!-- 引入公共js文件 -->
   <script src="/js/import.js"></script>
+  <script type="text/javascript">
+            // icheckbox初始化
+            $('input').iCheck({
+                checkboxClass : 'icheckbox_square-blue',
+                radioClass : 'iradio_square-blue',
+                increaseArea : '20%'
+            });
+            $('.select2').select2();
+        </script>
   <script src="account.js"></script>
+
 </body>
 </html>

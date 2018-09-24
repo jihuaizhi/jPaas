@@ -84,6 +84,7 @@ function initDataTable() {
                 $("#data_table").DataTable({
                     paging : false,
                     data : data.objList,
+                    rowId : 'uuid', // 设置主键字段名
                     columns : columnsConfig,
                 });
             }

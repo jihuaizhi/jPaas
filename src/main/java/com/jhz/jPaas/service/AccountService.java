@@ -1,15 +1,20 @@
 package com.jhz.jPaas.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jhz.jPaas.common.base.BaseService;
 import com.jhz.jPaas.entity.AccountEntity;
+import com.jhz.jPaas.entity.RoleAccountEntity;
 import com.jhz.jPaas.repository.AccountRepository;
+import com.jhz.jPaas.repository.RoleAccountRepository;
 
 /**
  * 账户管理service
@@ -27,13 +32,17 @@ public class AccountService extends BaseService {
 	@Autowired
 	private AccountRepository repository;
 
+	@Autowired
+	private RoleAccountRepository roleAccountRepository;
+
 	/**
 	 * 查询帐号列表
 	 * 
 	 * @return
 	 */
 	public List<AccountEntity> getAccountList() throws Exception {
-		List<AccountEntity> entityList = repository.findAll();
+		Sort sort = new Sort(Sort.Direction.ASC, "createdAt");
+		List<AccountEntity> entityList = repository.findAll(sort);
 		return entityList;
 
 	}
@@ -41,10 +50,22 @@ public class AccountService extends BaseService {
 	/**
 	 * 新增/更新账号
 	 * 
+	 * @param roleUuid
+	 * 
 	 * @param accountEntity
 	 */
-	public void save(AccountEntity entity) throws Exception {
+	public void save(AccountEntity entity, String[] roleUuid) throws Exception {
 		repository.save(entity);
+		roleAccountRepository.deleteByRoleUuid();
+		for (int i = 0; i < roleUuid.length; i++) {
+			RoleAccountEntity rAccountEntity = new RoleAccountEntity();
+			rAccountEntity.setUuid(UUID.randomUUID().toString());
+			rAccountEntity.setRoleUuid(roleUuid[i]);
+			rAccountEntity.setAccountUuid(entity.getUuid());
+			rAccountEntity.setCreatedBy("1234567890");
+			rAccountEntity.setCreatedAt(new Date());
+			roleAccountRepository.save(rAccountEntity);
+		}
 	}
 
 	/**

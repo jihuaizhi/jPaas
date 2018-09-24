@@ -3,7 +3,7 @@ $(function() {
     // 加载菜单
 // loadMenu();
 // loadCurrentUser();
- $('iframe#content_iframe').attr('src', "/views/auth/role.html");
+ $('iframe#content_iframe').attr('src', "/views/auth/account.html");
 
 	
 	$('body').layout('fix');

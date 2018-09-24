@@ -64,7 +64,7 @@ public class TemplateController extends BaseController {
 		accountEntity.setDataState(paraMap.get("dataState").toString());
 		accountEntity.setCreatedBy("1234567890");
 		accountEntity.setCreatedAt(new Date());
-		accountService.save(accountEntity);
+		// accountService.save(accountEntity);
 		return returnModel;
 	}
 
@@ -87,7 +87,7 @@ public class TemplateController extends BaseController {
 		accountEntity.setDataState(paraMap.get("dataState").toString());
 		accountEntity.setUpdatedBy("updaeby");
 		accountEntity.setUpdatedAt(new Date());
-		accountService.save(accountEntity);
+		// accountService.save(accountEntity);
 		return returnModel;
 	}
 

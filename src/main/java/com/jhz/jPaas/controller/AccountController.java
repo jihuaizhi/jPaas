@@ -56,11 +56,13 @@ public class AccountController extends BaseController {
 		accountEntity.setUuid(UUID.randomUUID().toString());
 		accountEntity.setAccountCode(paraMap.get("accountCode").toString());
 		accountEntity.setAccountName(paraMap.get("accountName").toString());
+		// TODO 数据不规范的情况需要控制器处理完成再提交Service'
+		String[] roleUuid = paraMap.get("roleUuid").toString().split(",");
 		accountEntity.setPassword(paraMap.get("password1").toString());
 		accountEntity.setDataState(paraMap.get("dataState").toString());
 		accountEntity.setCreatedBy("1234567890");
 		accountEntity.setCreatedAt(new Date());
-		accountService.save(accountEntity);
+		accountService.save(accountEntity, roleUuid);
 		return returnModel;
 	}
 
@@ -75,6 +77,8 @@ public class AccountController extends BaseController {
 		String uuid = paraMap.get("uuid").toString();
 		AccountEntity accountEntity = accountService.getById(uuid);
 		accountEntity.setAccountName(paraMap.get("accountName").toString());
+		// TODO 数据不规范的情况需要控制器处理完成再提交Service'
+		String[] roleUuid = paraMap.get("roleUuid").toString().split(",");
 		String password = paraMap.get("password1").toString();
 		// 更新的时候如果没有输入密码，则不更新密码
 		if (!StringUtils.isEmpty(password)) {
@@ -83,7 +87,7 @@ public class AccountController extends BaseController {
 		accountEntity.setDataState(paraMap.get("dataState").toString());
 		accountEntity.setUpdatedBy("updaeby");
 		accountEntity.setUpdatedAt(new Date());
-		accountService.save(accountEntity);
+		accountService.save(accountEntity, roleUuid);
 		return returnModel;
 	}
 

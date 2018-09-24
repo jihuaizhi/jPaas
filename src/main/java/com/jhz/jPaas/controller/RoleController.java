@@ -97,7 +97,9 @@ public class RoleController extends BaseController {
 		entity.setRoleDescription(paraMap.get("roleDescription").toString());
 		entity.setCreatedBy("1234567890");
 		entity.setCreatedAt(new Date());
+		// TODO 数据不规范的情况需要控制器处理完成再提交Service'
 		String[] menuUuid = paraMap.get("checkedMenuUuid").toString().split(",");
+		// TODO 数据不规范的情况需要控制器处理完成再提交Service'
 		String[] permissionUuid = paraMap.get("selectedPermissionUuid").toString().split(",");
 		roleService.insert(entity, menuUuid, permissionUuid);
 		return returnModel;
