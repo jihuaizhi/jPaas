@@ -42,7 +42,8 @@ public class RoleController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/getList")
 	public ReturnModel getList() throws Exception {
-		returnModel.put("objList", roleService.getList());
+		List<RoleEntity> entityList = roleService.getList();
+		returnModel.put("objList", entityList);
 		return returnModel;
 	}
 
@@ -97,10 +98,12 @@ public class RoleController extends BaseController {
 		entity.setRoleDescription(paraMap.get("roleDescription").toString());
 		entity.setCreatedBy("1234567890");
 		entity.setCreatedAt(new Date());
-		// TODO 数据不规范的情况需要控制器处理完成再提交Service'
-		String[] menuUuid = paraMap.get("checkedMenuUuid").toString().split(",");
-		// TODO 数据不规范的情况需要控制器处理完成再提交Service'
-		String[] permissionUuid = paraMap.get("selectedPermissionUuid").toString().split(",");
+		String menuUuids = paraMap.get("checkedMenuUuid").toString();
+		// 解决空字符串split之后变成包含一个空字符串元素的数组的问题
+		String[] menuUuid = menuUuids.isEmpty() ? new String[0] : menuUuids.split(",");
+		String permissionUuids = paraMap.get("selectedPermissionUuid").toString();
+		// 解决空字符串split之后变成包含一个空字符串元素的数组的问题
+		String[] permissionUuid = permissionUuids.isEmpty() ? new String[0] : permissionUuids.split(",");
 		roleService.insert(entity, menuUuid, permissionUuid);
 		return returnModel;
 	}

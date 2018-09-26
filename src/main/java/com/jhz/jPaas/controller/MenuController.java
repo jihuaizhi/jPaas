@@ -40,7 +40,8 @@ public class MenuController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/getMenuList")
 	public ReturnModel getMenuList() throws Exception {
-		returnModel.put("objList", menuService.getMenuList());
+		List<MenuEntity> entityList = menuService.getMenuList();
+		returnModel.put("objList", entityList);
 		return returnModel;
 	}
 

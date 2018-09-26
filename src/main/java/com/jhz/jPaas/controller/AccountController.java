@@ -56,8 +56,9 @@ public class AccountController extends BaseController {
 		accountEntity.setUuid(UUID.randomUUID().toString());
 		accountEntity.setAccountCode(paraMap.get("accountCode").toString());
 		accountEntity.setAccountName(paraMap.get("accountName").toString());
-		// TODO 数据不规范的情况需要控制器处理完成再提交Service'
-		String[] roleUuid = paraMap.get("roleUuid").toString().split(",");
+		String roleUuids = paraMap.get("roleUuid").toString();
+		//解决空字符串split之后变成包含一个空字符串元素的数组的问题
+		String[] roleUuid = roleUuids.isEmpty() ? new String[0] : roleUuids.split(",");
 		accountEntity.setPassword(paraMap.get("password1").toString());
 		accountEntity.setDataState(paraMap.get("dataState").toString());
 		accountEntity.setCreatedBy("1234567890");
@@ -77,8 +78,9 @@ public class AccountController extends BaseController {
 		String uuid = paraMap.get("uuid").toString();
 		AccountEntity accountEntity = accountService.getById(uuid);
 		accountEntity.setAccountName(paraMap.get("accountName").toString());
-		// TODO 数据不规范的情况需要控制器处理完成再提交Service'
-		String[] roleUuid = paraMap.get("roleUuid").toString().split(",");
+		String roleUuids = paraMap.get("roleUuid").toString();
+		//解决空字符串split之后变成包含一个空字符串元素的数组的问题
+		String[] roleUuid = roleUuids.isEmpty() ? new String[0] : roleUuids.split(",");
 		String password = paraMap.get("password1").toString();
 		// 更新的时候如果没有输入密码，则不更新密码
 		if (!StringUtils.isEmpty(password)) {

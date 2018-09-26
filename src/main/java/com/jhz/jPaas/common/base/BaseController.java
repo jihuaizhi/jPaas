@@ -29,6 +29,8 @@ import com.jhz.jPaas.common.exception.LicenseException;
 /**
  * Controller父类 注入日志处理类 logger 注入请求返回值封装类ModelResult 统一异常处理
  * 
+ * TODO springboot异常处理机制需要梳理 https://www.cnblogs.com/shyroke/p/8023625.html
+ * 
  * @author jihuaizhi
  * @since 2018-09-12
  */

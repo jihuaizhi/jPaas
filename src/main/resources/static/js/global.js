@@ -5,8 +5,8 @@
  * 页面初始化块
  */
 $(function() {
-    // 所有模态框可拖拽移动
-    // $('.modal-dialog').draggable();
+	// 所有模态框可拖拽移动
+	// $('.modal-dialog').draggable();
 });
 
 
@@ -19,26 +19,26 @@ $(function() {
  * @returns
  */
 function showForm(title, content) {
-    var index = layer.open({
-        type : 1,
-        skin : 'layui-layer-lan',
-        area : '80%',
-        offset : '10px',
-        shade : 0.3,
-        scrollbar : false,
-        anim : 2,
-        title : title,
-        content : content,
-        success : function(layero, index) {
-            $(document).on('keydown', function(e) {
-                if (e.keyCode == 27) {
-                    // 按下ESC键,直接关闭窗口
-                    layer.close(index)
-                }
-            })
-        }
-    });
-    return index;
+	var index = layer.open({
+		type : 1,
+		skin : 'layui-layer-lan',
+		area : '80%',
+		offset : '10px',
+		shade : 0.3,
+		scrollbar : false,
+		anim : 2,
+		title : title,
+		content : content,
+		success : function(layero, index) {
+			$(document).on('keydown', function(e) {
+				if (e.keyCode == 27) {
+					// 按下ESC键,直接关闭窗口
+					layer.close(index)
+				}
+			})
+		}
+	});
+	return index;
 };
 
 /**
@@ -51,18 +51,17 @@ function showForm(title, content) {
  * @author jihuaizhi 2017/6/23
  */
 function showConfirm(msg, callback, data) {
-    layer.confirm(msg, {
-        title : "确认信息",
-        offset : '30px',
-        btn : [
-                '确定',
-                '取消'
-        ]
-    }, function() {
-        layer.closeAll('dialog');
-        callback(data);
-    }, function() {
-    });
+	layer.confirm(msg, {
+		title : "确认信息",
+		offset : '30px',
+		btn : [
+				'确定', '取消'
+		]
+	}, function() {
+		layer.closeAll('dialog');
+		callback(data);
+	}, function() {
+	});
 }
 
 // /**
@@ -103,30 +102,29 @@ function showConfirm(msg, callback, data) {
  * @returns
  */
 $(function() {
-    $.ajaxSetup({
-        aysnc : true,
-        timeout : 100000,
-        type : 'Post',
-        contentType : "application/json;charset=utf-8",
-        dataType : 'json',
-        error : function(jqXHR) {
-            console.log(jqXHR);
-            // 统一跳转至错误信息页面，也可以根据不同错误码分别处理
-            switch (jqXHR.status) {
-            case (404):
-                sessionStorage.setItem("errMessage", "ERR-404：访问的资源不存在！" + jqXHR.message);
-                window.location.href = '/views/error/404.html';
-                break;
-            case (500):
-                sessionStorage.setItem("errMessage", "ERR-500：服务器系统内部错误！" + jqXHR.message);
-                window.location.href = '/views/error/500.html';
-                break;
-            default:
-                sessionStorage.setItem("errMessage", "ERR-？？？：AJAX请求异常，未知错误！" + jqXHR.message);
-                top.location.href = '/views/error/defaultException.html';
-            }
-        }
-    });
+	$.ajaxSetup({
+		aysnc : true,
+		timeout : 100000,
+		type : 'Post',
+		contentType : "application/json;charset=utf-8",
+		dataType : 'json',
+		error : function(jqXHR) {
+			// 统一跳转至错误信息页面，也可以根据不同错误码分别处理
+			switch (jqXHR.status) {
+			case (404):
+				sessionStorage.setItem("errMessage", "ERR-404：访问的资源不存在！" + jqXHR.message);
+				window.location.href = '/views/error/404.html';
+				break;
+			case (500):
+				sessionStorage.setItem("errMessage", "ERR-500：服务器系统内部错误！" + jqXHR.message);
+				window.location.href = '/views/error/500.html';
+				break;
+			default:
+				sessionStorage.setItem("errMessage", "ERR-？？？：AJAX请求异常，未知错误！" + jqXHR.message);
+				top.location.href = '/views/error/defaultException.html';
+			}
+		}
+	});
 });
 
 
@@ -137,139 +135,143 @@ $(function() {
 var ajax = $.ajax;
 // 修改ajax方法的默认实现
 $.ajax = function(opt) {
-    var success = opt.success;
-    // 对用户配置的success方法进行代理
-    function ns(data) {
-        for (var i = 0; i < data.errList.length; i++) {
-            var eCode = data.errList[i].errCode;
-            var eMessage = data.errList[i].errMessage;
-            switch (eCode) {
-            case ("FTL_001"):// 软件授权异常,跳转至错误信息页面
-                sessionStorage.setItem("errorMessage", "FATAL_001" + eMessage);
-                top.location.href = '/views/error/defaultException.html';
-                return;
-            case ("FTL_002"):// 身份认证异常，强制提示信息，跳转至登录页面
-                layer.confirm(eMessage, {
-                    title : "致命错误",
-                    offset : '30px',
-                    area : [
-                            '300px',
-                            '200px'
-                    ],
-                    btn : [ '确定'
-                    ]
-                }, function() {
-                    top.location.href = '/login.html';
-                });
-                return;
-            case ("FTL_999"):// 其它未知异常
-                layer.confirm(eMessage, {
-                    title : "未知错误",
-                    offset : '30px',
-                    area : [
-                            '300px',
-                            '200px'
-                    ],
-                    btn : [ '确定'
-                    ]
-                });
-                return;
-            }
-        }
-        if (data.errList.length > 0) {
-            layer.error(getErrString(data.errList));
-        }
-        return success.apply(this, arguments);
-    }
-    // 代理嵌入调用
-    opt.success = ns;
-    return ajax(opt);
+	var success = opt.success;
+	// 对用户配置的success方法进行代理
+	function ns(data) {
+		for (var i = 0; i < data.errList.length; i++) {
+			var eCode = data.errList[i].errCode;
+			var eMessage = data.errList[i].errMessage;
+			switch (eCode) {
+			case ("FTL_001"):// 软件授权异常,跳转至错误信息页面
+				sessionStorage.setItem("errorMessage", "FATAL_001" + eMessage);
+				top.location.href = '/views/error/defaultException.html';
+				return;
+			case ("FTL_002"):// 身份认证异常，强制提示信息，跳转至登录页面
+				layer.confirm(eMessage, {
+					title : "致命错误",
+					offset : '30px',
+					area : [
+							'300px', '200px'
+					],
+					btn : [
+						'确定'
+					]
+				}, function() {
+					top.location.href = '/login.html';
+				});
+				return;
+			case ("FTL_999"):// 其它未知异常
+				layer.confirm(eMessage, {
+					title : "未知错误",
+					offset : '30px',
+					area : [
+							'300px', '200px'
+					],
+					btn : [
+						'确定'
+					]
+				});
+				return;
+			}
+		}
+		if (data.errList.length > 0) {
+			layer.error(getErrString(data.errList));
+		}
+		return success.apply(this, arguments);
+	}
+	// 代理嵌入调用
+	opt.success = ns;
+	return ajax(opt);
 }
 
 /**
  * 将表单数据序列化为JSON字符串，便于作为参数提交Ajax请求
  */
 $.fn.formToJsonString = function() {
-    var o = {};
-    var a = this.serializeArray();
-    $.each(a, function() {
-        if (o[this.name] !== undefined) {
-            if (!o[this.name].push) {
-                o[this.name] = [ o[this.name]
-                ];
-            }
-            o[this.name].push(this.value || '');
-        } else {
-            o[this.name] = this.value || '';
-        }
-    });
-    // 当未选择radio或checkbox的时候,拼name部分进返回的字符串
-    var $radio = $('input[type=radio],input[type=checkbox]', this);
-    $.each($radio, function() {
-        if (!o.hasOwnProperty(this.name)) {
-            o[this.name] = '';
-        }
-    });
-    return JSON.stringify(o);
+	var o = {};
+	var a = this.serializeArray();
+	$.each(a, function() {
+		if (o[this.name] !== undefined) {
+			if (!o[this.name].push) {
+				o[this.name] = [
+					o[this.name]
+				];
+			}
+			o[this.name].push(this.value || '');
+		} else {
+			o[this.name] = this.value || '';
+		}
+	});
+	// 当未选择radio或checkbox的时候,拼name部分进返回的字符串
+	var $radio = $('input[type=radio],input[type=checkbox]', this);
+	$.each($radio, function() {
+		if (!o.hasOwnProperty(this.name)) {
+			o[this.name] = '';
+		}
+	});
+	return JSON.stringify(o);
 };
 
 
 /**
  * datatable组件的本地化语言设置常量
  */
-var TABLE_LANGUAGE = { language : {
-    sProcessing : "处理中...",
-    sLengthMenu : "显示 _MENU_ 项结果",
-    sZeroRecords : "没有匹配结果",
-    sInfo : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
-    sInfoEmpty : "显示第 0 至 0 项结果，共 0 项",
-    sInfoFiltered : "(由 _MAX_ 项结果过滤)",
-    sInfoPostFix : "",
-    sSearch : "搜索:",
-    sUrl : "",
-    sEmptyTable : "无 数 据",
-    sLoadingRecords : "载入中...",
-    sInfoThousands : ",",
-    oPaginate : {
-        sFirst : "首页",
-        sPrevious : "上页",
-        sNext : "下页",
-        sLast : "末页"
-    },
-    "oAria" : {
-        "sSortAscending" : ": 以升序排列此列",
-        "sSortDescending" : ": 以降序排列此列"
-    },
-    select : { rows : "%d 行 被选中"
-    }
-}
+var TABLE_LANGUAGE = {
+	language : {
+		sProcessing : "处理中...",
+		sLengthMenu : "显示 _MENU_ 项结果",
+		sZeroRecords : "没有匹配结果",
+		sInfo : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+		sInfoEmpty : "显示第 0 至 0 项结果，共 0 项",
+		sInfoFiltered : "(由 _MAX_ 项结果过滤)",
+		sInfoPostFix : "",
+		sSearch : "搜索:",
+		sUrl : "",
+		sEmptyTable : "无 数 据",
+		sLoadingRecords : "载入中...",
+		sInfoThousands : ",",
+		oPaginate : {
+			sFirst : "首页",
+			sPrevious : "上页",
+			sNext : "下页",
+			sLast : "末页"
+		},
+		"oAria" : {
+			"sSortAscending" : ": 以升序排列此列",
+			"sSortDescending" : ": 以降序排列此列"
+		},
+		select : {
+			rows : "%d 行 被选中"
+		}
+	}
 };
 
 /**
  * 表格控件全局配置
  */
 $.extend($.fn.dataTable.defaults, TABLE_LANGUAGE, {
-    // 表格排序
-    ordering : true,
-    // 显示每页数量的选项
-    bLengthChange : false,
-    // 分页按钮
-    pagingType : "simple_numbers",
-    // 页脚信息
-    info : false,
-    // 表格可被销毁重建
-    destroy : true,
-    // 自动调整列宽
-    autoWidth : false,
-    // 取消默认排序查询,否则复选框一列会出现小箭头
-    order : [],
-    // 原生搜索
-    searching : false,
-    // 是否显示分页信息
-    paging : true,
-    // 行选择器：单选
-    select : { style : 'single'
-    }
+	// 表格排序
+	ordering : true,
+	// 显示每页数量的选项
+	bLengthChange : false,
+	// 分页按钮
+	pagingType : "simple_numbers",
+	// 页脚信息
+	info : false,
+	// 表格可被销毁重建
+	destroy : true,
+	// 自动调整列宽
+	autoWidth : false,
+	// 取消默认排序查询,否则复选框一列会出现小箭头
+	order : [],
+	// 原生搜索
+	searching : false,
+	// 是否显示分页信息
+	paging : true,
+	// 行选择器：单选
+	select : {
+		style : 'single'
+	}
 });
 
 
@@ -284,12 +286,12 @@ $.extend($.fn.dataTable.defaults, TABLE_LANGUAGE, {
  * @returns
  */
 function getTreeJsonObj(arrayData, pidVal, pid, id, text) {
-    var tmp = getTreeJson(arrayData, pidVal, pid, id, text);
-    var menuObj = {
-        "id" : "",
-        "item" : tmp
-    };
-    return menuObj;
+	var tmp = getTreeJson(arrayData, pidVal, pid, id, text);
+	var menuObj = {
+		"id" : "",
+		"item" : tmp
+	};
+	return menuObj;
 }
 
 /**
@@ -304,28 +306,29 @@ function getTreeJsonObj(arrayData, pidVal, pid, id, text) {
  * @returns
  */
 function getTreeJson(arrayData, pidVal, pid, id, text) {
-    var result = [], temp;
-    for (var i = 0; i < arrayData.length; i++) {
-        if (eval("arrayData[i]." + pid) == pidVal) {
-            // 树节点上的自定义属性
-            var userdata = [ {
-                "name" : pid,
-                "content" : eval("arrayData[i]." + pid)
-            }
-            ];
-            var obj = {
-                "id" : eval("arrayData[i]." + id),
-                "text" : eval("arrayData[i]." + text),
-                "userdata" : userdata
-            };
-            temp = getTreeJson(arrayData, eval("arrayData[i]." + id), pid, id, text);
-            if (temp.length > 0) {
-                obj.item = temp;
-            }
-            result.push(obj);
-        }
-    }
-    return result;
+	var result = [], temp;
+	for (var i = 0; i < arrayData.length; i++) {
+		if (eval("arrayData[i]." + pid) == pidVal) {
+			// 树节点上的自定义属性
+			var userdata = [
+				{
+					"name" : pid,
+					"content" : eval("arrayData[i]." + pid)
+				}
+			];
+			var obj = {
+				"id" : eval("arrayData[i]." + id),
+				"text" : eval("arrayData[i]." + text),
+				"userdata" : userdata
+			};
+			temp = getTreeJson(arrayData, eval("arrayData[i]." + id), pid, id, text);
+			if (temp.length > 0) {
+				obj.item = temp;
+			}
+			result.push(obj);
+		}
+	}
+	return result;
 }
 
 
@@ -340,23 +343,23 @@ function getTreeJson(arrayData, pidVal, pid, id, text) {
  * @returns
  */
 function getTreeObject(divId, jsonObj, isDrop, isCheck, isSmart) {
-    var treeObject = new dhtmlXTreeObject(divId, "100%", "100%", "");
-    treeObject.setImagePath("/plugins/dhtmlxTree_v51_std/skins/skyblue/imgs/dhxtree_skyblue/");
-    treeObject.setSkin('dhx_skyblue');
-    treeObject.enableHighlighting(true);
-    if (isDrop) {
-        treeObject.setDragBehavior("complex", true);
-        treeObject.enableDragAndDrop(true, true);
-    }
-    if (isCheck) {
-        treeObject.enableCheckBoxes(true, true);
-    }
-    if (isSmart) {
-        treeObject.enableThreeStateCheckboxes(true);
-        treeObject.enableSmartCheckboxes(true);
-    }
-    treeObject.parse(jsonObj, "json");
-    return treeObject;
+	var treeObject = new dhtmlXTreeObject(divId, "100%", "100%", "");
+	treeObject.setImagePath("/plugins/dhtmlxTree_v51_std/skins/skyblue/imgs/dhxtree_skyblue/");
+	treeObject.setSkin('dhx_skyblue');
+	treeObject.enableHighlighting(true);
+	if (isDrop) {
+		treeObject.setDragBehavior("complex", true);
+		treeObject.enableDragAndDrop(true, true);
+	}
+	if (isCheck) {
+		treeObject.enableCheckBoxes(true, true);
+	}
+	if (isSmart) {
+		treeObject.enableThreeStateCheckboxes(true);
+		treeObject.enableSmartCheckboxes(true);
+	}
+	treeObject.parse(jsonObj, "json");
+	return treeObject;
 }
 
 
@@ -370,14 +373,14 @@ function getTreeObject(divId, jsonObj, isDrop, isCheck, isSmart) {
  */
 
 function getSelect2Array(arrayData, id, text) {
-    var result = new Array();
-    for (var i = 0; i < arrayData.length; i++) {
-        var opt = {};
-        opt.id = eval("arrayData[i]." + id);
-        opt.text = eval("arrayData[i]." + text);
-        result.push(opt);
-    }
-    return result;
+	var result = new Array();
+	for (var i = 0; i < arrayData.length; i++) {
+		var opt = {};
+		opt.id = eval("arrayData[i]." + id);
+		opt.text = eval("arrayData[i]." + text);
+		result.push(opt);
+	}
+	return result;
 }
 
 
@@ -388,9 +391,9 @@ function getSelect2Array(arrayData, id, text) {
  * @returns
  */
 function getErrString(errList) {
-    var str = "";
-    for (var i = 0; i < errList.length; i++) {
-        str += errList[i].errCode + " : " + errList[i].errMessage + " <br>";
-    }
-    return str;
+	var str = "";
+	for (var i = 0; i < errList.length; i++) {
+		str += errList[i].errCode + " : " + errList[i].errMessage + " <br>";
+	}
+	return str;
 }

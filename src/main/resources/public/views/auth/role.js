@@ -66,6 +66,7 @@ var colConfigPermission = [
 // 页面初始化块
 $(function() {
     initDataTable();
+    initMenuTree(null);
 });
 
 
@@ -78,6 +79,7 @@ function initDataTable() {
     $.ajax({
         url : "/role/getList",
         success : function(data) {
+        	console.log(data);
             if (data.success == true) {
                 $("#data_table").DataTable({
                     data : data.objList,

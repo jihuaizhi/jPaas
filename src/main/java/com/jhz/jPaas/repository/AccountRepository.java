@@ -21,4 +21,6 @@ public interface AccountRepository extends JpaRepository<AccountEntity, String> 
 	@Query(value = "update auth_account set password = ?2 where uuid=?1", nativeQuery = true)
 	void resetPwd(String uuid, String password) throws Exception;
 
+	AccountEntity findByAccountName(String username);
+
 }

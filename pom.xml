@@ -9,8 +9,8 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>demoName</name>
-	<description>Demo project for Spring Boot</description>
+	<name>jPaas</name>
+	<description>快速开发平台</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>

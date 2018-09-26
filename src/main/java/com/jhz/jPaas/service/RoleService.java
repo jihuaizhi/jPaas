@@ -66,27 +66,23 @@ public class RoleService extends BaseService {
 		repository.save(entity);
 		roleMenuRepository.deleteByRoleUuid(entity.getUuid());
 		for (int i = 0; i < menuUuid.length; i++) {
-			if (!menuUuid[i].isEmpty()) {
-				RoleMenuEntity roleMenuEntity = new RoleMenuEntity();
-				roleMenuEntity.setUuid(UUID.randomUUID().toString());
-				roleMenuEntity.setRoleUuid(entity.getUuid());
-				roleMenuEntity.setMenuUuid(menuUuid[i]);
-				roleMenuEntity.setCreatedAt(new Date());
-				roleMenuEntity.setCreatedBy("");
-				roleMenuRepository.save(roleMenuEntity);
-			}
+			RoleMenuEntity roleMenuEntity = new RoleMenuEntity();
+			roleMenuEntity.setUuid(UUID.randomUUID().toString());
+			roleMenuEntity.setRoleUuid(entity.getUuid());
+			roleMenuEntity.setMenuUuid(menuUuid[i]);
+			roleMenuEntity.setCreatedAt(new Date());
+			roleMenuEntity.setCreatedBy("");
+			roleMenuRepository.save(roleMenuEntity);
 		}
 		rolePermissionRepository.deleteByRoleUuid(entity.getUuid());
 		for (int i = 0; i < permissionUuid.length; i++) {
-			if (!permissionUuid[i].isEmpty()) {
-				RolePermissionEntity rolePermisiionEntity = new RolePermissionEntity();
-				rolePermisiionEntity.setUuid(UUID.randomUUID().toString());
-				rolePermisiionEntity.setRoleUuid(entity.getUuid());
-				rolePermisiionEntity.setPermissionUuid(permissionUuid[i]);
-				rolePermisiionEntity.setCreatedAt(new Date());
-				rolePermisiionEntity.setCreatedBy("");
-				rolePermissionRepository.save(rolePermisiionEntity);
-			}
+			RolePermissionEntity rolePermisiionEntity = new RolePermissionEntity();
+			rolePermisiionEntity.setUuid(UUID.randomUUID().toString());
+			rolePermisiionEntity.setRoleUuid(entity.getUuid());
+			rolePermisiionEntity.setPermissionUuid(permissionUuid[i]);
+			rolePermisiionEntity.setCreatedAt(new Date());
+			rolePermisiionEntity.setCreatedBy("");
+			rolePermissionRepository.save(rolePermisiionEntity);
 		}
 	}
 

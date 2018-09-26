@@ -14,4 +14,6 @@ import com.jhz.jPaas.entity.RoleAccountEntity;
 @Repository
 public interface RoleAccountRepository extends JpaRepository<RoleAccountEntity, String> {
 
+	void deleteByRoleUuid(String roleUuid);
+
 }
