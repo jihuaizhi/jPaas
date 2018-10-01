@@ -3,6 +3,8 @@ package com.jhz.jPaas.config;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.servlet.Filter;
+
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.SecurityManager;
@@ -13,6 +15,9 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import com.jhz.jPaas.common.filter.ShiroAuthcFilter;
+import com.jhz.jPaas.common.filter.ShiroPermsFilter;
 
 /**
  * shiro配置类
@@ -48,6 +53,13 @@ public class ShiroConfig {
 		shiroFilterFactoryBean.setLoginUrl("login.html");
 		// 设置无权限时跳转的 url;
 		shiroFilterFactoryBean.setUnauthorizedUrl("/views/error/notRole.html");
+
+		// 自定义过滤器
+		Map<String, Filter> filterMap = shiroFilterFactoryBean.getFilters();
+		filterMap.put("authc", new ShiroAuthcFilter());
+		shiroFilterFactoryBean.setFilters(filterMap);
+		filterMap.put("authc", new ShiroPermsFilter());
+		shiroFilterFactoryBean.setFilters(filterMap);
 
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		return shiroFilterFactoryBean;

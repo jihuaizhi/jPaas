@@ -59,7 +59,6 @@ function initDataTable() {
 		url : "/account/getAccountList",
 		success : function(data) {
 			if (data.success == true) {
-				console.log(data);
 				$("#data_table").DataTable({
 					data : data.objList,
 					rowId : 'uuid', // 设置主键字段名

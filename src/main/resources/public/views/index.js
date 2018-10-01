@@ -59,7 +59,6 @@ function loadCurrentUser() {
     $.ajax(
         { url : "/getloginUser",
         success : function(data) {
-        	console.log(data);
             if (data.success == true) {
                 $("#userName").html(data.account.accountName);
                 var df = data.account.dataState;
