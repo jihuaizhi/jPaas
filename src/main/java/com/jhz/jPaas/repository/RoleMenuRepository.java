@@ -16,8 +16,8 @@ import com.jhz.jPaas.entity.RoleMenuEntity;
 @Repository
 public interface RoleMenuRepository extends JpaRepository<RoleMenuEntity, String> {
 
-	void deleteByRoleUuid(String roleUuid) throws Exception;
+	void deleteByRoleUuid(String roleUuid);
 
-	List<RoleMenuEntity> findByRoleUuid(String uuid) throws Exception;
+	List<RoleMenuEntity> findByRoleUuid(String uuid);
 
 }

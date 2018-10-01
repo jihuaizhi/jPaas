@@ -12,13 +12,13 @@ import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
 /**
- * springMVC配置类
+ * springMVC配置类 TODO 尚未启用
  * 
  * @author jihuaizhi
  * @since 2018-09-16
  */
 // @Configuration
-public class SpringMvcConfigure implements WebMvcConfigurer {
+public class SpringMVCConfiguration implements WebMvcConfigurer {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {

@@ -39,9 +39,9 @@ document.write("<script src='/plugins/timepicker/bootstrap-timepicker.min.js'></
 
 
 // <!-- CK Editor 富文本编辑器-->
-document.write("<script src='/plugins/ckeditor/ckeditor.js'></script>");
+//document.write("<script src='/plugins/ckeditor/ckeditor.js'></script>");
 // Bootstrap WYSIHTML5 富文本编辑器
-document.write("<script src='/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js'></script>");
+//document.write("<script src='/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js'></script>");
 
 
 /*  dhtmlx Tree 树形控件js  */

@@ -19,7 +19,7 @@ public interface AccountRepository extends JpaRepository<AccountEntity, String> 
 	// TODO 建议使用HQL写法编写SQL
 	@Modifying
 	@Query(value = "update auth_account set password = ?2 where uuid=?1", nativeQuery = true)
-	void resetPwd(String uuid, String password) throws Exception;
+	void resetPwd(String uuid, String password);
 
 	AccountEntity findByAccountCode(String accountCode);
 

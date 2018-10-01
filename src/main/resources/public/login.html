@@ -7,15 +7,9 @@
 <!-- Tell the browser to be responsive to screen width -->
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
-<link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
-<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
 
 <!-- Bootstrap 3.3.7 -->
 <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.min.css">
-<!-- Font Awesome -->
-<link rel="stylesheet" href="/plugins/icon/font-awesome/css/font-awesome.min.css">
-<!-- Ionicons -->
-<link rel="stylesheet" href="/plugins/icon/Ionicons/css/ionicons.min.css">
 <!-- Theme style -->
 <link rel="stylesheet" href="/plugins/AdminLTE/css/AdminLTE.min.css">
 <!-- iCheck -->
@@ -29,6 +23,12 @@
     <script src="/plugins/compatibility/html5shiv.min.js"></script>
     <script src="/plugins/compatibility/respond.min.js"></script>
   <![endif]-->
+<style>
+/* 禁止页面滚动条 */
+body {
+  overflow: scroll; overflow-y: hidden;
+}
+</style>
 
 </head>
 <body class="hold-transition login-page">
@@ -51,10 +51,11 @@
         </div>
         <div class="row">
           <div class="col-xs-8">
-            <div class="checkbox icheck">
+            <div class="checkbox">
               <label> <input type="checkbox"> 记住我
               </label>
             </div>
+
           </div>
           <!-- /.col -->
           <div class="col-xs-4">
@@ -65,16 +66,17 @@
       </form>
       <!-- /.social-auth-links -->
 
-      <a href="#">忘记密码</a>
+      <a id="test" href="#">忘记密码(测试未登录的情况下进行ajax请求)</a>
       <br>
-      <a href="/views/auth/register.html" class="text-center">注册帐号</a>
+      <a href="/views/auth/register.html" class="text-center">注册帐号(测试未登录的情况下进行http请求)</a>
 
     </div>
     <!-- /.login-box-body -->
   </div>
   <!-- /.login-box -->
 
-  <script src="/js/import.js"></script>
+
+  <script src="js/import.js"></script>
   <!-- 引入页面js文件 -->
   <script src="login.js"></script>
 

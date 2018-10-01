@@ -56,9 +56,9 @@
 @import url("/plugins/bootstrap-slider/slider.css");
 
 /* bootstrap wysihtml5 - text editor 富文本编辑器 */
-@import url("/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css");
+/* @import url("/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css"); */
 /*  富文本编辑器 ckeditor */
-@import url("/plugins/ckeditor/skins/moono/editor.css?t=G14E");
+/* @import url("/plugins/ckeditor/skins/moono/editor.css?t=G14E"); */
 
 /* <!-- Pace style 进度条--> */
 @import url("/plugins/pace/pace.min.css");

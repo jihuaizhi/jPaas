@@ -6,18 +6,15 @@ import java.util.Map;
 import javax.servlet.Filter;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.SecurityManager;
-import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
-import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.apache.shiro.web.servlet.SimpleCookie;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.jhz.jPaas.common.filter.ShiroAuthcFilter;
-import com.jhz.jPaas.common.filter.ShiroPermsFilter;
 
 /**
  * shiro配置类
@@ -27,15 +24,19 @@ import com.jhz.jPaas.common.filter.ShiroPermsFilter;
  *
  */
 @Configuration
-public class ShiroConfig {
+public class ShiroConfiguration {
 
-	public ShiroConfig() {
-		System.out.println("ShiroConfig  init ....");
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
+
+	public ShiroConfiguration() {
+		logger.info("ShiroConfig  init ....");
 	}
 
-	@Bean
+	@Bean(name = "shiroFilter")
 	public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
+		logger.info("注入Shiro的Web过滤器-->shiroFilter", ShiroFilterFactoryBean.class);
 		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+		// Shiro的核心安全接口,这个属性是必须的
 		shiroFilterFactoryBean.setSecurityManager(securityManager);
 
 		// 设置拦截器
@@ -46,20 +47,31 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/js/**", "anon");
 		filterChainDefinitionMap.put("/plugins/**", "anon");
 
-		// authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问,这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截
-		filterChainDefinitionMap.put("/**", "anon");
+		// 不拦截系统入口和登录请求
+		filterChainDefinitionMap.put("/", "anon");
+		filterChainDefinitionMap.put("/login", "anon");
+		filterChainDefinitionMap.put("/login.html", "anon");
+		filterChainDefinitionMap.put("/login.js", "anon");
 
-		// setLoginUrl 如果不设置值，默认会自动寻找Web工程根目录下的"/login.jsp"页面 或 "/login" 映射
+		// 不拦截错误信息页面
+		filterChainDefinitionMap.put("/views/error/**", "anon");
+
+		// authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问,这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截
+		filterChainDefinitionMap.put("/**", "authc");
+
+		// 要求登录时的链接(可根据项目的URL进行替换),非必须的属性,默认会自动寻找Web工程根目录下的"/login.jsp"页面
 		shiroFilterFactoryBean.setLoginUrl("login.html");
 		// 设置无权限时跳转的 url;
-		shiroFilterFactoryBean.setUnauthorizedUrl("/views/error/notRole.html");
+		shiroFilterFactoryBean.setUnauthorizedUrl("/views/error/noRole.html");
 
 		// 自定义过滤器
 		Map<String, Filter> filterMap = shiroFilterFactoryBean.getFilters();
+		// 注入登录校验过滤器,在所有请求前判定是否已经登录系统
 		filterMap.put("authc", new ShiroAuthcFilter());
 		shiroFilterFactoryBean.setFilters(filterMap);
-		filterMap.put("authc", new ShiroPermsFilter());
-		shiroFilterFactoryBean.setFilters(filterMap);
+		// 注入权限校验过滤器,在所有请求前判定是否具备相关操作权限
+		// filterMap.put("perms", new ShiroPermsFilter());
+		// shiroFilterFactoryBean.setFilters(filterMap);
 
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		return shiroFilterFactoryBean;
@@ -88,8 +100,6 @@ public class ShiroConfig {
 
 	/**
 	 * 自定义身份认证 realm;
-	 * 必须写这个类，并加上 @Bean 注解，目的是注入 CustomRealm，
-	 * 否则会影响 CustomRealm类 中其他类的依赖注入
 	 */
 	@Bean
 	public AppRealm appRealm() {
@@ -104,36 +114,37 @@ public class ShiroConfig {
 	 * 
 	 * @return
 	 */
-	public SimpleCookie rememberMeCookie() {
-		// 这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
-		SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
-		// <!-- 记住我cookie生效时间30天 ,单位秒;-->
-		simpleCookie.setMaxAge(2592000);
-		return simpleCookie;
-	}
+	// public SimpleCookie rememberMeCookie() {
+	// // 这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
+	// SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
+	// // <!-- 记住我cookie生效时间30天 ,单位秒;-->
+	// simpleCookie.setMaxAge(2592000);
+	// return simpleCookie;
+	// }
 
 	/**
 	 * cookie管理对象;记住我功能
 	 * 
 	 * @return
 	 */
-	public CookieRememberMeManager rememberMeManager() {
-		System.out.println("cookieManager11111");
-		CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
-		cookieRememberMeManager.setCookie(rememberMeCookie());
-		// rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度(128 256 512 位)
-		cookieRememberMeManager.setCipherKey(Base64.decode("3AvVhmFLUs0KTA3Kprsdag=="));
-		return cookieRememberMeManager;
-	}
+	// public CookieRememberMeManager rememberMeManager() {
+	// System.out.println("cookieManager11111");
+	// CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
+	// cookieRememberMeManager.setCookie(rememberMeCookie());
+	// // rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度(128 256 512 位)
+	// cookieRememberMeManager.setCipherKey(Base64.decode("3AvVhmFLUs0KTA3Kprsdag=="));
+	// return cookieRememberMeManager;
+	// }
 
 	/*
 	 * 开启@RequirePermission注解的配置，要结合DefaultAdvisorAutoProxyCreator一起使用，或者导入aop的依赖
 	 */
-	@Bean
-	public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
-		AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
-		authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
-		return authorizationAttributeSourceAdvisor;
-	}
+	// @Bean
+	// public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
+	// AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new
+	// AuthorizationAttributeSourceAdvisor();
+	// authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
+	// return authorizationAttributeSourceAdvisor;
+	// }
 
 }

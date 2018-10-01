@@ -162,7 +162,7 @@ $.ajax = function(opt) {
 				return;
 			case ("FTL_999"):// 其它未知异常
 				layer.confirm(eMessage, {
-					title : "未知错误",
+					title : "服务端异常",
 					offset : '30px',
 					area : [
 							'300px', '200px'

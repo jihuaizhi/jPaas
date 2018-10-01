@@ -8,7 +8,9 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 测试用过滤器
@@ -16,7 +18,10 @@ import javax.servlet.http.HttpServletRequest;
  * @author jihuaizhi
  * @since 2018-09-12
  */
-public class FilterTest implements Filter {
+public class TestFilter implements Filter {
+
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
+
 	@Override
 	public void destroy() {
 	}
@@ -24,8 +29,8 @@ public class FilterTest implements Filter {
 	@Override
 	public void doFilter(ServletRequest srequest, ServletResponse sresponse, FilterChain filterChain)
 			throws IOException, ServletException {
-		HttpServletRequest request = (HttpServletRequest) srequest;
-		System.out.println("this is MyFilter,url :" + request.getRequestURI());
+		// HttpServletRequest request = (HttpServletRequest) srequest;
+		// logger.info("这是一个测试用的过滤器,请求的URL地址是 :" + request.getRequestURI());
 		filterChain.doFilter(srequest, sresponse);
 	}
 

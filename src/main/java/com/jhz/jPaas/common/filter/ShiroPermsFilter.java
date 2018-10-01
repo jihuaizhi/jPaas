@@ -11,6 +11,8 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.StringUtils;
 import org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter;
 import org.apache.shiro.web.util.WebUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.jhz.jPaas.common.JPConstant;
 import com.jhz.jPaas.common.ReturnModel;
@@ -25,6 +27,8 @@ import net.sf.json.JSONObject;
  * @version
  */
 public class ShiroPermsFilter extends PermissionsAuthorizationFilter {
+
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Override
 	public boolean isAccessAllowed(ServletRequest req, ServletResponse resp, Object arg2) {

@@ -17,7 +17,8 @@ $(function() {
 //窗体缩放后调整iframe高度
 $(window).resize(function() {
 	reinitIframe();
-	});
+});
+
 
 //iframe加载完成后调整高度
 $("#content_iframe").on("load",function() {

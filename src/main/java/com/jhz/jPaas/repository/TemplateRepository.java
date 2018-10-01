@@ -18,16 +18,16 @@ import com.jhz.jPaas.entity.TemplatetEntity;
 @Repository
 public interface TemplateRepository extends JpaRepository<TemplatetEntity, String> {
 
-	TemplatetEntity findByUserName(String userName) throws Exception;
+	TemplatetEntity findByUserName(String userName);
 
-	TemplatetEntity findByUserNameOrUuid(String username, String uuid) throws Exception;
+	TemplatetEntity findByUserNameOrUuid(String username, String uuid);
 
-	TemplatetEntity findByUserNameOrUuidLike(String username, String uuid) throws Exception;
+	TemplatetEntity findByUserNameOrUuidLike(String username, String uuid);
 
 	@Query(value = "select account_name from t_user u where u.user_name like '%小明的姓名1%'", nativeQuery = true)
-	List<Map<String, Object>> findByUserNameLike(String userName) throws Exception;
+	List<Map<String, Object>> findByUserNameLike(String userName);
 
 	@Query(value = "select user_name,account_name,email from t_user where account_name like %?1%", nativeQuery = true)
-	List<Map<String, Object>> getUserEmailByAccount(String userName) throws Exception;
+	List<Map<String, Object>> getUserEmailByAccount(String userName);
 
 }
