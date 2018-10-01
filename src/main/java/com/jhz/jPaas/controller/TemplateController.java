@@ -42,9 +42,10 @@ public class TemplateController extends BaseController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping("/getAccountList")
-	public ReturnModel getAccountList() throws Exception {
-		returnModel.put("objList", accountService.getAccountList());
+	@RequestMapping("/getList")
+	public ReturnModel getList() throws Exception {
+		List<AccountEntity> list = accountService.getAccountList();
+		returnModel.put("objList", list);
 		return returnModel;
 	}
 

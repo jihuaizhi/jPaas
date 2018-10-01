@@ -1,6 +1,7 @@
 package com.jhz.jPaas.controller;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,8 @@ public class PermissionController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/getList")
 	public ReturnModel getList() throws Exception {
-		returnModel.put("objList", service.getList());
+		List<PermissionEntity> list = service.getList();
+		returnModel.put("objList", list);
 		return returnModel;
 	}
 
@@ -54,7 +56,8 @@ public class PermissionController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/getVisibilityList")
 	public ReturnModel getVisibilityList() throws Exception {
-		returnModel.put("objList", service.getVisibilityList());
+		List<PermissionEntity> list = service.getVisibilityList();
+		returnModel.put("objList", list);
 		return returnModel;
 	}
 

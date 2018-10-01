@@ -1,9 +1,11 @@
 package com.jhz.jPaas.controller;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -40,7 +42,8 @@ public class AccountController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/getAccountList")
 	public ReturnModel getAccountList() throws Exception {
-		returnModel.put("objList", accountService.getAccountList());
+		List<AccountEntity> list = accountService.getAccountList();
+		returnModel.put("objList", list);
 		return returnModel;
 	}
 
@@ -57,9 +60,9 @@ public class AccountController extends BaseController {
 		accountEntity.setAccountCode(paraMap.get("accountCode").toString());
 		accountEntity.setAccountName(paraMap.get("accountName").toString());
 		String roleUuids = paraMap.get("roleUuid").toString();
-		//解决空字符串split之后变成包含一个空字符串元素的数组的问题
+		// 解决空字符串split之后变成包含一个空字符串元素的数组的问题
 		String[] roleUuid = roleUuids.isEmpty() ? new String[0] : roleUuids.split(",");
-		accountEntity.setPassword(paraMap.get("password1").toString());
+		accountEntity.setPassword(getEncryptedPwd(paraMap.get("password1").toString()));
 		accountEntity.setDataState(paraMap.get("dataState").toString());
 		accountEntity.setCreatedBy("1234567890");
 		accountEntity.setCreatedAt(new Date());
@@ -79,12 +82,12 @@ public class AccountController extends BaseController {
 		AccountEntity accountEntity = accountService.getById(uuid);
 		accountEntity.setAccountName(paraMap.get("accountName").toString());
 		String roleUuids = paraMap.get("roleUuid").toString();
-		//解决空字符串split之后变成包含一个空字符串元素的数组的问题
+		// 解决空字符串split之后变成包含一个空字符串元素的数组的问题
 		String[] roleUuid = roleUuids.isEmpty() ? new String[0] : roleUuids.split(",");
-		String password = paraMap.get("password1").toString();
+		String pwd = paraMap.get("password1").toString();
 		// 更新的时候如果没有输入密码，则不更新密码
-		if (!StringUtils.isEmpty(password)) {
-			accountEntity.setPassword(password);
+		if (!StringUtils.isEmpty(pwd)) {
+			accountEntity.setPassword(getEncryptedPwd(pwd));
 		}
 		accountEntity.setDataState(paraMap.get("dataState").toString());
 		accountEntity.setUpdatedBy("updaeby");
@@ -138,11 +141,22 @@ public class AccountController extends BaseController {
 		String newPassword = paraMap.get("newPassword").toString();
 		AccountEntity accountEntity = accountService.getById(uuid);
 		if (accountEntity.getPassword().equals(oldPassword)) {
-			accountService.resetPwd(uuid, newPassword);
+			String newPwd = getEncryptedPwd(newPassword);
+			accountService.resetPwd(uuid, newPwd);
 		} else {
 			returnModel.putError("", "旧密码输入错误！");
 		}
 		return returnModel;
 	}
 
+	/**
+	 * 对密码进行加密
+	 * 
+	 * @param pwd
+	 * @return
+	 */
+	private String getEncryptedPwd(String pwd) {
+		String pwdMD5 = new Md5Hash(new Md5Hash(pwd)).toString();
+		return pwdMD5;
+	}
 }

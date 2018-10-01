@@ -30,42 +30,24 @@ public class ShiroConfig {
 
 	@Bean
 	public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
-
 		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
-		// 必须设置 SecurityManager
 		shiroFilterFactoryBean.setSecurityManager(securityManager);
 
 		// 设置拦截器
 		Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-		// filterChainDefinitionMap.put("/stu/addStu","perms[student:aaaa]");
-		// 配置不会被拦截的链接 顺序判断 相关静态资源
+		// 配置不会被拦截的链接 顺序判断 静态资源
 		filterChainDefinitionMap.put("/css/**", "anon");
 		filterChainDefinitionMap.put("/images/**", "anon");
 		filterChainDefinitionMap.put("/js/**", "anon");
 		filterChainDefinitionMap.put("/plugins/**", "anon");
 
-		// 登录入口
-		filterChainDefinitionMap.put("/", "anon");
-		filterChainDefinitionMap.put("/login", "anon");
-		// 配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了
-		// filterChainDefinitionMap.put("/logout", "logout");
-		//
-		// // 游客，开发权限
-		// filterChainDefinitionMap.put("/views/error/**", "anon");
-		// // 管理员，需要角色权限 “admin”
-		// filterChainDefinitionMap.put("/views/auth/**", "roles[admin]");
-		// // 用户，需要角色权限 “user”
-		// filterChainDefinitionMap.put("/views/**", "roles[user]");
 		// authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问,这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截
 		filterChainDefinitionMap.put("/**", "anon");
 
 		// setLoginUrl 如果不设置值，默认会自动寻找Web工程根目录下的"/login.jsp"页面 或 "/login" 映射
-		// shiroFilterFactoryBean.setLoginUrl("login.html");
-		// 登录成功后要跳转的链接
-		// shiroFilterFactoryBean.setSuccessUrl("/views/index.html");
+		shiroFilterFactoryBean.setLoginUrl("login.html");
 		// 设置无权限时跳转的 url;
 		shiroFilterFactoryBean.setUnauthorizedUrl("/views/error/notRole.html");
-		// shiroFilterFactoryBean.setLoginUrl("/views/error/noLogin.html");
 
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		return shiroFilterFactoryBean;
@@ -100,7 +82,7 @@ public class ShiroConfig {
 	@Bean
 	public AppRealm appRealm() {
 		AppRealm appRealm = new AppRealm();
-		// appRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+		appRealm.setCredentialsMatcher(hashedCredentialsMatcher());
 		return appRealm;
 
 	}
@@ -141,29 +123,5 @@ public class ShiroConfig {
 		authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
 		return authorizationAttributeSourceAdvisor;
 	}
-
-	/*
-	 * @Bean
-	 * public DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator(){
-	 * DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
-	 * advisorAutoProxyCreator.setProxyTargetClass(true);
-	 * return advisorAutoProxyCreator;
-	 * }
-	 */
-
-	// /*
-	// * 定义Spring MVC的异常处理器
-	// */
-	// @Bean
-	// public SimpleMappingExceptionResolver createSimpleMappingExceptionResolver() {
-	// SimpleMappingExceptionResolver r = new SimpleMappingExceptionResolver();
-	// Properties mappings = new Properties();
-	// mappings.setProperty("DatabaseException", "databaseError");// 数据库异常处理
-	// mappings.setProperty("UnauthorizedException", "403");// 处理shiro的认证未通过异常
-	// r.setExceptionMappings(mappings); // None by default
-	// r.setDefaultErrorView("error"); // No default
-	// r.setExceptionAttribute("ex"); // Default is "exception"
-	// return r;
-	// }
 
 }

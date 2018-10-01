@@ -25,6 +25,10 @@ http://www.cnblogs.com/myknow/p/9559011.html
 // </bean>
 
 
+form下的button 按钮在没有明确的给出type类型时，会有一个默认值为：type=”submit”. 如果该按钮的作用不是为了提交表单的话，我们给其加上type属性就行了：
+<button id="validate" type="button" onclick="validate();"></button>
+
+
 *** 需要研究spring的配置类的写法
 
 *** 需要研究springmvc的配置方法和核心类

@@ -2,11 +2,11 @@
 $(function() {
     // 加载菜单
 // loadMenu();
-// loadCurrentUser();
+ loadCurrentUser();
  $('iframe#content_iframe').attr('src', "/views/auth/role.html");
 
 	
-	$('body').layout('fix');
+//	$('body').layout('fix');
 // reinitIframe();
 	$('html , body').animate({
 		scrollTop : 0
@@ -14,14 +14,15 @@ $(function() {
      
 });
 
+//窗体缩放后调整iframe高度
 $(window).resize(function() {
 	reinitIframe();
 	});
 
+//iframe加载完成后调整高度
 $("#content_iframe").on("load",function() {
 	reinitIframe();
 });
-
 
 
 // iframe高度自适应
@@ -38,6 +39,41 @@ function reinitIframe() {
 		$('body').height(height);
     } catch (ex) {
     }
+}
+
+
+//注销系统
+$("#btn_logout").click(function() {
+    $.ajax(
+        { url : "/logout",
+        success : function(data) {
+            if (data.success == true) {
+                window.location.href = "/login.html";
+            }
+        } });
+})
+
+
+// 加载登陆者信息
+function loadCurrentUser() {
+    $.ajax(
+        { url : "/getloginUser",
+        success : function(data) {
+        	console.log(data);
+            if (data.success == true) {
+                $("#userName").html(data.account.accountName);
+                var df = data.account.dataState;
+                if (df == "1") {
+                    $("#dataState").html("状态:正常");
+                } else if (df == "0") {
+                    $("#dataState").html("状态:停用");
+                }
+                $("#startTime").html("登录时间:"+new Date(data.startTime).Format("yyyy-MM-dd hh:mm:ss"));
+                $("#accountCode").html(data.account.accountCode);
+                $("#accountName").html(data.account.accountName);
+
+            }
+        } });
 }
 
 
@@ -65,27 +101,6 @@ function loadMenu() {
     
 }
 
-// 加载登陆者信息
-function loadCurrentUser() {
-    $.ajax(
-        { url : "authentication/getloginuser",
-        success : function(data) {
-            if (data.success == true) {
-                $("#userName").html(data.loginUser.userName);
-                var df = data.loginUser.dataState;
-                if (df == "1") {
-                    $("#dataState").html("启用");
-                } else if (df == "0") {
-                    $("#dataState").html("启用");
-                } else {
-                    $("#dataState").html("异常");
-                }
-                $("#startTime").html(new Date(data.startTime).Format("yyyy-MM-dd hh:mm:ss"));
-                
-
-            }
-        } });
-}
 
 
 
@@ -133,16 +148,6 @@ function getTreeMenuHtml(arrayData, pid) {
     return result;
 }
 
-// 注销系统
-$("#btn_logout").click(function() {
-    $.ajax(
-        { url : "authentication/logout",
-        success : function(data) {
-            if (data.success == true) {
-                window.location.href = getRootPath() +"/views_login/login.jsp";
-            }
-        } });
-})
 
 Date.prototype.Format = function (fmt) { // author: meizz
 var o = {

@@ -78,7 +78,7 @@ public class AccountService extends BaseService {
 	}
 
 	/**
-	 * 查询帐号信息
+	 * 根据UUID查询帐号信息
 	 * 
 	 * @param uuid
 	 */
@@ -95,6 +95,18 @@ public class AccountService extends BaseService {
 	public void resetPwd(String uuid, String password) throws Exception {
 		repository.resetPwd(uuid, password);
 
+	}
+
+	/**
+	 * 根据账号Code查询账号entity
+	 * 
+	 * @param accountCode
+	 * @return
+	 * @throws Exception
+	 */
+	public AccountEntity getAccountByCode(String accountCode) throws Exception {
+		AccountEntity entity = repository.findByAccountCode(accountCode);
+		return entity;
 	}
 
 }

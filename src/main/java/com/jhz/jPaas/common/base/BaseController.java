@@ -56,7 +56,7 @@ public abstract class BaseController {
 	public void checkAuthenticated(HttpServletRequest request) {
 		// 初始化返回值封装类，否则导致多次请求的返回值累加
 		returnModel = new ReturnModel();
-		logger.info("控制器请求-------,url :" + request.getRequestURI());
+		// logger.info("控制器请求-------,url :" + request.getRequestURI());
 	}
 
 	/**
