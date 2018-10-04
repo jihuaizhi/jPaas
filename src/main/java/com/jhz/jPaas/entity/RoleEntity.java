@@ -17,7 +17,7 @@ public class RoleEntity extends BaseEntity {
 	/**
 	 * 超级管理员角色名
 	 */
-	public static final String SUPER_ADMINISTRATOR = "admin";
+	public static final String SUPER_ADMINISTRATOR = "administrator";
 
 	/**
 	 * 角色编号

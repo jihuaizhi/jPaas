@@ -1,6 +1,5 @@
 package com.jhz.jPaas.common.filter;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletRequest;
@@ -8,9 +7,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
-import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,34 +31,32 @@ public class ShiroAuthcFilter extends FormAuthenticationFilter {
 	/**
 	 * 验证是否正常登录系统
 	 * 
-	 * @author jihuaizhi
-	 * @param req
-	 * @param resp
-	 * @param arg2
-	 * @return
 	 */
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-		HttpServletRequest httpRequest = (HttpServletRequest) request;
 
-		AccountEntity currentAccountEntity = (AccountEntity) SecurityUtils.getSubject().getPrincipal();
+		boolean isAccessAllowed = super.isAccessAllowed(request, response, mappedValue);
+		// TODO 调试用代码 start
+		HttpServletRequest httpReq = (HttpServletRequest) request;
+		AccountEntity entity = (AccountEntity) SecurityUtils.getSubject().getPrincipal();
+		if (null != entity) {
+			logger.info("登录验证过滤器---帐号:" + entity.getAccountCode() + " URL:" + httpReq.getServletPath() + " 验证结果:"
+					+ isAccessAllowed);
 
-		Subject subject = getSubject(request, response);
-		// 如果已经登录,则通过验证
-		if (null != subject.getPrincipals()) {
-			logger.info("当前账号:" + currentAccountEntity.getAccountCode() + " 已经登录系统,正在访问URL:"
-					+ httpRequest.getServletPath());
-			return true;
+		} else {
+			logger.info("登录验证过滤器---帐号:null URL:" + httpReq.getServletPath() + " 验证结果:" + isAccessAllowed);
 		}
-		logger.info("当前未登录系统");
-		return false;
+		// 调试用代码 end
+		return isAccessAllowed;
 	}
 
 	/**
-	 * 身份认证异常
+	 * 身份认证异常处理
+	 * 
 	 */
 	@Override
-	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws IOException {
+	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
+		// ajax请求的场合,返回json
 		if (WebDevUtils.isAjax(request)) {
 			// ajax请求
 			ReturnModel returnModel = new ReturnModel();
@@ -70,12 +65,16 @@ public class ShiroAuthcFilter extends FormAuthenticationFilter {
 			response.setContentType("application/json");// 设置返回类型
 			PrintWriter out = response.getWriter();
 			out.println(JSONObject.fromObject(returnModel).toString());
+			out.flush();
+			out.close();
+			return false;
 		} else {
+			// http请求的场合,跳转至登录页面
 			// TODO http请求的情况下 跳转至页面时如何带数据到页面???
-			WebUtils.issueRedirect(request, response, "/views/error/noLogin.html");
+			// WebUtils.issueRedirect(request, response, "/views/error/noLogin.html");
+			return super.onAccessDenied(request, response);
 		}
 
-		return false;
 	}
 
 }

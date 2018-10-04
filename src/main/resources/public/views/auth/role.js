@@ -58,7 +58,7 @@ var colConfigPermission = [
         },
         {
             data : 'permissionName',
-            title : 'URL说明',
+            title : 'URL名称',
         }
 ];
 
@@ -323,7 +323,7 @@ function initUrlTable(selectIds) {
 }
 
 // 表格的全选和反全选事件
-$('#checkAll').on('ifChanged', function(event) {
+$('#checkAll').on('click', function(event) {
     var table = $("#data_table_permission").DataTable();
     if (checkAllFlag) {
         table.rows().select();

@@ -9,10 +9,10 @@ import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import com.jhz.jPaas.common.filter.ShiroAuthcFilter;
 
 /**
  * shiro配置类
@@ -24,15 +24,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ShiroConfiguration {
 
-	protected final Logger logger = LoggerFactory.getLogger(getClass());
-
-	public ShiroConfiguration() {
-		logger.info("ShiroConfig  init ....");
-	}
-
 	@Bean(name = "shiroFilter")
 	public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
-		logger.info("注入Shiro的Web过滤器-->shiroFilter", ShiroFilterFactoryBean.class);
 		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 		// Shiro的核心安全接口,这个属性是必须的
 		shiroFilterFactoryBean.setSecurityManager(securityManager);
@@ -53,14 +46,15 @@ public class ShiroConfiguration {
 		filterChainDefinitionMap.put("/views/error/**", "anon");
 
 		// 不拦截所有view层的html和js文件
-		filterChainDefinitionMap.put("/**/*.html", "anon");
+		// filterChainDefinitionMap.put("/**/*.html", "anon");
 		filterChainDefinitionMap.put("/**/*.js", "anon");
+		filterChainDefinitionMap.put("/**/*.ico", "anon");
 
 		// 退出登录,shiro自动处理
 		filterChainDefinitionMap.put("/logout", "logout");
 
 		// authc:所有url都必须认证通过才可以访问;
-		filterChainDefinitionMap.put("/**", "authc,perms['/aaa','/bbb']");
+		filterChainDefinitionMap.put("/**", "authc");
 
 		// 要求登录时的链接(可根据项目的URL进行替换),非必须的属性,默认会自动寻找Web工程根目录下的"/login.jsp"页面
 		shiroFilterFactoryBean.setLoginUrl("/login.html");
@@ -70,8 +64,8 @@ public class ShiroConfiguration {
 		// 自定义过滤器
 		Map<String, Filter> filterMap = shiroFilterFactoryBean.getFilters();
 		// 注入登录校验过滤器,在上面标记为authc的拦截配置的URL会被此过滤器监听
-		// filterMap.put("authc", new ShiroAuthcFilter());
-		// shiroFilterFactoryBean.setFilters(filterMap);
+		filterMap.put("authc", new ShiroAuthcFilter());
+		shiroFilterFactoryBean.setFilters(filterMap);
 		// 注入权限校验过滤器,在所有请求前判定是否具备相关操作权限
 		// filterMap.put("perms", new ShiroPermsFilter());
 		// shiroFilterFactoryBean.setFilters(filterMap);
@@ -107,6 +101,7 @@ public class ShiroConfiguration {
 	@Bean
 	public AppRealm appRealm() {
 		AppRealm appRealm = new AppRealm();
+		// 定义密码加密验证算法,与帐号录入系统时的加密对法一致
 		appRealm.setCredentialsMatcher(hashedCredentialsMatcher());
 		return appRealm;
 
