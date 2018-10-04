@@ -29,7 +29,7 @@ public interface PermissionRepository extends JpaRepository<PermissionEntity, St
 
 	@Query(value = "select p.permission_code from  auth_account a,auth_role_account ra,auth_role r,auth_role_permission rp,auth_permission p "
 			+ " where a.uuid=ra.account_uuid and ra.role_uuid=r.uuid and r.uuid=rp.role_uuid and rp.permission_uuid=p.uuid and "
-			+ " a.account_code=?1)", nativeQuery = true)
+			+ " a.account_code=?1", nativeQuery = true)
 	Set<String> findPermissionCodeByAccoountCode(String accountCode);
 
 }

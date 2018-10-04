@@ -14,8 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.jhz.jPaas.common.filter.ShiroAuthcFilter;
-
 /**
  * shiro配置类
  * 
@@ -50,25 +48,30 @@ public class ShiroConfiguration {
 		// 不拦截系统入口和登录请求
 		filterChainDefinitionMap.put("/", "anon");
 		filterChainDefinitionMap.put("/login", "anon");
-		filterChainDefinitionMap.put("/login.html", "anon");
-		filterChainDefinitionMap.put("/login.js", "anon");
 
 		// 不拦截错误信息页面
 		filterChainDefinitionMap.put("/views/error/**", "anon");
 
-		// authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问,这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截
-		filterChainDefinitionMap.put("/**", "authc");
+		// 不拦截所有view层的html和js文件
+		filterChainDefinitionMap.put("/**/*.html", "anon");
+		filterChainDefinitionMap.put("/**/*.js", "anon");
+
+		// 退出登录,shiro自动处理
+		filterChainDefinitionMap.put("/logout", "logout");
+
+		// authc:所有url都必须认证通过才可以访问;
+		filterChainDefinitionMap.put("/**", "authc,perms['/aaa','/bbb']");
 
 		// 要求登录时的链接(可根据项目的URL进行替换),非必须的属性,默认会自动寻找Web工程根目录下的"/login.jsp"页面
-		shiroFilterFactoryBean.setLoginUrl("login.html");
+		shiroFilterFactoryBean.setLoginUrl("/login.html");
 		// 设置无权限时跳转的 url;
 		shiroFilterFactoryBean.setUnauthorizedUrl("/views/error/noRole.html");
 
 		// 自定义过滤器
 		Map<String, Filter> filterMap = shiroFilterFactoryBean.getFilters();
-		// 注入登录校验过滤器,在所有请求前判定是否已经登录系统
-		filterMap.put("authc", new ShiroAuthcFilter());
-		shiroFilterFactoryBean.setFilters(filterMap);
+		// 注入登录校验过滤器,在上面标记为authc的拦截配置的URL会被此过滤器监听
+		// filterMap.put("authc", new ShiroAuthcFilter());
+		// shiroFilterFactoryBean.setFilters(filterMap);
 		// 注入权限校验过滤器,在所有请求前判定是否具备相关操作权限
 		// filterMap.put("perms", new ShiroPermsFilter());
 		// shiroFilterFactoryBean.setFilters(filterMap);

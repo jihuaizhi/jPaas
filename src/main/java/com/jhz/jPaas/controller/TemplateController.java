@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.jhz.jPaas.common.NeoProperties;
 import com.jhz.jPaas.common.ReturnModel;
 import com.jhz.jPaas.common.base.BaseController;
 import com.jhz.jPaas.entity.AccountEntity;
 import com.jhz.jPaas.entity.TemplatetEntity;
 import com.jhz.jPaas.repository.TemplateRepository;
 import com.jhz.jPaas.service.AccountService;
-import com.jhz.jPaas.utils.NeoProperties;
 
 /**
  * 测试用控制器

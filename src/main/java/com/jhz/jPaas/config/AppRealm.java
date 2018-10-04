@@ -70,7 +70,7 @@ public class AppRealm extends AuthorizingRealm {
 	}
 
 	/**
-	 * 登录认证
+	 * 登录认证,执行登录操作currentUser.login(token);的时候会调用此方法
 	 */
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken)

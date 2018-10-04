@@ -18,7 +18,7 @@ import com.jhz.jPaas.entity.RoleEntity;
 public interface RoleRepository extends JpaRepository<RoleEntity, String> {
 
 	@Query(value = "select role_code from auth_role r,auth_account a,auth_role_account ra "
-			+ "where r.uuid=ra.role_uuid and a.uuid=ra.account_uuid and a.account_code=?1)", nativeQuery = true)
+			+ "where r.uuid=ra.role_uuid and a.uuid=ra.account_uuid and a.account_code=?1", nativeQuery = true)
 	Set<String> findRoleCodeByAccoountCode(String accountCode);
 
 }

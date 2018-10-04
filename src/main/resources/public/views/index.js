@@ -43,15 +43,9 @@ function reinitIframe() {
 }
 
 
-//注销系统
+//注销系统,shiro自动处理/logout请求
 $("#btn_logout").click(function() {
-    $.ajax(
-        { url : "/logout",
-        success : function(data) {
-            if (data.success == true) {
-                window.location.href = "/login.html";
-            }
-        } });
+	window.location.href="/logout";
 })
 
 

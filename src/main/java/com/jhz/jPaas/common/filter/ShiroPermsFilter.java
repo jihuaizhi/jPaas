@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.StringUtils;
@@ -16,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import com.jhz.jPaas.common.JPConstant;
 import com.jhz.jPaas.common.ReturnModel;
+import com.jhz.jPaas.common.WebDevUtils;
 import com.jhz.jPaas.entity.AccountEntity;
 
 import net.sf.json.JSONObject;
@@ -30,22 +30,21 @@ public class ShiroPermsFilter extends PermissionsAuthorizationFilter {
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
+	/*
+	 * 拦截请求,判断是否
+	 */
 	@Override
-	public boolean isAccessAllowed(ServletRequest req, ServletResponse resp, Object arg2) {
-		HttpServletRequest request = (HttpServletRequest) req;
-		// 获取请求路径
-		String path = request.getServletPath();
-		Subject subject = getSubject(req, resp);
+	public boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue)
+			throws IOException {
+		// 获取当前登录账号
+		Subject subject = getSubject(request, response);
 		if (null != subject.getPrincipal()) {
 			// 超级管理员用户跳过所有权限授权检查
 			if (subject.getPrincipal().toString().equals(AccountEntity.SUPER_ADMIN)) {
 				return true;
 			}
-			if (subject.isPermitted(path)) {
-				return true;
-			}
 		}
-		return false;
+		return super.isAccessAllowed(request, response, mappedValue);
 	}
 
 	/**
@@ -53,7 +52,7 @@ public class ShiroPermsFilter extends PermissionsAuthorizationFilter {
 	 */
 	@Override
 	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws IOException {
-		if (isAjax((HttpServletRequest) request)) {
+		if (WebDevUtils.isAjax(request)) {
 			// ajax请求
 			ReturnModel returnModel = new ReturnModel();
 			returnModel.putError(JPConstant.FTL_003, "权限校验失败，请联系管理员授权!");
@@ -71,11 +70,4 @@ public class ShiroPermsFilter extends PermissionsAuthorizationFilter {
 		return false;
 	}
 
-	private boolean isAjax(HttpServletRequest request) {
-		String header = request.getHeader("X-Requested-With");
-		if (null != header && "XMLHttpRequest".endsWith(header)) {
-			return true;
-		}
-		return false;
-	}
 }

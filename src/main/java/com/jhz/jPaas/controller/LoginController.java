@@ -36,7 +36,7 @@ public class LoginController extends BaseController {
 	 */
 	@RequestMapping("/")
 	public String root() throws Exception {
-		return "login.html";
+		return "/login.html";
 	}
 
 	/**
@@ -62,22 +62,6 @@ public class LoginController extends BaseController {
 			Session session = currentUser.getSession();
 			AccountEntity accountEntity = accountService.getAccountByCode(accountCode);
 			session.setAttribute("accountEntity", accountEntity);
-		}
-		return returnModel;
-	}
-
-	/**
-	 * 退出登录
-	 * 
-	 * @return
-	 */
-	@ResponseBody
-	@RequestMapping("/logout")
-	public ReturnModel logout() throws Exception {
-		Subject currentUser = SecurityUtils.getSubject();
-		currentUser.logout();
-		if (SecurityUtils.getSubject().getSession() != null) {
-			currentUser.logout();
 		}
 		return returnModel;
 	}

@@ -9,26 +9,25 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.filter.authz.AuthorizationFilter;
+import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.jhz.jPaas.common.JPConstant;
 import com.jhz.jPaas.common.ReturnModel;
+import com.jhz.jPaas.common.WebDevUtils;
 import com.jhz.jPaas.entity.AccountEntity;
 
 import net.sf.json.JSONObject;
 
 /**
- * 扩展shiro过滤器<br>
- * 作用:<br>
- * 解决重复账号登录问题,同一个账号,后登录的会将先登录的session清除
+ * 扩展shiro认证过滤器
  * 
  * @author jihuaizhi
  * @since 2018-10-01
  */
-public class ShiroAuthcFilter extends AuthorizationFilter {
+public class ShiroAuthcFilter extends FormAuthenticationFilter {
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -40,19 +39,18 @@ public class ShiroAuthcFilter extends AuthorizationFilter {
 	 * @param resp
 	 * @param arg2
 	 * @return
-	 * @throws Exception
 	 */
 	@Override
-	protected boolean isAccessAllowed(ServletRequest req, ServletResponse resp, Object arg2) throws Exception {
-		HttpServletRequest request = (HttpServletRequest) req;
+	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
+		HttpServletRequest httpRequest = (HttpServletRequest) request;
 
 		AccountEntity currentAccountEntity = (AccountEntity) SecurityUtils.getSubject().getPrincipal();
 
-		Subject subject = getSubject(req, resp);
+		Subject subject = getSubject(request, response);
 		// 如果已经登录,则通过验证
 		if (null != subject.getPrincipals()) {
-			logger.info(
-					"当前账号:" + currentAccountEntity.getAccountCode() + " 已经登录系统,正在访问URL:" + request.getServletPath());
+			logger.info("当前账号:" + currentAccountEntity.getAccountCode() + " 已经登录系统,正在访问URL:"
+					+ httpRequest.getServletPath());
 			return true;
 		}
 		logger.info("当前未登录系统");
@@ -64,39 +62,19 @@ public class ShiroAuthcFilter extends AuthorizationFilter {
 	 */
 	@Override
 	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws IOException {
-		if (isAjax((HttpServletRequest) request)) {
+		if (WebDevUtils.isAjax(request)) {
 			// ajax请求
 			ReturnModel returnModel = new ReturnModel();
 			returnModel.putError(JPConstant.FTL_002, "当前账号未登录系统，请重新登录!");
-			response.setCharacterEncoding("UTF-8");
+			response.setCharacterEncoding("UTF-8");// 设置编码
+			response.setContentType("application/json");// 设置返回类型
 			PrintWriter out = response.getWriter();
-			out.println(JSONObject.fromObject(returnModel));
+			out.println(JSONObject.fromObject(returnModel).toString());
 		} else {
 			// TODO http请求的情况下 跳转至页面时如何带数据到页面???
 			WebUtils.issueRedirect(request, response, "/views/error/noLogin.html");
-			// String unauthorizedUrl = getUnauthorizedUrl();
-			// if (StringUtils.hasText(unauthorizedUrl)) {
-			// WebUtils.issueRedirect(request, response, unauthorizedUrl);
-			// } else {
-			// WebUtils.toHttp(response).sendError(401);
-			// }
 		}
 
-		return false;
-	}
-
-	/**
-	 * 验证是否是ajax异步请求
-	 * 
-	 * @author jihuaizhi
-	 * @param request
-	 * @return
-	 */
-	private boolean isAjax(HttpServletRequest request) {
-		String header = request.getHeader("X-Requested-With");
-		if (null != header && "XMLHttpRequest".endsWith(header)) {
-			return true;
-		}
 		return false;
 	}
 
