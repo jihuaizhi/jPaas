@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.jhz.jPaas.common.filter.ShiroAuthcFilter;
+import com.jhz.jPaas.common.filter.ShiroPermsFilter;
 
 /**
  * shiro配置类
@@ -65,10 +66,9 @@ public class ShiroConfiguration {
 		Map<String, Filter> filterMap = shiroFilterFactoryBean.getFilters();
 		// 注入登录校验过滤器,在上面标记为authc的拦截配置的URL会被此过滤器监听
 		filterMap.put("authc", new ShiroAuthcFilter());
-		shiroFilterFactoryBean.setFilters(filterMap);
 		// 注入权限校验过滤器,在所有请求前判定是否具备相关操作权限
-		// filterMap.put("perms", new ShiroPermsFilter());
-		// shiroFilterFactoryBean.setFilters(filterMap);
+		filterMap.put("perms", new ShiroPermsFilter());
+		shiroFilterFactoryBean.setFilters(filterMap);
 
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		return shiroFilterFactoryBean;

@@ -19,7 +19,7 @@ import com.jhz.jPaas.common.filter.TestFilter;
 @Configuration
 public class WebConfiguration {
 
-	protected final Logger logger = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Bean
 	public FilterRegistrationBean<Filter> testFilterRegistration() {

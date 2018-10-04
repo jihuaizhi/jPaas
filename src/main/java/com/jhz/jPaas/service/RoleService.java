@@ -40,9 +40,6 @@ public class RoleService extends BaseService {
 	@Autowired
 	private RolePermissionRepository rolePermissionRepository;
 
-	// @Autowired
-	// private RoleRepository repository;
-
 	/**
 	 * 查询列表
 	 * 
@@ -163,6 +160,18 @@ public class RoleService extends BaseService {
 	public List<RolePermissionEntity> findPermissionByRoleUuid(String uuid) throws Exception {
 		List<RolePermissionEntity> permissionList = rolePermissionRepository.findByRoleUuid(uuid);
 		return permissionList;
+	}
+
+	/**
+	 * 根据账号查询角色列表
+	 * 
+	 * @param uuid
+	 * @return
+	 * @throws Exception
+	 */
+	public List<RoleEntity> getListByAccountUuid(String accountUuid) throws Exception {
+		List<RoleEntity> list = repository.findByAccountUuid(accountUuid);
+		return list;
 	}
 
 }

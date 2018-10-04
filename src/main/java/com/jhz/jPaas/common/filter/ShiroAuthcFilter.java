@@ -26,7 +26,7 @@ import net.sf.json.JSONObject;
  */
 public class ShiroAuthcFilter extends FormAuthenticationFilter {
 
-	protected final Logger logger = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	/**
 	 * 验证是否正常登录系统
@@ -56,9 +56,8 @@ public class ShiroAuthcFilter extends FormAuthenticationFilter {
 	 */
 	@Override
 	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-		// ajax请求的场合,返回json
 		if (WebDevUtils.isAjax(request)) {
-			// ajax请求
+			// ajax请求的场合,返回json
 			ReturnModel returnModel = new ReturnModel();
 			returnModel.putError(JPConstant.FTL_002, "当前账号未登录系统，请重新登录!");
 			response.setCharacterEncoding("UTF-8");// 设置编码
@@ -70,8 +69,6 @@ public class ShiroAuthcFilter extends FormAuthenticationFilter {
 			return false;
 		} else {
 			// http请求的场合,跳转至登录页面
-			// TODO http请求的情况下 跳转至页面时如何带数据到页面???
-			// WebUtils.issueRedirect(request, response, "/views/error/noLogin.html");
 			return super.onAccessDenied(request, response);
 		}
 

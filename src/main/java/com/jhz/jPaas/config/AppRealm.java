@@ -30,7 +30,7 @@ import com.jhz.jPaas.repository.RoleRepository;
  */
 public class AppRealm extends AuthorizingRealm {
 
-	protected final Logger logger = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	private AccountRepository accountRepository;
