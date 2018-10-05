@@ -55,7 +55,7 @@ public class ShiroConfiguration {
 		filterChainDefinitionMap.put("/logout", "logout");
 
 		// authc:所有url都必须认证通过才可以访问;
-		filterChainDefinitionMap.put("/**", "authc");
+		filterChainDefinitionMap.put("/**", "authc,perms");
 
 		// 要求登录时的链接(可根据项目的URL进行替换),非必须的属性,默认会自动寻找Web工程根目录下的"/login.jsp"页面
 		shiroFilterFactoryBean.setLoginUrl("/login.html");

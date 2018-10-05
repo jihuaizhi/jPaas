@@ -17,6 +17,13 @@ $("#btn_login").click(function() {
 
 });
 
+//接收回车按键事件,触发保存按钮点击事件
+$("body").keydown(function(e) {
+	if (e.keyCode == 13) {
+		$('#btn_login').trigger("click");
+	}
+});
+
 
 //TODO 测试用
 $("#test").click(function() {

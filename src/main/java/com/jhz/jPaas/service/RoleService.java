@@ -14,6 +14,7 @@ import com.jhz.jPaas.common.base.BaseService;
 import com.jhz.jPaas.entity.RoleEntity;
 import com.jhz.jPaas.entity.RoleMenuEntity;
 import com.jhz.jPaas.entity.RolePermissionEntity;
+import com.jhz.jPaas.repository.RoleAccountRepository;
 import com.jhz.jPaas.repository.RoleMenuRepository;
 import com.jhz.jPaas.repository.RolePermissionRepository;
 import com.jhz.jPaas.repository.RoleRepository;
@@ -39,6 +40,9 @@ public class RoleService extends BaseService {
 
 	@Autowired
 	private RolePermissionRepository rolePermissionRepository;
+
+	@Autowired
+	private RoleAccountRepository roleAccountRepository;
 
 	/**
 	 * 查询列表
@@ -151,7 +155,7 @@ public class RoleService extends BaseService {
 	}
 
 	/**
-	 * 查询某角色的所属URL
+	 * 查询某角色的授权URL
 	 * 
 	 * @param uuid
 	 * @return
@@ -169,8 +173,8 @@ public class RoleService extends BaseService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<RoleEntity> getListByAccountUuid(String accountUuid) throws Exception {
-		List<RoleEntity> list = repository.findByAccountUuid(accountUuid);
+	public List<String> getListByAccountUuid(String accountUuid) throws Exception {
+		List<String> list = roleAccountRepository.findRoleUuidByAccountUuid(accountUuid);
 		return list;
 	}
 

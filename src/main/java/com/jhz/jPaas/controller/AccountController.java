@@ -16,11 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.jhz.jPaas.common.ReturnModel;
 import com.jhz.jPaas.common.base.BaseController;
 import com.jhz.jPaas.entity.AccountEntity;
-import com.jhz.jPaas.entity.RoleEntity;
 import com.jhz.jPaas.service.AccountService;
 import com.jhz.jPaas.service.RoleService;
-
-import net.sf.json.JSONArray;
 
 /**
  * 账户管理控制器
@@ -88,12 +85,16 @@ public class AccountController extends BaseController {
 		String uuid = paraMap.get("uuid").toString();
 		AccountEntity accountEntity = accountService.getById(uuid);
 		accountEntity.setAccountName(paraMap.get("accountName").toString());
-		String roleUuids = paraMap.get("roleUuid").toString();
-		JSONArray array = JSONArray.fromObject(roleUuids);
-		String[] roleUuid = (String[]) JSONArray.toArray(array); // TODO select2取值问题????
 
-		// 解决空字符串split之后变成包含一个空字符串元素的数组的问题
-		// String[] roleUuid = roleUuids.isEmpty() ? new String[0] : roleUuids.split(",");
+		String strRoleUuids = paraMap.get("roleUuid").toString();
+		String[] roleUuid = null;
+		if (null == strRoleUuids) {
+			roleUuid = new String[0];
+		} else {
+			// 获取select2组件返回的数值,去掉方括号和多余的空格
+			roleUuid = strRoleUuids.replaceAll("\\[|\\]| ", "").split(",");
+		}
+
 		String pwd = paraMap.get("password1").toString();
 		// 更新的时候如果没有输入密码，则不更新密码
 		if (!StringUtils.isEmpty(pwd)) {
@@ -134,9 +135,9 @@ public class AccountController extends BaseController {
 	public ReturnModel getById(@RequestBody Map<String, Object> paraMap) throws Exception {
 		String uuid = paraMap.get("uuid").toString();
 		AccountEntity entity = accountService.getById(uuid);
-		List<RoleEntity> list = roleService.getListByAccountUuid(uuid);
+		List<String> list = roleService.getListByAccountUuid(uuid);
 		returnModel.put("obj", entity);
-		returnModel.put("roleList", list);
+		returnModel.put("roleUuidList", list);
 		return returnModel;
 	}
 

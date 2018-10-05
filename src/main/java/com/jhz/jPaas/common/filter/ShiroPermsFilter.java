@@ -2,7 +2,6 @@ package com.jhz.jPaas.common.filter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Set;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -12,14 +11,11 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.jhz.jPaas.common.JPConstant;
 import com.jhz.jPaas.common.ReturnModel;
 import com.jhz.jPaas.common.WebDevUtils;
-import com.jhz.jPaas.entity.AccountEntity;
 import com.jhz.jPaas.entity.RoleEntity;
-import com.jhz.jPaas.repository.RoleRepository;
 
 import net.sf.json.JSONObject;
 
@@ -33,31 +29,23 @@ public class ShiroPermsFilter extends PermissionsAuthorizationFilter {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	@Autowired
-	private RoleRepository roleRepository;
-
 	/*
 	 * 拦截请求,判断是否具备访问权限
 	 */
 	@Override
 	public boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue)
 			throws IOException {
-		// 获取当前登录账号
-		AccountEntity entity = (AccountEntity) SecurityUtils.getSubject().getPrincipal();
 		HttpServletRequest httpReq = (HttpServletRequest) request;
-		if (null != entity) {
-			// 获取当前用户的角色列表
-			Set<String> roleSet = roleRepository.findRoleCodeByAccoountCode(entity.getAccountCode());
-			// 检查角色列表是否包含超级管理员角色
-			if (roleSet.contains(RoleEntity.SUPER_ADMINISTRATOR)) {
-				// 超级管理员角色的用户跳过所有权限检查
-				logger.info("权限验证过滤器---URL:" + httpReq.getServletPath() + " 超级管理员:跳过检查");
-				return true;
-			}
+		// 检查角色列表是否包含超级管理员角色
+		if (SecurityUtils.getSubject().hasRole(RoleEntity.SUPER_ADMINISTRATOR)) {
+			// 超级管理员角色的用户跳过所有权限检查
+			logger.info("权限验证过滤器---URL:" + httpReq.getServletPath() + " 超级管理员:跳过检查");
+			return true;
 		}
-		boolean isAccess = super.isAccessAllowed(request, response, mappedValue);
-		logger.info("权限验证过滤器---URL:" + httpReq.getServletPath() + " 验证结果:" + isAccess);
-		return super.isAccessAllowed(request, response, mappedValue);
+		boolean isPermission = SecurityUtils.getSubject().isPermitted(httpReq.getServletPath());
+
+		logger.info("权限验证过滤器---URL:" + httpReq.getServletPath() + " 验证结果:" + isPermission);
+		return isPermission;
 	}
 
 	/**

@@ -10,37 +10,6 @@ $(function() {
 });
 
 
-
-/**
- * 表单弹出组件,layer组件实现
- * 
- * @param title
- * @param content
- * @returns
- */
-function showForm(title, content) {
-	var index = layer.open({
-		type : 1,
-		skin : 'layui-layer-lan',
-		area : '80%',
-		offset : '10px',
-		shade : 0.3,
-		scrollbar : false,
-		anim : 2,
-		title : title,
-		content : content,
-		success : function(layero, index) {
-			$(document).on('keydown', function(e) {
-				if (e.keyCode == 27) {
-					// 按下ESC键,直接关闭窗口
-					layer.close(index)
-				}
-			})
-		}
-	});
-	return index;
-};
-
 /**
  * 确认对话框组件
  * 
@@ -64,37 +33,6 @@ function showConfirm(msg, callback, data) {
 	});
 }
 
-// /**
-// * 弹出一个iframe,用于选择角色,TODO 未调试完成
-// *
-// * @returns 角色ID,多个角色用逗号分割
-// */
-// function showRoleSelect(callback) {
-// layer.open({
-// type : 2,
-// title : "选择角色",
-// offset : '10px',
-// area : [
-// '450px', '620px'
-// ],
-// content : [
-// "views_platform/security/user_role.jsp", "no"
-// ],
-// btn : [
-// '确定', '取消'
-// ],
-// yes : function(index, layero) {
-// var body = layer.getChildFrame('body', index);
-// var objArr = body.find('#obj_arr').val();
-// if (objArr.length > 0) {
-// callback(objArr);
-// layer.close(index);
-// } else {
-// layer.warning("请选择角色!");
-// }
-// }
-// });
-// }
 
 /**
  * 设置ajax请求公共参数，如果ajax请求设置了参数，则覆盖本函数的默认设置 对ajax请求错误进行统一异常处理,若$.ajax请求自定义了error回调，则不会执行本函数，而是执行自定义的回调函数
@@ -142,13 +80,15 @@ $.ajax = function(opt) {
 			var eCode = data.errList[i].errCode;
 			var eMessage = data.errList[i].errMessage;
 			switch (eCode) {
-			case ("FTL_001"):// 软件授权异常,跳转至错误信息页面
-				sessionStorage.setItem("errorMessage", "FATAL_001" + eMessage);
+			case ("FTL_001"):
+				// 软件授权异常,跳转至错误信息页面
+				sessionStorage.setItem("errorMessage", eCode + eMessage);
 				top.location.href = '/views/error/defaultException.html';
 				return;
-			case ("FTL_002"):// 身份认证异常，强制提示信息，跳转至登录页面
+			case ("FTL_002"):
+				// 身份认证异常，强制提示信息，跳转至登录页面
 				layer.confirm(eMessage, {
-					title : "致命错误",
+					title : "身份认证异常",
 					offset : '30px',
 					area : [
 							'300px', '200px'
@@ -158,6 +98,21 @@ $.ajax = function(opt) {
 					]
 				}, function() {
 					top.location.href = '/login.html';
+				});
+				return;
+			case ("FTL_003"):
+				// 权限检查异常，显示提示信息
+				layer.confirm(eMessage, {
+					title : "权限检查异常",
+					offset : '30px',
+					area : [
+							'300px', '200px'
+					],
+					btn : [
+						'确定'
+					]
+				}, function() {
+					history.back();
 				});
 				return;
 			case ("FTL_999"):// 其它未知异常
@@ -174,6 +129,7 @@ $.ajax = function(opt) {
 				return;
 			}
 		}
+		//其它未处理异常,直接显示后台错误
 		if (data.errList.length > 0) {
 			layer.error(getErrString(data.errList));
 		}

@@ -2,8 +2,6 @@ package com.jhz.jPaas.config;
 
 import javax.servlet.Filter;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +17,7 @@ import com.jhz.jPaas.common.filter.TestFilter;
 @Configuration
 public class WebConfiguration {
 
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+	// private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Bean
 	public FilterRegistrationBean<Filter> testFilterRegistration() {

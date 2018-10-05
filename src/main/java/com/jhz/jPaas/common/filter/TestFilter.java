@@ -9,9 +9,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * 测试用过滤器
  * 
@@ -20,7 +17,7 @@ import org.slf4j.LoggerFactory;
  */
 public class TestFilter implements Filter {
 
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+	// private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Override
 	public void destroy() {

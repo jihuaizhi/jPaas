@@ -49,8 +49,7 @@ function initRoleSelect() {
 			if (data.success == true) {
 				var seelct2Array = getSelect2Array(data.objList, "uuid", "roleName");
 				$('#roleUuid').select2({
-					data : seelct2Array,
-					multiple : true
+					data : seelct2Array
 				});
 
 
@@ -214,9 +213,7 @@ $("#btn_update").click(function() {
 				$("#accountCode").attr("disabled", true);
 				$("#accountName").val(data.obj.accountName);
 				$("input:radio[name=dataState][value='" + data.obj.dataState + "']").iCheck('check');
-				for (var i = 0, len = data.roleList.length; i < len; i++) {
-					$('#roleUuid').select2().val(data.roleList[i].uuid).trigger('change');
-				}
+				$('#roleUuid').val(data.roleUuidList).trigger('change');
 				$('#data_modal .modal-title').text("修改账号");
 				$('#data_modal').modal('show');
 

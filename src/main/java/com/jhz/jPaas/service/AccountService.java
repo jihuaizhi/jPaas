@@ -56,7 +56,7 @@ public class AccountService extends BaseService {
 	 */
 	public void save(AccountEntity entity, String[] roleUuid) throws Exception {
 		repository.save(entity);
-		roleAccountRepository.deleteByRoleUuid(entity.getUuid());
+		roleAccountRepository.deleteByAccountUuid(entity.getUuid());
 		for (int i = 0; i < roleUuid.length; i++) {
 			RoleAccountEntity rAccountEntity = new RoleAccountEntity();
 			rAccountEntity.setUuid(UUID.randomUUID().toString());

@@ -63,8 +63,8 @@ public class AppRealm extends AuthorizingRealm {
 			throw new AuthorizationException();
 		}
 
-		logger.info("用户" + accountEntity.getAccountName() + "具有的角色:" + authorizationInfo.getRoles());
-		logger.info("用户" + accountEntity.getAccountName() + "具有的权限：" + authorizationInfo.getStringPermissions());
+		logger.info("用户[" + accountEntity.getAccountName() + "]具有的角色:" + authorizationInfo.getRoles());
+		logger.info("用户[" + accountEntity.getAccountName() + "]具有的权限：" + authorizationInfo.getStringPermissions());
 
 		return authorizationInfo;
 	}
