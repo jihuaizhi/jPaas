@@ -81,6 +81,7 @@ $("#btn_insert").click(function() {
 	$("#data_form")[0].reset();
 	// 数据状态默认值 有效
 	$("input[name=dataState]:eq(0)").iCheck('check');
+	$("#accountCode").attr("disabled", false);
 	$("#uuid").val("");
 	initRoleSelect();
 	// 显示表单

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -129,6 +131,19 @@ public class MenuController extends BaseController {
 	@RequestMapping(value = "/saveSort")
 	public ReturnModel saveSort(@RequestBody Map<String, Object> paraMap) throws Exception {
 		menuService.saveSort(paraMap);
+		return returnModel;
+	}
+
+	/**
+	 * 扫描所有views层的HTML文件
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/scanHtml")
+	public ReturnModel scanHtml(HttpServletRequest request) throws Exception {
+		List<Map<String, String>> list = menuService.scanHtml();
+		returnModel.put("objList", list);
 		return returnModel;
 	}
 

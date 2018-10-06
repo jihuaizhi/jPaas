@@ -1,6 +1,10 @@
 package com.jhz.jPaas.service;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -9,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ResourceUtils;
 
 import com.jhz.jPaas.common.base.BaseService;
 import com.jhz.jPaas.entity.MenuEntity;
@@ -111,6 +116,44 @@ public class MenuService extends BaseService {
 			repository.save(entityTmp);
 		}
 
+	}
+
+	/**
+	 * 扫描文件
+	 * 
+	 * @return
+	 * @throws FileNotFoundException
+	 */
+	public List<Map<String, String>> scanHtml() throws FileNotFoundException {
+		File file = ResourceUtils.getFile("classpath:public");
+		List<Map<String, String>> list = func(file, file.getAbsolutePath());
+		return list;
+	}
+
+	/**
+	 * 遍历文件的递归算法
+	 * 
+	 * @param file
+	 * @param basePath
+	 * @return
+	 */
+	private List<Map<String, String>> func(File file, String basePath) {
+		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+		File[] fs = file.listFiles();
+		for (File f : fs) {
+			if (f.isDirectory()) // 若是目录，则递归打印该目录下的文件
+				list.addAll(func(f, basePath));
+			if (f.isFile()) {
+				String fileName = f.getName();
+				String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+				if ("html".equalsIgnoreCase(suffix)) {
+					Map<String, String> map = new HashMap<String, String>();
+					map.put("url", f.getAbsolutePath().replace(basePath, ""));
+					list.add(map);
+				}
+			}
+		}
+		return list;
 	}
 
 }

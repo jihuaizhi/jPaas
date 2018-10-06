@@ -4,8 +4,11 @@ import java.io.PrintWriter;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.jhz.jPaas.common.JPConstant;
 import com.jhz.jPaas.common.ReturnModel;
@@ -21,7 +24,7 @@ import net.sf.json.JSONObject;
  */
 public class ShiroAuthcFilter extends FormAuthenticationFilter {
 
-	// private final Logger logger = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	/**
 	 * 验证是否正常登录系统
@@ -29,7 +32,8 @@ public class ShiroAuthcFilter extends FormAuthenticationFilter {
 	 */
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-
+		HttpServletRequest httpReq = (HttpServletRequest) request;
+		logger.info("登录验证过滤器---URL:" + httpReq.getServletPath());
 		boolean isAccessAllowed = super.isAccessAllowed(request, response, mappedValue);
 		return isAccessAllowed;
 	}
