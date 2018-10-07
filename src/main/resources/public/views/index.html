@@ -149,8 +149,8 @@ body * {
                         <i class="fa fa-users text-aqua"></i> 5 new members joined today
                       </a></li>
                     <li><a href="#">
-                        <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
-                        page and may cause design problems
+                        <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the page and may cause design
+                        problems
                       </a></li>
                     <li><a href="#">
                         <i class="fa fa-users text-red"></i> 5 new members joined
@@ -181,8 +181,8 @@ body * {
                           Design some buttons <small class="pull-right">20%</small>
                         </h3>
                         <div class="progress xs">
-                          <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar"
-                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                          <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0"
+                            aria-valuemax="100">
                             <span class="sr-only">20% Complete</span>
                           </div>
                         </div>
@@ -195,8 +195,8 @@ body * {
                           Create a nice theme <small class="pull-right">40%</small>
                         </h3>
                         <div class="progress xs">
-                          <div class="progress-bar progress-bar-green" style="width: 40%" role="progressbar"
-                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                          <div class="progress-bar progress-bar-green" style="width: 40%" role="progressbar" aria-valuenow="20" aria-valuemin="0"
+                            aria-valuemax="100">
                             <span class="sr-only">40% Complete</span>
                           </div>
                         </div>
@@ -209,8 +209,8 @@ body * {
                           Some task I need to do <small class="pull-right">60%</small>
                         </h3>
                         <div class="progress xs">
-                          <div class="progress-bar progress-bar-red" style="width: 60%" role="progressbar"
-                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                          <div class="progress-bar progress-bar-red" style="width: 60%" role="progressbar" aria-valuenow="20" aria-valuemin="0"
+                            aria-valuemax="100">
                             <span class="sr-only">60% Complete</span>
                           </div>
                         </div>
@@ -223,8 +223,8 @@ body * {
                           Make beautiful transitions <small class="pull-right">80%</small>
                         </h3>
                         <div class="progress xs">
-                          <div class="progress-bar progress-bar-yellow" style="width: 80%" role="progressbar"
-                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                          <div class="progress-bar progress-bar-yellow" style="width: 80%" role="progressbar" aria-valuenow="20" aria-valuemin="0"
+                            aria-valuemax="100">
                             <span class="sr-only">80% Complete</span>
                           </div>
                         </div>
@@ -242,12 +242,9 @@ body * {
               </a>
               <ul class="dropdown-menu">
                 <!-- User image -->
-                <li class="user-header"><img src="/plugins/AdminLTE/img/user2-160x160.jpg" class="img-circle"
-                    alt="User Image">
+                <li class="user-header"><img src="/plugins/AdminLTE/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                   <p>
-                    <small id="accountCode"></small>
-                    <small id="accountName"></small>
-                    <small id="startTime"></small>
+                    <small id="accountCode"></small> <small id="accountName"></small> <small id="startTime"></small>
                   </p></li>
                 <!-- Menu Body -->
                 <li class="user-body">
@@ -298,8 +295,9 @@ body * {
           </div>
         </form>
         <!-- /.search form -->
-        <!-- sidebar menu: : style can be found in sidebar.less -->
-        <ul class="sidebar-menu" data-widget="tree">
+
+        <!-- 动态加载菜单项 -->
+        <ul id="menu_data" class="sidebar-menu" data-widget="tree">
           <li class="active treeview"><a href="#">
               <i class="fa fa-dashboard"></i>
               <span>认证管理</span>
@@ -477,8 +475,8 @@ body * {
               <i class=" fafa-envelope"> </i>
               <span>Mailbox</span>
               <span class="pull-right-container">
-                <small class="label pull-right bg-yellow">12</small> <small class="label pull-right bg-green">16</small>
-                <small class="label pull-right bg-red">5</small>
+                <small class="label pull-right bg-yellow">12</small> <small class="label pull-right bg-green">16</small> <small
+                  class="label pull-right bg-red">5</small>
               </span>
             </a></li>
           <li class="treeview"><a href="#">
@@ -575,13 +573,13 @@ body * {
               <span>Information</span>
             </a></li>
         </ul>
+
       </section>
       <!-- /.sidebar -->
     </aside>
 
     <div class="content-wrapper">
-      <iframe id="content_iframe" name="content_iframe" src="" width="100%" height="100%" frameborder="0" scrolling="no">
-      </iframe>
+      <iframe id="content_iframe" name="content_iframe" src="" width="100%" height="100%" frameborder="0" scrolling="no"> </iframe>
     </div>
 
   </div>

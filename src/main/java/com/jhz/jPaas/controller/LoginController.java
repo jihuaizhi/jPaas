@@ -61,7 +61,7 @@ public class LoginController extends BaseController {
 			currentUser.login(token);
 			Session session = currentUser.getSession();
 			AccountEntity accountEntity = accountService.getAccountByCode(accountCode);
-			session.setAttribute("accountEntity", accountEntity);
+			session.setAttribute(AccountEntity.SESSION_KEY_ACCOUNT, accountEntity);
 		}
 		return returnModel;
 	}
@@ -74,10 +74,10 @@ public class LoginController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/getloginUser")
 	public ReturnModel getloginUser() throws Exception {
+		AccountEntity entity = getLoginAccount();
 		Subject loginUser = SecurityUtils.getSubject();
 		Session session = loginUser.getSession();
-		AccountEntity accountEntity = (AccountEntity) session.getAttribute("accountEntity");
-		returnModel.put("account", accountEntity);
+		returnModel.put("account", entity);
 		returnModel.put("startTime", session.getStartTimestamp());
 		return returnModel;
 	}

@@ -19,6 +19,8 @@ public class AccountEntity extends BaseEntity {
 	 */
 	public static final String SUPER_ADMIN = "admin";
 
+	public static final String SESSION_KEY_ACCOUNT = "ACCOUNT_ENTITY";
+
 	public static final String DATA_STATE_STOP = "0";
 	public static final String DATA_STATE_NORMAL = "1";
 

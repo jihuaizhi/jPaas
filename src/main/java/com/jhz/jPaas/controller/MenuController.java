@@ -1,5 +1,6 @@
 package com.jhz.jPaas.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jhz.jPaas.common.ReturnModel;
 import com.jhz.jPaas.common.base.BaseController;
+import com.jhz.jPaas.entity.AccountEntity;
 import com.jhz.jPaas.entity.MenuEntity;
 import com.jhz.jPaas.service.MenuService;
 
@@ -43,6 +45,25 @@ public class MenuController extends BaseController {
 	@RequestMapping("/getMenuList")
 	public ReturnModel getMenuList() throws Exception {
 		List<MenuEntity> entityList = menuService.getMenuList();
+		returnModel.put("objList", entityList);
+		return returnModel;
+	}
+
+	/**
+	 * 查询菜单列表
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/getUserMenuList")
+	public ReturnModel getUserMenuList() throws Exception {
+		List<MenuEntity> entityList = null;
+		AccountEntity entity = getLoginAccount();
+		if (null != entity) {
+			entityList = menuService.getAccountMenuList(entity.getUuid());
+		} else {
+			entityList = new ArrayList<MenuEntity>();
+		}
 		returnModel.put("objList", entityList);
 		return returnModel;
 	}

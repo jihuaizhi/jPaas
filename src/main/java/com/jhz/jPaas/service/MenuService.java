@@ -41,10 +41,22 @@ public class MenuService extends BaseService {
 	 * @return entityList
 	 */
 	public List<MenuEntity> getMenuList() throws Exception {
-		Sort sort = new Sort(Sort.Direction.ASC, "createdAt");
+		Sort sort = new Sort(Sort.Direction.ASC, "sortNum");
 		List<MenuEntity> entityList = repository.findAll(sort);
 		return entityList;
 
+	}
+
+	/**
+	 * 查当前用户授权菜单列表
+	 * 
+	 * @param accountUuid
+	 * 
+	 * @return
+	 */
+	public List<MenuEntity> getAccountMenuList(String accountUuid) {
+		List<MenuEntity> entityList = repository.findAccountMenuList(accountUuid);
+		return entityList;
 	}
 
 	/**

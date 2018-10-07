@@ -5,12 +5,15 @@ import java.util.NoSuchElementException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,7 @@ import com.jhz.jPaas.common.JPConstant;
 import com.jhz.jPaas.common.ReturnModel;
 import com.jhz.jPaas.common.exception.BusinessException;
 import com.jhz.jPaas.common.exception.LicenseException;
+import com.jhz.jPaas.entity.AccountEntity;
 
 /**
  * Controller父类 注入日志处理类 logger 注入请求返回值封装类ModelResult 统一异常处理
@@ -57,6 +61,17 @@ public abstract class BaseController {
 		// 初始化返回值封装类，否则导致多次请求的返回值累加
 		returnModel = new ReturnModel();
 		// logger.info("控制器请求-------,url :" + request.getRequestURI());
+	}
+
+	/**
+	 * 获取当前登录帐号
+	 * 
+	 */
+	public AccountEntity getLoginAccount() {
+		Subject loginUser = SecurityUtils.getSubject();
+		Session session = loginUser.getSession();
+		AccountEntity entity = (AccountEntity) session.getAttribute(AccountEntity.SESSION_KEY_ACCOUNT);
+		return entity;
 	}
 
 	/**

@@ -1,7 +1,7 @@
 // 页面初始化块
 $(function() {
 	// 加载菜单
-	// loadMenu();
+	loadMenu();
 	loadCurrentUser();
 	$('iframe#content_iframe').attr('src', "");
 
@@ -12,13 +12,13 @@ $(function() {
 
 });
 
-//窗体缩放后调整iframe高度
+// 窗体缩放后调整iframe高度
 $(window).resize(function() {
 	reinitIframe();
 });
 
 
-//iframe加载完成后调整高度
+// iframe加载完成后调整高度
 $("#content_iframe").on("load", function() {
 	reinitIframe();
 });
@@ -40,12 +40,12 @@ function reinitIframe() {
 	}
 }
 
-//点击左上角LOGO,回到主页
+// 点击左上角LOGO,回到主页
 $("#btn_main").click(function() {
 	$('iframe#content_iframe').attr('src', "");
 })
 
-//注销系统,shiro自动处理/logout请求
+// 注销系统,shiro自动处理/logout请求
 $("#btn_logout").click(function() {
 	window.location.href = "/logout";
 })
@@ -77,27 +77,83 @@ function loadCurrentUser() {
 // 加载菜单项
 function loadMenu() {
 	$.ajax({
-		url : "menu/queryListByUser",
-		type : "Post",
-		contentType : "application/json;charset=utf-8",
-		dataType : "json",
+		url : "/menu/getUserMenuList",
 		success : function(data) {
 			if (data.success == true) {
-				var objList = data.objList;
-				var jsonString = getTreeMenuHtml(objList, "");
-				$("#menu_data").html(jsonString);
-				// 默认加载第一个菜单项的内容
-				$('iframe#content_iframe').attr('src', objList[0].menuLink);
+			    var menuList=data.objList;
+				var jsonString = getTreeMenuHtml(menuList, "");
+ $("#menu_data").html(jsonString);
+// $("#menu_data").prepend(jsonString);
 			}
-		},
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			layer.error("服务器通讯失败！");
-		},
-		complete : function(XMLHttpRequest, textStatus) {
 		}
 	});
 
 }
+
+
+// 将后台请求的菜单数组数据转换为树形菜单htnml
+function getTreeMenuHtml(arrayData, pid) {
+ var result = "";
+ for (var i = 0; i < arrayData.length; i++) {
+     var str = "";
+     if (arrayData[i].parentUuid == pid) {
+         var temp = getTreeMenuHtml(arrayData, arrayData[i].uuid);
+         if (temp.length > 0) {
+             str += "<li class='treeview'>";
+         }else{
+             str += "<li>";
+         }
+             str += "    <a href='" + arrayData[i].menuLink + "' target='content_iframe'>";
+         if (arrayData[i].menuIcon == null || arrayData[i].menuIcon == "") {
+             str += "        <i class='ion-ios-list-outline'></i>";
+         } else {
+             str += "        <i class='" + arrayData[i].menuIcon + "'></i>";
+         }
+         str += "        <span>" + arrayData[i].menuName + "</span>";
+         if (temp.length > 0) {
+             str += "        <span class='pull-right-container'>";
+             str += "            <i class='fa fa-angle-left pull-right'></i>";
+             str += "        </span>";
+         }
+         str += "    </a>";
+         if (temp.length > 0) {
+             str += "<ul class='treeview-menu'>";
+             str += temp;
+             str += "</ul>"
+         }
+         str += "</li>";
+     }
+     result += str;
+ }
+ return result;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -115,39 +171,6 @@ $("#testMenu").mouseleave(function() {
 	layer.closeAll();
 })
 
-// 将后台请求的菜单数组数据转换为树形菜单htnml
-function getTreeMenuHtml(arrayData, pid) {
-	var result = "";
-	for (var i = 0; i < arrayData.length; i++) {
-		var str = "";
-		if (arrayData[i].parentId == pid) {
-			var temp = getTreeMenuHtml(arrayData, arrayData[i].uuid);
-
-			str += "<li>";
-			str += "    <a href='" + arrayData[i].menuLink + "' target='content_iframe'>";
-			if (arrayData[i].menuIcon == null || arrayData[i].menuIcon == "") {
-				str += "        <i class='ion-ios-list-outline'></i>";
-			} else {
-				str += "        <i class='" + arrayData[i].menuIcon + "'></i>";
-			}
-			str += "        <span class='title'>" + arrayData[i].menuName + "</span>";
-			if (temp.length > 0) {
-				str += "        <span class='pull-right-container'>";
-				str += "            <i class='fa fa-angle-left pull-right'></i>";
-				str += "        </span>";
-			}
-			str += "    </a>";
-			if (temp.length > 0) {
-				str += "<ul class='treeview-menu'>";
-				str += temp;
-				str += "</ul>"
-			}
-			str += "</li>";
-		}
-		result += str;
-	}
-	return result;
-}
 
 
 
