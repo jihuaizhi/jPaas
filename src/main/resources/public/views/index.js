@@ -1,7 +1,7 @@
 // 页面初始化块
 $(function() {
 	// 加载菜单
-	loadMenu();
+//	loadMenu();
 	loadCurrentUser();
 	$('iframe#content_iframe').attr('src', "");
 
