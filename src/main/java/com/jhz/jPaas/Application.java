@@ -2,14 +2,10 @@ package com.jhz.jPaas;
 
 import java.io.IOException;
 
-import javax.lang.model.element.Modifier;
-
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-import com.squareup.javapoet.JavaFile;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.TypeSpec;
+import com.jhz.jPaas.common.utils.EntityCreater;
 
 /**
  * 主程序入口文件
@@ -24,26 +20,10 @@ public class Application {
 	public static void main(String[] args) {
 		// SpringApplication.run(Application.class, args);
 		try {
-			createJava();
+			EntityCreater.createEntity("Account", null);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-	public static void createJava() throws IOException {
-		System.out.println("Hello, JavaPoet!");
-
-		MethodSpec main = MethodSpec.methodBuilder("main").addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-				.returns(void.class).addParameter(String[].class, "args")
-				.addStatement("$T.out.println($S)", System.class, "Hello, JavaPoet!").build();
-
-		TypeSpec helloWorld = TypeSpec.classBuilder("HelloWorld").addModifiers(Modifier.PUBLIC, Modifier.FINAL)
-				.addMethod(main).build();
-
-		JavaFile javaFile = JavaFile.builder("com.example.helloworld", helloWorld).build();
-
-		javaFile.writeTo(System.out);
 	}
 
 }
