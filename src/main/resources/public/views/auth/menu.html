@@ -52,6 +52,19 @@
   height: 500px; overflow-y: scroll;
 }
 </style>
+<script src="/js/import.js"></script>
+<script type="text/javascript">
+    window.addEventListener("beforeunload", function(event) {
+
+        $.ajax({
+            url : "/menu/closepage",
+            error : function(data) {
+            }
+        });
+    }, false);
+</script>
+
+
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
   <div class="wrapper">
@@ -119,16 +132,14 @@
                   <div class="form-group">
                     <div class="form-group">
                       <label class="control-label required">菜单名称</label>
-                      <input id="menuName" name="menuName" maxlength="20" type="text" class="form-control"
-                        placeholder="请输入菜单的显示名称">
+                      <input id="menuName" name="menuName" maxlength="20" type="text" class="form-control" placeholder="请输入菜单的显示名称">
                     </div>
                   </div>
                 </div>
                 <div class="col-md-12">
                   <div class="form-group">
                     <label class="control-label required">菜单链接</label>
-                    <input id="menuLink" name="menuLink" type="text" maxlength="100" class="form-control"
-                      placeholder="请输入菜单的链接页面">
+                    <input id="menuLink" name="menuLink" type="text" maxlength="100" class="form-control" placeholder="请输入菜单的链接页面">
                   </div>
                 </div>
                 <div class="col-md-12">
@@ -136,8 +147,7 @@
                     <label class="control-label required">菜单图标</label>
                     <div class="input-group">
                       <li class="input-group-addon" style="width: 40px;"><span id="menu_icon_display"></span></li>
-                      <input id="menuIcon" name="menuIcon" readonly maxlength="20" type="text" class="form-control"
-                        placeholder="请选择菜单的图标">
+                      <input id="menuIcon" name="menuIcon" readonly maxlength="20" type="text" class="form-control" placeholder="请选择菜单的图标">
                       <span class="input-group-btn">
                         <button id="btn_open_icon_form" class="btn btn-default" type="button">...</button>
                       </span>
@@ -450,12 +460,12 @@
 
 
   <!-- 引入公共js文件 -->
-  <script src="/js/import.js"></script>
+
   <script src="menu.js"></script>
 
   <script type="text/javascript">
-			
-		</script>
+            
+        </script>
 
 </body>
 </html>

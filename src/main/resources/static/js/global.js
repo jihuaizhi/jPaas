@@ -58,6 +58,7 @@ $(function() {
 				window.location.href = '/views/error/500.html';
 				break;
 			default:
+			    console.log(jqXHR);
 				sessionStorage.setItem("errMessage", "ERR-？？？：AJAX请求异常，未知错误！" + jqXHR.message);
 				top.location.href = '/views/error/defaultException.html';
 			}

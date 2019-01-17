@@ -33,7 +33,7 @@ public class ShiroAuthcFilter extends FormAuthenticationFilter {
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
 		HttpServletRequest httpReq = (HttpServletRequest) request;
-		logger.info("登录验证过滤器---URL:" + httpReq.getServletPath());
+		// logger.info("登录验证过滤器---URL:" + httpReq.getServletPath());
 		boolean isAccessAllowed = super.isAccessAllowed(request, response, mappedValue);
 		return isAccessAllowed;
 	}

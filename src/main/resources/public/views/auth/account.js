@@ -40,7 +40,8 @@ $(function() {
 });
 
 
-//加载角色选择下拉列表数据
+
+// 加载角色选择下拉列表数据
 function initRoleSelect() {
 	// 初始化角色选择控件
 	$.ajax({

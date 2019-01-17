@@ -39,12 +39,12 @@ public class ShiroPermsFilter extends PermissionsAuthorizationFilter {
 		// 检查角色列表是否包含超级管理员角色
 		if (SecurityUtils.getSubject().hasRole(RoleEntity.SUPER_ADMINISTRATOR)) {
 			// 超级管理员角色的用户跳过所有权限检查
-			logger.info("权限验证过滤器---URL:" + httpReq.getServletPath() + " 超级管理员:跳过检查");
+			// logger.info("权限验证过滤器---URL:" + httpReq.getServletPath() + " 超级管理员:跳过检查");
 			return true;
 		}
 		boolean isPermission = SecurityUtils.getSubject().isPermitted(httpReq.getServletPath());
 
-		logger.info("权限验证过滤器---URL:" + httpReq.getServletPath() + " 验证结果:" + isPermission);
+		// logger.info("权限验证过滤器---URL:" + httpReq.getServletPath() + " 验证结果:" + isPermission);
 		return isPermission;
 	}
 

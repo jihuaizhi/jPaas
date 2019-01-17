@@ -43,7 +43,6 @@ public class AppRealm extends AuthorizingRealm {
 
 	/*
 	 * 获取授权信息
-	 *
 	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) throws AuthorizationException {
@@ -80,7 +79,7 @@ public class AppRealm extends AuthorizingRealm {
 		// 得到密码
 		// String password = authcToken.getCredentials().toString();
 
-		logger.info("账号:" + accountCode + "  正在登录系统 ");
+		// logger.info("账号:" + accountCode + " 正在登录系统 ");
 		// 通过账号查询数据库账号信息
 		AccountEntity accountEntity = accountRepository.findByAccountCode(accountCode);
 		if (null != accountEntity) {

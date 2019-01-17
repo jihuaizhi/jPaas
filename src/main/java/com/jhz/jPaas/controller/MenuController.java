@@ -50,6 +50,19 @@ public class MenuController extends BaseController {
 	}
 
 	/**
+	 * 查询菜单信息
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/closepage")
+	public void closepage() throws Exception {
+
+		logger.info(
+				"--------------------------------------------close windows!!!----------------------------------------");
+	}
+
+	/**
 	 * 查询菜单列表
 	 * 
 	 * @return
